@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bella Kang — Portfolio</title>
+<meta name="description" content="Academic portfolio of Bella Kang, MA Advertising at UT Austin. Health Communication × Behavior Change.">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Section colors */
+    --readme-color: #5A5A5A;
+    --readme-symbol: #8A8A8A;
+    --teaching-color: #8C5A6E;
+    --teaching-folder: #9B6580;
+    --teaching-symbol: #C47A94;
+    --teaching-glow: rgba(196, 122, 148, 0.5);
+    --coursework-color: #6A5B7A;
+    --coursework-folder: #7A6B8A;
+    --coursework-symbol: #9B88B0;
+    --coursework-glow: rgba(155, 136, 176, 0.5);
+    --research-color: #6B2E4A;
+    --research-folder: #6B2E4A;
+    --research-symbol: #D4577A;
+    --research-glow: rgba(212, 87, 122, 0.5);
+    --about-color: #8A7B6A;
+    --about-folder: #9A8B7A;
+    --about-symbol: #BBA88E;
+    --about-glow: rgba(187, 168, 142, 0.5);
+    /* Base */
+    --bg: #FAFAF7;
+    --sidebar-bg: #FEFEFE;
+    --text: #2A2024;
+    --text-body: #4A4045;
+    --text-muted: #8A7E82;
+    --text-light: #B8ADB0;
+    --border-light: rgba(60, 40, 50, 0.06);
+    --rose: #C48A95;
+    --blush: #E0D0D4;
+    --cream: #F8F6F2;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'IBM Plex Mono', 'SF Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .app {
+    display: flex;
+    height: 100vh;
+  }
+
+  /* ─── Sidebar ─────────────────────────────────────── */
+  .sidebar {
+    width: 276px;
+    min-width: 276px;
+    border-right: 1px solid var(--border-light);
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .sidebar.collapsed {
+    width: 0;
+    min-width: 0;
+  }
+
+  .sidebar-header {
+    padding: 30px 22px 24px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .sidebar-header .label {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .sidebar-header .name {
+    font-family: 'Newsreader', serif;
+    font-size: 23px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text);
+  }
+
+  .sidebar-header .subtitle {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  .legend {
+    padding: 12px 22px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 8.5px;
+    letter-spacing: 0.04em;
+  }
+
+  .legend-item span.label { opacity: 0.7; }
+
+  .tree-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 0 20px;
+  }
+
+  .sidebar-footer {
+    padding: 16px 22px;
+    border-top: 1px solid var(--border-light);
+    font-size: 9px;
+    font-style: italic;
+    color: var(--text-light);
+    letter-spacing: 0.03em;
+    font-family: 'Newsreader', serif;
+  }
+
+  /* ─── Toggle Button ───────────────────────────────── */
+  .toggle-btn {
+    position: absolute;
+    top: 24px;
+    left: 282px;
+    z-index: 10;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--blush);
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: left 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    font-size: 12px;
+    color: var(--text-muted);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+    font-family: inherit;
+  }
+
+  .toggle-btn.collapsed { left: 10px; }
+
+  /* ─── Tree Items ──────────────────────────────────── */
+  .tree-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'IBM Plex Mono', 'SF Mono', monospace;
+    text-align: left;
+    border-radius: 0;
+    border-left: 2px solid transparent;
+  }
+
+  .tree-item:hover { background: rgba(0,0,0,0.015); }
+  .tree-item.selected { border-left-color: currentColor; }
+
+  .tree-item.top-level {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 16px;
+  }
+
+  .tree-item.readme-item {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 9px 16px;
+  }
+
+  .tree-item.sub-folder {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  .tree-item.file-item {
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  .tree-item.file-item:hover { color: var(--text); }
+  .tree-item.file-item.selected { font-weight: 500; }
+
+  .tree-spacer { height: 4px; }
+  .readme-divider { height: 1px; margin: 4px 22px 2px; background: var(--border-light); }
+
+  .chevron {
+    width: 10px; height: 10px;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    color: var(--text-light);
+  }
+
+  .chevron.open { transform: rotate(90deg); }
+
+  .children { overflow: hidden; }
+
+  /* ─── Pulse dot ───────────────────────────────────── */
+  .pulse-dot {
+    margin-left: auto;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    animation: gentlePulse 2s ease-in-out infinite;
+  }
+
+  /* ─── Content Panel ───────────────────────────────── */
+  .content-area {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .content-panel {
+    padding: 52px 48px;
+    max-width: 620px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .content-panel.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .content-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 16px;
+  }
+
+  .content-empty .line {
+    width: 1px; height: 40px;
+    background: linear-gradient(180deg, transparent, var(--blush), transparent);
+  }
+
+  .content-empty .label {
+    color: var(--text-light);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .section-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .section-label {
+    font-size: 9.5px;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .status-dot { font-size: 6px; color: var(--blush); }
+
+  .status-badge {
+    padding: 2px 9px;
+    border-radius: 10px;
+    font-size: 9.5px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .content-title {
+    font-family: 'Newsreader', 'Georgia', serif;
+    font-size: 27px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.35;
+    margin-bottom: 20px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 34px;
+  }
+
+  .tag {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 10.5px;
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--text-muted);
+    background: var(--cream);
+    border: 1px solid var(--blush);
+  }
+
+  .content-divider {
+    width: 50px;
+    height: 1px;
+    margin-bottom: 30px;
+  }
+
+  .content-body p {
+    font-family: 'Newsreader', 'Georgia', serif;
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--text-body);
+    margin-bottom: 18px;
+  }
+
+  .content-links {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .content-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    text-decoration: none;
+    padding: 10px 16px;
+    border: 1px solid var(--blush);
+    border-radius: 20px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    width: fit-content;
+    background: transparent;
+  }
+
+  .content-link:hover {
+    background: var(--cream);
+    transform: translateX(4px);
+  }
+
+  /* ─── Animations ──────────────────────────────────── */
+  @keyframes sparkle {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 3px var(--glow)); }
+  }
+
+  @keyframes gentlePulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+
+  .sparkle {
+    animation: sparkle 3s ease-in-out infinite;
+    display: inline-block;
+    width: 18px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .sparkle.d1 { animation-delay: 0.75s; }
+  .sparkle.d2 { animation-delay: 1.5s; }
+  .sparkle.d3 { animation-delay: 2.25s; }
+
+  /* ─── Mobile ──────────────────────────────────────── */
+  @media (max-width: 700px) {
+    .sidebar { width: 240px; min-width: 240px; }
+    .sidebar.collapsed { width: 0; min-width: 0; }
+    .toggle-btn { left: 246px; }
+    .toggle-btn.collapsed { left: 10px; }
+    .content-panel { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="label">Portfolio</div>
+      <div class="name">Bella Kang</div>
+      <div class="subtitle">MA Advertising · UT Austin</div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item" style="color: var(--teaching-color);">
+        <span class="sparkle" style="color: var(--teaching-symbol); --glow: var(--teaching-glow); font-size: 10px;">❋</span>
+        <span class="label">Teaching</span>
+      </div>
+      <div class="legend-item" style="color: var(--coursework-color);">
+        <span class="sparkle d1" style="color: var(--coursework-symbol); --glow: var(--coursework-glow); font-size: 10px;">✧</span>
+        <span class="label">Coursework</span>
+      </div>
+      <div class="legend-item" style="color: var(--research-color);">
+        <span class="sparkle d2" style="color: var(--research-symbol); --glow: var(--research-glow); font-size: 10px;">✦</span>
+        <span class="label">Research</span>
+      </div>
+      <div class="legend-item" style="color: var(--about-color);">
+        <span class="sparkle d3" style="color: var(--about-symbol); --glow: var(--about-glow); font-size: 10px;">✺</span>
+        <span class="label">About</span>
+      </div>
+    </div>
+
+    <div class="tree-container" id="tree"></div>
+
+    <div class="sidebar-footer">Health Comm × Behavior Change</div>
+  </aside>
+
+  <!-- Toggle -->
+  <button class="toggle-btn" id="toggleBtn" onclick="toggleSidebar()">‹</button>
+
+  <!-- Content -->
+  <main class="content-area">
+    <div id="content"></div>
+  </main>
+</div>
+
+<script>
+// ─── Data ────────────────────────────────────────────────────────────
+const sections = {
+  README:              { color:'#5A5A5A',    folder:'#5A5A5A',   symbol:'◈', symbolColor:'#8A8A8A',  glow:'rgba(90,90,90,0.3)',         light:'rgba(90,90,90,0.05)' },
+  'Teaching & Practice':{ color:'#8C5A6E',   folder:'#9B6580',   symbol:'❋', symbolColor:'#C47A94',  glow:'rgba(196,122,148,0.5)',      light:'rgba(140,90,110,0.06)' },
+  Coursework:          { color:'#6A5B7A',    folder:'#7A6B8A',   symbol:'✧', symbolColor:'#9B88B0',  glow:'rgba(155,136,176,0.5)',      light:'rgba(106,91,122,0.06)' },
+  Research:            { color:'#6B2E4A',    folder:'#6B2E4A',   symbol:'✦', symbolColor:'#D4577A',  glow:'rgba(212,87,122,0.5)',       light:'rgba(107,46,74,0.06)' },
+  About:               { color:'#8A7B6A',    folder:'#9A8B7A',   symbol:'✺', symbolColor:'#BBA88E',  glow:'rgba(187,168,142,0.5)',      light:'rgba(138,123,106,0.06)' },
+};
+
+const content = {
+  readme:       { title:'Welcome', tags:['Health Communication','Behavior Change','UT Austin'], body:'Hello — I\'m Bella Kang, an MA Advertising student (Thesis Track) at UT Austin\'s Moody College of Communication.\n\nMy work sits at the intersection of health communication, behavior change, and culturally embedded intervention design. I study how communication shapes health behaviors across cultural contexts, with a particular focus on Korean American women\'s wellbeing.\n\nThis portfolio collects my research, teaching, and coursework. Feel free to explore using the navigation on the left.', status:'', section:'README' },
+  thesis:       { title:'Thesis — Self-Silencing & Help-Seeking', tags:['Health Communication','Korean American Women','Mixed Methods'], body:'Examining culturally embedded communication patterns among Korean American midlife women. This thesis investigates the relationship between self-silencing behaviors and mental health help-seeking, using a sequential mixed-methods design grounded in four theoretical frameworks (Yeager, Crum, Falk, Millán).', status:'In Progress', section:'Research' },
+  'health-comm':{ title:'Health Communication Research', tags:['Grant Application','Sequential Mixed-Methods','Multiple Role Strain'], body:'Investigating multiple role strain and health outcomes through culturally sensitive research design. This project centers the lived experiences of women navigating intersecting identities, using community-engaged methods to develop interventions that honor cultural context.', status:'Active', section:'Research' },
+  'life-design':{ title:'Life Design Workshops', tags:['GIGC','International Students','Belonging'], body:'Designing and facilitating evidence-based programming for international graduate students at UT Austin\'s Office of Career and Life Design. Workshops include the International Job Search Working Group (IWG) series, Coffee & Connections multicultural networking events, and company site visit preparation sessions. Grounded in Stanford\'s Life Design methodology and psychologically wise interventions addressing belonging uncertainty.', status:'Ongoing', section:'Teaching & Practice' },
+  dasique:      { title:'Dasique — Brand Strategy Intern', tags:['K-Beauty','Cross-Cultural Marketing','Consumer Behavior'], body:'Contributed to brand communication strategy for a Korean cosmetics company, bridging cultural insights between Korean and global markets. Developed consumer-facing content and analyzed engagement patterns across demographics.', status:'Completed', section:'Teaching & Practice' },
+  adv382j:      { title:'ADV382J — Health Communication', tags:['Persuasion','Theory','Spring 2026'], body:'Advanced seminar in health communication theory and practice. Coursework includes campaign analysis, message design for health behavior change, and critical examination of mediated health information.', links:['Final Project Slides','Literature Synthesis'], status:'Current', section:'Coursework' },
+  mkt397:       { title:'MKT397 — Marketing Research', tags:['PhD-Level','Empirics-First','Google Trends','Prof. Rex Du'], body:'PhD-level marketing research methodology course emphasizing empirics-first approaches. Working with Google Trends data analysis, causal inference methods, and rigorous quantitative research design.', links:['Research Proposal','Data Analysis Report'], status:'Current', section:'Coursework' },
+  edp383:       { title:'EDP383 — Educational Psychology', tags:['PhD-Level','Motivation','Intervention Design'], body:'Doctoral seminar in educational psychology examining theories of motivation, identity development, and psychologically wise interventions. Connects directly to workshop design methodology and research framework.', links:['Intervention Design Paper'], status:'Current', section:'Coursework' },
+  'fall2025':   { title:'Fall 2025 Coursework', tags:['Advertising','Research Methods'], body:'Foundation semester coursework building core competencies in advertising theory, research methodology, and cross-cultural communication analysis.', status:'Completed', section:'Coursework' },
+  bio:          { title:'Bio & Research Philosophy', tags:['Green Apple Logic','Holistic Design','Embodied Learning'], body:'My research philosophy centers on "green apple logic" — designing environments where healthy choices feel natural rather than prescribed. Drawing from Yeager\'s wise interventions, Crum\'s mindset science, Falk\'s neural self-relevance work, and Millán\'s culturally embedded frameworks, I study how communication shapes health behaviors across cultural contexts.\n\nBilingual in English and Korean, with a multicultural background spanning multiple countries. Currently pursuing an MA in Advertising (Thesis Track) at UT Austin\'s Moody College, preparing for PhD applications (Fall 2027) in Health Communication, Human Development, or Educational Psychology.', status:'', section:'About' },
+  pilates:      { title:'Pilates & Wellness', tags:['Certified Instructor','Mind-Body','Saturday Reading Group'], body:'Certified Pilates instructor leading a Saturday reading group focused on mind-body connection topics. This practice informs my research on embodied learning and shapes my approach to designing interventions that honor the integration of physical and psychological wellbeing.', status:'', section:'About' },
+  cv:           { title:'Curriculum Vitae', tags:['Download'], body:'Full academic CV available for download. Includes publications, presentations, teaching experience, and professional development.', links:['Download CV (PDF)'], status:'', section:'About' },
+};
+
+const tree = [
+  { name:'README', type:'file', id:'readme' },
+  { name:'Teaching & Practice', type:'folder', children:[
+    { name:'Life Design Workshops', type:'file', id:'life-design' },
+    { name:'Dasique', type:'file', id:'dasique' },
+  ]},
+  { name:'Coursework', type:'folder', children:[
+    { name:'Spring 2026', type:'folder', children:[
+      { name:'ADV382J', type:'file', id:'adv382j' },
+      { name:'MKT397', type:'file', id:'mkt397' },
+      { name:'EDP383', type:'file', id:'edp383' },
+    ]},
+    { name:'Fall 2025', type:'file', id:'fall2025' },
+  ]},
+  { name:'Research', type:'folder', children:[
+    { name:'Thesis', type:'file', id:'thesis' },
+    { name:'Health Communication', type:'file', id:'health-comm' },
+  ]},
+  { name:'About', type:'folder', children:[
+    { name:'Bio & Research Philosophy', type:'file', id:'bio' },
+    { name:'Pilates & Wellness', type:'file', id:'pilates' },
+    { name:'CV', type:'file', id:'cv' },
+  ]},
+];
+
+// ─── State ───────────────────────────────────────────────────────────
+let selected = 'readme';
+let openFolders = new Set(['Teaching & Practice','Coursework','Research','About']);
+
+function getSection(node, ancestors) {
+  if (node.name === 'README') return 'README';
+  if (sections[node.name]) return node.name;
+  for (let i = ancestors.length - 1; i >= 0; i--) {
+    if (sections[ancestors[i]]) return ancestors[i];
+  }
+  return 'About';
+}
+
+// ─── SVGs ────────────────────────────────────────────────────────────
+const chevronSvg = (open) => `<svg class="chevron ${open?'open':''}" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 1.5L7 5L3 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+const folderSvg = (color, open) => `<svg width="15" height="13" viewBox="0 0 16 14" fill="${color}" opacity="${open?0.9:0.6}" style="flex-shrink:0;transition:opacity 0.2s"><path d="M1.5 1C0.671573 1 0 1.67157 0 2.5V11.5C0 12.3284 0.671573 13 1.5 13H14.5C15.3284 13 16 12.3284 16 11.5V4.5C16 3.67157 15.3284 3 14.5 3H8L6.5 1H1.5Z"/></svg>`;
+
+const fileSvg = (color) => `<svg width="12" height="14" viewBox="0 0 14 16" fill="${color}" opacity="0.4" style="flex-shrink:0"><path d="M1.5 0C0.671573 0 0 0.671573 0 1.5V14.5C0 15.3284 0.671573 16 1.5 16H12.5C13.3284 16 14 15.3284 14 14.5V4.5L9.5 0H1.5Z"/><path d="M9 0V4.5H14" fill="${color}" fill-opacity="0.25"/></svg>`;
+
+const readmeSvg = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none" opacity="0.6" style="flex-shrink:0"><rect x="1" y="1" width="14" height="14" rx="2" stroke="#5A5A5A" stroke-width="1.2"/><path d="M4.5 5H11.5M4.5 8H9.5M4.5 11H7.5" stroke="#5A5A5A" stroke-width="1" stroke-linecap="round"/></svg>`;
+
+const sparkleSym = (symbol, color, glow, delay, size) =>
+  `<span class="sparkle ${delay}" style="color:${color};--glow:${glow};font-size:${size}">${symbol}</span>`;
+
+// ─── Render Tree ─────────────────────────────────────────────────────
+function renderTree() {
+  const container = document.getElementById('tree');
+  container.innerHTML = '';
+  const delayMap = ['','d1','d2','d3'];
+  let sectionIdx = 0;
+
+  function renderNode(node, depth, ancestors) {
+    const section = getSection(node, ancestors);
+    const theme = sections[section] || sections.About;
+    const isFolder = node.type === 'folder';
+    const isTopLevel = depth === 0 && isFolder;
+    const isReadme = node.name === 'README';
+    const isSelected = !isFolder && selected === node.id;
+    const isOpen = openFolders.has(node.name);
+
+    if (isTopLevel || isReadme) {
+      container.appendChild(Object.assign(document.createElement('div'), { className: 'tree-spacer' }));
+    }
+
+    const btn = document.createElement('button');
+    btn.className = 'tree-item' +
+      (isTopLevel ? ' top-level' : '') +
+      (isReadme ? ' readme-item' : '') +
+      (!isFolder && !isReadme ? ' file-item' : '') +
+      (isSelected ? ' selected' : '');
+
+    btn.style.paddingLeft = (depth * 18 + 16) + 'px';
+
+    if (isTopLevel) {
+      btn.style.color = theme.color;
+      btn.style.borderLeftColor = isOpen ? theme.color : 'transparent';
+      btn.innerHTML =
+        sparkleSym(theme.symbol, theme.symbolColor, theme.glow, delayMap[sectionIdx % 4], '13px') +
+        folderSvg(theme.folder, true) +
+        chevronSvg(isOpen) +
+        `<span>${node.name}</span>`;
+      sectionIdx++;
+    } else if (isReadme) {
+      btn.style.color = isSelected ? '#5A5A5A' : '#6A6A6A';
+      btn.style.borderLeftColor = isSelected ? '#5A5A5A' : 'transparent';
+      if (isSelected) btn.style.background = 'linear-gradient(90deg, rgba(90,90,90,0.05), transparent)';
+      btn.innerHTML = readmeSvg + `<span>README</span>`;
+    } else if (isFolder) {
+      btn.className += ' sub-folder';
+      btn.style.paddingTop = btn.style.paddingBottom = '7px';
+      btn.innerHTML =
+        `<span style="color:var(--text-light);flex-shrink:0">${chevronSvg(isOpen)}</span>` +
+        folderSvg(theme.folder, isOpen) +
+        `<span>${node.name}</span>`;
+    } else {
+      if (isSelected) {
+        btn.style.color = theme.color;
+        btn.style.borderLeftColor = theme.color;
+        btn.style.background = `linear-gradient(90deg, ${theme.light}, transparent)`;
+      }
+      btn.innerHTML =
+        `<span style="width:6px;flex-shrink:0"></span>` +
+        fileSvg(theme.folder) +
+        `<span>${node.name}</span>` +
+        (isSelected ? `<span class="pulse-dot" style="background:${theme.symbolColor};box-shadow:0 0 8px ${theme.glow}"></span>` : '');
+    }
+
+    btn.addEventListener('click', () => {
+      if (isFolder) {
+        if (openFolders.has(node.name)) openFolders.delete(node.name);
+        else openFolders.add(node.name);
+        renderTree();
+      } else {
+        selected = node.id;
+        renderTree();
+        renderContent();
+      }
+    });
+
+    container.appendChild(btn);
+
+    if (isReadme) {
+      container.appendChild(Object.assign(document.createElement('div'), { className: 'readme-divider' }));
+    }
+
+    if (isFolder && isOpen && node.children) {
+      const childWrap = document.createElement('div');
+      childWrap.className = 'children';
+      container.appendChild(childWrap);
+      const origContainer = container;
+      // temporarily not nesting DOM to keep it flat/simple — just render children at next depth
+      node.children.forEach(child => renderNode(child, depth + 1, [...ancestors, node.name]));
+    }
+  }
+
+  tree.forEach(node => renderNode(node, 0, []));
+}
+
+// ─── Render Content ──────────────────────────────────────────────────
+function renderContent() {
+  const el = document.getElementById('content');
+  const c = content[selected];
+
+  if (!c) {
+    el.innerHTML = `<div class="content-empty"><div class="line"></div><span class="label">Select an item</span></div>`;
+    return;
+  }
+
+  const theme = sections[c.section] || sections.About;
+  const statusBg = c.status === 'Completed' ? 'rgba(0,0,0,0.03)' : (theme.light || 'transparent');
+  const statusColor = c.status === 'Completed' ? 'var(--text-light)' : theme.color;
+
+  let html = `<div class="content-panel" id="panel">`;
+
+  // Section indicator
+  html += `<div class="section-indicator">`;
+  html += sparkleSym(theme.symbol, theme.symbolColor, theme.glow, '', '14px');
+  html += `<span class="section-label" style="color:${theme.color}">${c.section}</span>`;
+  if (c.status) {
+    html += `<span class="status-dot">●</span>`;
+    html += `<span class="status-badge" style="background:${statusBg};color:${statusColor}">${c.status}</span>`;
+  }
+  html += `</div>`;
+
+  // Title
+  html += `<h2 class="content-title">${c.title}</h2>`;
+
+  // Tags
+  html += `<div class="tags">${c.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
+
+  // Divider
+  html += `<div class="content-divider" style="background:linear-gradient(90deg, ${theme.symbolColor}80, ${theme.color}30, transparent)"></div>`;
+
+  // Body
+  html += `<div class="content-body">${c.body.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>`;
+
+  // Links
+  if (c.links) {
+    html += `<div class="content-links">${c.links.map(l =>
+      `<a href="#" class="content-link" style="color:${theme.color}" onmouseenter="this.style.boxShadow='0 2px 12px ${theme.glow}';this.style.borderColor='${theme.symbolColor}60'" onmouseleave="this.style.boxShadow='none';this.style.borderColor='var(--blush)'"><span style="font-size:12px">→</span> ${l}</a>`
+    ).join('')}</div>`;
+  }
+
+  html += `</div>`;
+  el.innerHTML = html;
+
+  // Trigger animation
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.getElementById('panel')?.classList.add('visible');
+    });
+  });
+}
+
+// ─── Sidebar Toggle ──────────────────────────────────────────────────
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const btn = document.getElementById('toggleBtn');
+  sidebar.classList.toggle('collapsed');
+  btn.classList.toggle('collapsed');
+  btn.textContent = sidebar.classList.contains('collapsed') ? '›' : '‹';
+}
+
+// ─── Init ────────────────────────────────────────────────────────────
+renderTree();
+renderContent();
+</script>
+
+</body>
+</html>

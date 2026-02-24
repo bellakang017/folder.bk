@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bella Kang — Portfolio</title>
 <meta name="description" content="Academic portfolio of Bella Kang, MA Advertising at UT Austin. Health Communication × Behavior Change.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='%23FAFAF7' stroke='%23C48A95' stroke-width='1.5'/><text x='16' y='21' text-anchor='middle' font-size='14' fill='%23C48A95'>✦</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -40,6 +41,15 @@
     --cream: #F8F6F2;
   }
 
+  /* ─── Custom Cursor ──────────────────────────────── */
+  *, *::before, *::after {
+    cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><circle cx='4' cy='4' r='3' fill='%23C48A95' opacity='0.8'/><circle cx='4' cy='4' r='1' fill='%23FAFAF7'/></svg>") 4 4, auto;
+  }
+
+  button, a, [role='button'], .tree-item, .toggle-btn, .content-link {
+    cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><circle cx='5' cy='5' r='4' fill='%236B2E4A' opacity='0.7'/><circle cx='5' cy='5' r='1.5' fill='%23FAFAF7'/></svg>") 5 5, pointer;
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
@@ -49,6 +59,15 @@
     height: 100vh;
     overflow: hidden;
   }
+
+  /* ─── Custom Scrollbar ─────────────────────────────── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--blush);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--rose); }
 
   .app {
     display: flex;
@@ -150,12 +169,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: left 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: left 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
     font-size: 12px;
     color: var(--text-muted);
     box-shadow: 0 1px 6px rgba(0,0,0,0.04);
     font-family: inherit;
   }
+
+  .toggle-btn:hover {
+    background: var(--cream);
+    border-color: var(--rose);
+    color: var(--text);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+  .toggle-btn:active { transform: scale(0.92); }
 
   .toggle-btn.collapsed { left: 10px; }
 
@@ -175,7 +203,10 @@
     border-left: 2px solid transparent;
   }
 
-  .tree-item:hover { background: rgba(0,0,0,0.015); }
+  .tree-item:hover {
+    background: rgba(0,0,0,0.02);
+    transform: translateX(2px);
+  }
   .tree-item.selected { border-left-color: currentColor; }
 
   .tree-item.top-level {
@@ -220,7 +251,24 @@
 
   .chevron.open { transform: rotate(90deg); }
 
-  .children { overflow: hidden; }
+  .children {
+    overflow: hidden;
+    animation: expandIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .children.collapsing {
+    animation: collapseOut 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  @keyframes expandIn {
+    from { max-height: 0; opacity: 0; }
+    to { max-height: 500px; opacity: 1; }
+  }
+
+  @keyframes collapseOut {
+    from { max-height: 500px; opacity: 1; }
+    to { max-height: 0; opacity: 0; }
+  }
 
   /* ─── Pulse dot ───────────────────────────────────── */
   .pulse-dot {
@@ -235,13 +283,15 @@
     flex: 1;
     overflow-y: auto;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
+    padding: 0 24px;
   }
 
   .content-panel {
-    padding: 52px 48px;
-    max-width: 620px;
+    padding: 44px 0 60px;
+    max-width: 580px;
+    width: 100%;
     opacity: 0;
     transform: translateY(8px);
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -258,26 +308,29 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    gap: 16px;
+    gap: 14px;
   }
 
   .content-empty .line {
-    width: 1px; height: 40px;
+    width: 1px; height: 36px;
     background: linear-gradient(180deg, transparent, var(--blush), transparent);
+    animation: gentlePulse 2.5s ease-in-out infinite;
   }
 
   .content-empty .label {
     color: var(--text-light);
-    font-size: 11px;
+    font-size: 10.5px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    animation: gentlePulse 2.5s ease-in-out infinite;
+    animation-delay: 0.5s;
   }
 
   .section-indicator {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 20px;
+    gap: 7px;
+    margin-bottom: 16px;
   }
 
   .section-label {
@@ -302,19 +355,19 @@
 
   .content-title {
     font-family: 'Newsreader', 'Georgia', serif;
-    font-size: 27px;
+    font-size: 26px;
     font-weight: 400;
     font-style: italic;
     color: var(--text);
-    line-height: 1.35;
-    margin-bottom: 20px;
+    line-height: 1.38;
+    margin-bottom: 18px;
   }
 
   .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
-    margin-bottom: 34px;
+    margin-bottom: 28px;
   }
 
   .tag {
@@ -325,12 +378,24 @@
     color: var(--text-muted);
     background: var(--cream);
     border: 1px solid var(--blush);
+    transition: all 0.2s ease;
+  }
+
+  .tag:hover {
+    background: var(--blush);
+    color: var(--text-body);
+    transform: translateY(-1px);
   }
 
   .content-divider {
-    width: 50px;
+    width: 40px;
     height: 1px;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
+    transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .content-panel.visible .content-divider {
+    width: 64px;
   }
 
   .content-body p {
@@ -338,11 +403,14 @@
     font-size: 15px;
     line-height: 1.85;
     color: var(--text-body);
-    margin-bottom: 18px;
+    margin-bottom: 16px;
+    letter-spacing: 0.01em;
   }
 
+  .content-body p:last-child { margin-bottom: 0; }
+
   .content-links {
-    margin-top: 36px;
+    margin-top: 32px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -353,9 +421,9 @@
     align-items: center;
     gap: 8px;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11.5px;
+    font-size: 11px;
     text-decoration: none;
-    padding: 10px 16px;
+    padding: 9px 15px;
     border: 1px solid var(--blush);
     border-radius: 20px;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -365,7 +433,8 @@
 
   .content-link:hover {
     background: var(--cream);
-    transform: translateX(4px);
+    transform: translateX(5px);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   }
 
   /* ─── Animations ──────────────────────────────────── */
@@ -391,13 +460,111 @@
   .sparkle.d2 { animation-delay: 1.5s; }
   .sparkle.d3 { animation-delay: 2.25s; }
 
+  /* ─── Staggered Entrance ─────────────────────────── */
+  @keyframes treeItemIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .tree-item.entrance {
+    opacity: 0;
+    animation: treeItemIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  /* ─── Content Crossfade ────────────────────────────── */
+  .content-panel.exiting {
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: all 0.2s ease-in;
+  }
+
+  /* ─── Status Badge Glow ────────────────────────────── */
+  .status-badge {
+    transition: all 0.2s ease;
+  }
+
+  /* ─── Sidebar header entrance ──────────────────────── */
+  @keyframes headerFadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .sidebar-header {
+    animation: headerFadeIn 0.5s 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  .legend {
+    animation: headerFadeIn 0.5s 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  .sidebar-footer {
+    animation: headerFadeIn 0.5s 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  /* ─── Tablet ─────────────────────────────────────── */
+  @media (max-width: 960px) {
+    .content-area { padding: 0 20px; }
+    .content-panel { max-width: 540px; padding: 40px 0 52px; }
+    .content-title { font-size: 24px; }
+  }
+
   /* ─── Mobile ──────────────────────────────────────── */
   @media (max-width: 700px) {
-    .sidebar { width: 240px; min-width: 240px; }
-    .sidebar.collapsed { width: 0; min-width: 0; }
-    .toggle-btn { left: 246px; }
-    .toggle-btn.collapsed { left: 10px; }
-    .content-panel { padding: 32px 24px; }
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+      width: 272px;
+      min-width: 272px;
+      box-shadow: 4px 0 24px rgba(0,0,0,0.08);
+    }
+    .sidebar.collapsed {
+      width: 0; min-width: 0;
+      box-shadow: none;
+    }
+
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(42, 32, 36, 0.2);
+      z-index: 99;
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+    .mobile-overlay.hidden { opacity: 0; pointer-events: none; }
+
+    .toggle-btn {
+      position: fixed;
+      top: 16px;
+      left: 278px;
+      z-index: 101;
+    }
+    .toggle-btn.collapsed { left: 12px; }
+
+    .content-area { padding: 0 16px; }
+    .content-panel {
+      max-width: 100%;
+      padding: 52px 0 40px;
+    }
+    .content-title { font-size: 23px; margin-bottom: 16px; }
+    .tags { margin-bottom: 24px; }
+    .content-divider { margin-bottom: 20px; }
+    .content-body p { font-size: 14.5px; line-height: 1.8; margin-bottom: 14px; }
+    .content-links { margin-top: 28px; }
+  }
+
+  /* ─── Small Mobile ─────────────────────────────────── */
+  @media (max-width: 420px) {
+    .sidebar { width: 256px; min-width: 256px; }
+    .toggle-btn { left: 262px; }
+
+    .content-area { padding: 0 14px; }
+    .content-panel { padding: 44px 0 36px; }
+    .content-title { font-size: 21px; }
+    .section-indicator { margin-bottom: 12px; }
+    .tag { font-size: 10px; padding: 2px 8px; }
+    .content-body p { font-size: 14px; }
+    .content-link { font-size: 10.5px; padding: 8px 13px; }
   }
 </style>
 </head>
@@ -435,6 +602,9 @@
 
     <div class="sidebar-footer">Health Comm × Behavior Change</div>
   </aside>
+
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay hidden" id="mobileOverlay" onclick="closeSidebar()"></div>
 
   <!-- Toggle -->
   <button class="toggle-btn" id="toggleBtn" onclick="toggleSidebar()">‹</button>
@@ -498,6 +668,8 @@ const tree = [
 // ─── State ───────────────────────────────────────────────────────────
 let selected = 'readme';
 let openFolders = new Set(['Teaching & Practice','Coursework','Research','About']);
+let isInitialRender = true;
+let itemIndex = 0;
 
 function getSection(node, ancestors) {
   if (node.name === 'README') return 'README';
@@ -526,6 +698,7 @@ function renderTree() {
   container.innerHTML = '';
   const delayMap = ['','d1','d2','d3'];
   let sectionIdx = 0;
+  itemIndex = 0;
 
   function renderNode(node, depth, ancestors) {
     const section = getSection(node, ancestors);
@@ -583,15 +756,25 @@ function renderTree() {
         (isSelected ? `<span class="pulse-dot" style="background:${theme.symbolColor};box-shadow:0 0 8px ${theme.glow}"></span>` : '');
     }
 
+    // Staggered entrance on initial load
+    if (isInitialRender) {
+      btn.classList.add('entrance');
+      btn.style.animationDelay = (0.25 + itemIndex * 0.04) + 's';
+    }
+    itemIndex++;
+
     btn.addEventListener('click', () => {
       if (isFolder) {
         if (openFolders.has(node.name)) openFolders.delete(node.name);
         else openFolders.add(node.name);
         renderTree();
       } else {
-        selected = node.id;
-        renderTree();
-        renderContent();
+        if (selected !== node.id) {
+          selected = node.id;
+          renderTree();
+          crossfadeContent();
+          if (isMobile()) closeSidebar();
+        }
       }
     });
 
@@ -670,18 +853,69 @@ function renderContent() {
   });
 }
 
+// ─── Content Crossfade ───────────────────────────────────────────────
+function crossfadeContent() {
+  const panel = document.getElementById('panel');
+  if (panel) {
+    panel.classList.add('exiting');
+    panel.classList.remove('visible');
+    setTimeout(() => renderContent(), 200);
+  } else {
+    renderContent();
+  }
+}
+
+// ─── Mobile Detection ────────────────────────────────────────────────
+function isMobile() { return window.innerWidth <= 700; }
+
 // ─── Sidebar Toggle ──────────────────────────────────────────────────
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
   const btn = document.getElementById('toggleBtn');
+  const overlay = document.getElementById('mobileOverlay');
+  const isCollapsed = sidebar.classList.contains('collapsed');
+
   sidebar.classList.toggle('collapsed');
   btn.classList.toggle('collapsed');
-  btn.textContent = sidebar.classList.contains('collapsed') ? '›' : '‹';
+  btn.textContent = isCollapsed ? '‹' : '›';
+
+  if (isMobile()) {
+    overlay.classList.toggle('hidden', !isCollapsed);
+  }
+}
+
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const btn = document.getElementById('toggleBtn');
+  const overlay = document.getElementById('mobileOverlay');
+  if (!sidebar.classList.contains('collapsed')) {
+    sidebar.classList.add('collapsed');
+    btn.classList.add('collapsed');
+    btn.textContent = '›';
+    overlay.classList.add('hidden');
+  }
 }
 
 // ─── Init ────────────────────────────────────────────────────────────
+// Auto-collapse sidebar on mobile
+if (isMobile()) {
+  document.getElementById('sidebar').classList.add('collapsed');
+  document.getElementById('toggleBtn').classList.add('collapsed');
+  document.getElementById('toggleBtn').textContent = '›';
+}
+
 renderTree();
 renderContent();
+// Mark initial render complete after animations finish
+setTimeout(() => { isInitialRender = false; }, 1200);
+
+// Handle resize
+window.addEventListener('resize', () => {
+  const overlay = document.getElementById('mobileOverlay');
+  if (!isMobile()) {
+    overlay.classList.add('hidden');
+  }
+});
 </script>
 
 </body>

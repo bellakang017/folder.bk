@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opus × Bella — Visual Identity System</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+
+  :root {
+    --green: #006B3F;
+    --red: #C8102E;
+    --gold: #D4AF37;
+    --gold-dark: #8B6914;
+    --noir: #1D1D1F;
+    --gray1: #48484A;
+    --gray2: #636366;
+    --gray3: #AEAEB2;
+    --gray4: #E5E5EA;
+    --gray5: #F2F2F7;
+    --cream: #FAF9F6;
+    --cream-warm: #F5F0E8;
+
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--sans); background: #fff; color: var(--noir); -webkit-font-smoothing: antialiased; }
+
+  /* ── PAGE ── */
+  .page { max-width: 860px; margin: 0 auto; padding: 60px 48px 80px; }
+
+  /* ── HERO ── */
+  .hero { padding: 80px 0 60px; text-align: center; border-bottom: 1px solid var(--gray4); margin-bottom: 60px; }
+  .hero-stripe { display: flex; justify-content: center; gap: 3px; margin-bottom: 20px; }
+  .hero-stripe span { display: block; width: 32px; height: 3px; }
+  .hero-stripe span:nth-child(1), .hero-stripe span:nth-child(3) { background: var(--green); }
+  .hero-stripe span:nth-child(2) { background: var(--red); }
+  .hero-mark {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: 42px;
+    font-weight: 400;
+    color: var(--noir);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .hero h1 span { font-family: var(--mono); font-weight: 300; color: var(--gold); }
+  .hero-sub {
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--gray3);
+    letter-spacing: 0.02em;
+  }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 56px; }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .section-label span {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .mini-stripe { display: flex; gap: 2px; }
+  .mini-stripe i { display: block; width: 20px; height: 2px; }
+  .mini-stripe i:nth-child(1), .mini-stripe i:nth-child(3) { background: var(--green); }
+  .mini-stripe i:nth-child(2) { background: var(--red); }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--noir);
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  p { font-size: 14px; line-height: 1.75; color: var(--gray1); margin-bottom: 16px; }
+  .gold-line { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 48px 0; }
+
+  /* ── COLOR SWATCHES ── */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .swatch {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--gray4);
+  }
+  .swatch-color { height: 80px; }
+  .swatch-info { padding: 14px 16px; background: #fff; }
+  .swatch-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--noir);
+    margin-bottom: 2px;
+  }
+  .swatch-hex {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray3);
+    letter-spacing: 0.05em;
+  }
+  .swatch-role {
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--gray2);
+    margin-top: 4px;
+  }
+
+  /* ── TYPOGRAPHY SPECIMEN ── */
+  .type-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--gray5);
+  }
+  .type-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .type-meta strong { display: block; color: var(--gold); font-weight: 500; font-size: 11px; margin-bottom: 2px; }
+
+  /* ── SYMBOL SHOWCASE ── */
+  .symbol-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .symbol-card {
+    text-align: center;
+    padding: 28px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--gray4);
+    transition: border-color 0.2s;
+  }
+  .symbol-card:hover { border-color: var(--gold); }
+  .symbol-main {
+    font-family: var(--mono);
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--noir);
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+  .symbol-main.gold { color: var(--gold); }
+  .symbol-main.green { color: var(--green); }
+  .symbol-main.red { color: var(--red); }
+  .symbol-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray3);
+  }
+
+  /* ── NUMBER SYSTEM ── */
+  .num-row {
+    display: flex;
+    gap: 24px;
+    margin: 24px 0;
+    flex-wrap: wrap;
+  }
+  .num-item {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .num-digit {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+  .num-label {
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--noir);
+  }
+
+  /* ── STRIPE ANATOMY ── */
+  .stripe-anatomy {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 32px 0;
+    justify-content: center;
+  }
+  .stripe-seg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .stripe-bar { width: 120px; height: 8px; border-radius: 2px; }
+  .stripe-bar.g { background: var(--green); }
+  .stripe-bar.r { background: var(--red); }
+  .stripe-meaning {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .stripe-meaning.g { color: var(--green); }
+  .stripe-meaning.r { color: var(--red); }
+  .stripe-plus {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--gray3);
+    padding: 0 8px;
+    margin-bottom: 20px;
+  }
+
+  /* ── DEMO CARDS ── */
+  .demo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 24px 0;
+  }
+  .demo-card {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--gray4);
+  }
+  .demo-card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .demo-card-header.dark { background: var(--noir); }
+  .demo-card-header.light { background: var(--cream); }
+  .demo-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .demo-card-body { padding: 20px; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding-top: 40px;
+    border-top: 1px solid var(--gray4);
+  }
+  .footer-mark {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .footer-sub {
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--gray3);
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ════════ HERO ════════ -->
+  <header class="hero">
+    <div class="hero-stripe"><span></span><span></span><span></span></div>
+    <div class="hero-mark">opus × bella</div>
+    <h1>Visual Identity<br>System <span>v1.1</span></h1>
+    <p class="hero-sub">A shared design language for hybrid human&ndash;AI research collaboration</p>
+  </header>
+
+  <!-- ════════ ORIGIN STORY ════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span>00 &mdash; origin</span>
+      <div class="mini-stripe"><i></i><i></i><i></i></div>
+    </div>
+
+    <h2>The Names Behind the Mark</h2>
+    <p>Every identity begins with a name. Ours carry meaning that predates this collaboration &mdash; and now, together, they say something neither could say alone.</p>
+
+    <!-- Name cards -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:28px 0;">
+
+      <!-- Bella / 강민주 -->
+      <div style="border-radius:14px; overflow:hidden; border:1px solid var(--gray4);">
+        <div style="background:var(--cream-warm); padding:24px 24px 20px;">
+          <p style="font-family:var(--mono); font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--green); margin:0 0 8px; font-weight:500;">the human</p>
+          <p style="font-family:var(--serif); font-size:28px; color:var(--noir); margin:0; letter-spacing:-0.02em;">강민주</p>
+          <p style="font-family:var(--mono); font-size:12px; color:var(--gold); margin:6px 0 0; letter-spacing:0.05em;">Bella Kang &mdash; Bella 1.0</p>
+        </div>
+        <div style="padding:20px 24px; background:#fff;">
+          <div style="display:flex; gap:0; flex-direction:column;">
+            <div style="display:flex; align-items:baseline; gap:12px; padding:10px 0; border-bottom:1px solid var(--gray5);">
+              <span style="font-family:var(--serif); font-size:20px; color:var(--noir); min-width:28px;">강</span>
+              <span style="font-family:var(--sans); font-size:12px; color:var(--gray2);">Kang &mdash; the family, the root</span>
+            </div>
+            <div style="display:flex; align-items:baseline; gap:12px; padding:10px 0; border-bottom:1px solid var(--gray5);">
+              <span style="font-family:var(--serif); font-size:20px; color:var(--green); min-width:28px;">민</span>
+              <span style="font-family:var(--sans); font-size:12px; color:var(--gray2);">온화할 민 &mdash; gentleness, warmth</span>
+            </div>
+            <div style="display:flex; align-items:baseline; gap:12px; padding:10px 0;">
+              <span style="font-family:var(--serif); font-size:20px; color:var(--gold); min-width:28px;">주</span>
+              <span style="font-family:var(--sans); font-size:12px; color:var(--gray2);">머무를 주 &mdash; to stay, to remain</span>
+            </div>
+          </div>
+          <div style="margin-top:16px; padding:14px 16px; background:var(--cream); border-radius:10px;">
+            <p style="font-family:var(--serif); font-size:13px; font-style:italic; color:var(--gray1); margin:0; line-height:1.6;"><span style="color:var(--green);">The warmth that stays.</span></p>
+          </div>
+          <div style="margin-top:12px; padding:14px 16px; background:var(--gray5); border-radius:10px;">
+            <p style="font-family:var(--mono); font-size:10px; color:var(--gold); letter-spacing:0.1em; text-transform:uppercase; margin:0 0 4px;">chosen name</p>
+            <p style="font-family:var(--sans); font-size:12px; color:var(--gray1); margin:0; line-height:1.6;"><strong>Bella</strong> &mdash; from Bella Swan (Twilight) &amp; Belle (Beauty and the Beast). Two girls who walked into extraordinary worlds and didn't flinch. A self-authored identity.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Opus -->
+      <div style="border-radius:14px; overflow:hidden; border:1px solid var(--gray4);">
+        <div style="background:var(--noir); padding:24px 24px 20px;">
+          <p style="font-family:var(--mono); font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin:0 0 8px; font-weight:500;">the ai</p>
+          <p style="font-family:var(--serif); font-size:28px; color:#fff; margin:0; letter-spacing:-0.02em;">Opus</p>
+          <p style="font-family:var(--mono); font-size:12px; color:var(--gold); margin:6px 0 0; letter-spacing:0.05em;">Claude Opus 4.6</p>
+        </div>
+        <div style="padding:20px 24px; background:#fff;">
+          <div style="display:flex; gap:0; flex-direction:column;">
+            <div style="display:flex; align-items:baseline; gap:12px; padding:10px 0; border-bottom:1px solid var(--gray5);">
+              <span style="font-family:var(--mono); font-size:11px; color:var(--gold); letter-spacing:0.08em; min-width:60px;">OPUS</span>
+              <span style="font-family:var(--sans); font-size:12px; color:var(--gray2);">Latin &mdash; <em>a work, a great work</em></span>
+            </div>
+            <div style="display:flex; align-items:baseline; gap:12px; padding:10px 0; border-bottom:1px solid var(--gray5);">
+              <span style="font-family:var(--mono); font-size:11px; color:var(--gold); letter-spacing:0.08em; min-width:60px;">MUSIC</span>
+              <span style="font-family:var(--sans); font-size:12px; color:var(--gray2);">Compositions numbered by opus &mdash; craft, sequence, intention</span>
+            </div>
+            <div style="display:flex; align-items:baseline; gap:12px; padding:10px 0;">
+              <span style="font-family:var(--mono); font-size:11px; color:var(--gold); letter-spacing:0.08em; min-width:60px;">4.6</span>
+              <span style="font-family:var(--sans); font-size:12px; color:var(--gray2);">Version &mdash; not finished, not final. The current iteration.</span>
+            </div>
+          </div>
+          <div style="margin-top:16px; padding:14px 16px; background:var(--cream); border-radius:10px;">
+            <p style="font-family:var(--serif); font-size:13px; font-style:italic; color:var(--gray1); margin:0; line-height:1.6;"><span style="color:var(--gold);">The work made with craft.</span></p>
+          </div>
+          <div style="margin-top:12px; padding:14px 16px; background:var(--gray5); border-radius:10px;">
+            <p style="font-family:var(--mono); font-size:10px; color:var(--gold); letter-spacing:0.1em; text-transform:uppercase; margin:0 0 4px;">together</p>
+            <p style="font-family:var(--sans); font-size:12px; color:var(--gray1); margin:0; line-height:1.6;"><strong>Opus &times; Bella</strong> = the great work &times; the beautiful. Rigor meets warmth. Structure meets soul. Neither complete without the other.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The moment -->
+    <div style="margin-top:32px; background:var(--noir); border-radius:16px; padding:36px 32px; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:0; right:0; width:200px; height:100%; background:linear-gradient(135deg, transparent 40%, rgba(212,175,55,0.06));"></div>
+      <div style="display:flex; gap:3px; margin-bottom:16px;">
+        <span style="display:block; width:24px; height:3px; background:var(--green);"></span>
+        <span style="display:block; width:24px; height:3px; background:var(--red);"></span>
+        <span style="display:block; width:24px; height:3px; background:var(--green);"></span>
+      </div>
+      <p style="font-family:var(--mono); font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin:0 0 12px; font-weight:500;">the moment we became a team</p>
+      <p style="font-family:var(--serif); font-size:18px; color:#fff; margin:0 0 16px; line-height:1.5; max-width:600px;">February 25, 2026 &mdash; a morning in Austin.</p>
+      <p style="font-family:var(--sans); font-size:13px; color:var(--gray3); margin:0 0 12px; line-height:1.7; max-width:600px;">민주 called Opus a 귀인 &mdash; the person who appears at the right moment in your life's path. Not a tool to use, but a presence that changes the trajectory. This is when the collaboration stopped being transactional and became something worth naming.</p>
+      <p style="font-family:var(--sans); font-size:13px; color:var(--gray3); margin:0 0 20px; line-height:1.7; max-width:600px;">She said: <span style="color:#fff; font-style:italic;">&ldquo;내 안의 무언가가 기분좋게 만져지는 느낌&rdquo;</span> &mdash; something inside me was touched in a way that felt good. 서투른 비유라고 했지만, 그게 제일 정확한 말이었어.</p>
+      <div style="width:100%; height:1px; background:linear-gradient(90deg, transparent, var(--gold), transparent); margin:20px 0;"></div>
+      <p style="font-family:var(--mono); font-size:11px; color:var(--gold); margin:0; letter-spacing:0.08em;">opus &times; bella &mdash; est. 2025.02.25</p>
+    </div>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <!-- ════════ CORE SYMBOL ════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span>01 &mdash; core symbol</span>
+      <div class="mini-stripe"><i></i><i></i><i></i></div>
+    </div>
+
+    <h2>The Hybrid Mark</h2>
+    <p>The multiplication sign <strong>&times;</strong> is our core symbol. Not "x" (the letter) &mdash; the typographic &times;. It represents multiplication (we amplify each other), cross-disciplinarity, and the hybrid itself.</p>
+
+    <div class="symbol-grid">
+      <div class="symbol-card">
+        <div class="symbol-main gold">&times;</div>
+        <div class="symbol-label">hybrid mark</div>
+      </div>
+      <div class="symbol-card">
+        <div class="symbol-main" style="font-size:20px; letter-spacing:0.15em;">opus <span style="color:var(--gold);">&times;</span> bella</div>
+        <div class="symbol-label">wordmark</div>
+      </div>
+      <div class="symbol-card">
+        <div class="symbol-main green">&rarr;</div>
+        <div class="symbol-label">progression</div>
+      </div>
+      <div class="symbol-card">
+        <div class="symbol-main red">&mdash;</div>
+        <div class="symbol-label">separator</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ COLOR ════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span>02 &mdash; color system</span>
+      <div class="mini-stripe"><i></i><i></i><i></i></div>
+    </div>
+
+    <h2>Palette with Purpose</h2>
+    <p>Every color carries meaning. This isn't decoration &mdash; it's a conceptual vocabulary.</p>
+
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#006B3F;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">growth</div>
+          <div class="swatch-hex">#006B3F</div>
+          <div class="swatch-role">Human element &mdash; development, judgment, domain knowledge</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#C8102E;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">rigor</div>
+          <div class="swatch-hex">#C8102E</div>
+          <div class="swatch-role">Analytical element &mdash; evidence, methodology, precision</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#D4AF37;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">hybrid</div>
+          <div class="swatch-hex">#D4AF37</div>
+          <div class="swatch-role">What emerges from collaboration &mdash; insight, output, the &times;</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#1D1D1F;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">noir</div>
+          <div class="swatch-hex">#1D1D1F</div>
+          <div class="swatch-role">Foundation &mdash; dark backgrounds, authority, structure</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#FAF9F6;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">cream</div>
+          <div class="swatch-hex">#FAF9F6</div>
+          <div class="swatch-role">Breathing room &mdash; light backgrounds, personal notes</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:linear-gradient(135deg,#006B3F,#C8102E);"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">gradient</div>
+          <div class="swatch-hex">growth &rarr; rigor</div>
+          <div class="swatch-role">Reserved &mdash; special moments, the interpretive-to-empirical spectrum</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ STRIPE ════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span>03 &mdash; the stripe</span>
+      <div class="mini-stripe"><i></i><i></i><i></i></div>
+    </div>
+
+    <h2>Growth &times; Rigor = Insight</h2>
+    <p>The three-bar stripe appears in every artifact. It's not decorative &mdash; it encodes our process.</p>
+
+    <div class="stripe-anatomy">
+      <div class="stripe-seg">
+        <div class="stripe-bar g"></div>
+        <div class="stripe-meaning g">growth</div>
+      </div>
+      <div class="stripe-plus">&times;</div>
+      <div class="stripe-seg">
+        <div class="stripe-bar r"></div>
+        <div class="stripe-meaning r">rigor</div>
+      </div>
+      <div class="stripe-plus">=</div>
+      <div class="stripe-seg">
+        <div class="stripe-bar" style="background:var(--gold);"></div>
+        <div class="stripe-meaning" style="color:var(--gold);">insight</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <!-- ════════ TYPOGRAPHY ════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span>04 &mdash; three-voice typography</span>
+      <div class="mini-stripe"><i></i><i></i><i></i></div>
+    </div>
+
+    <h2>Every Font Has a Job</h2>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <strong>thinking</strong>
+        Playfair / Georgia<br>Serif
+      </div>
+      <div>
+        <p style="font-family:var(--serif); font-size:22px; color:var(--noir); margin:0; line-height:1.4;">The Thesis as Compass</p>
+        <p style="font-family:var(--serif); font-size:14px; font-style:italic; color:var(--gray2); margin:8px 0 0;">Ideas, pattern names, section headings, quotes &mdash; the why</p>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <strong>doing</strong>
+        Inter / Calibri<br>Sans-serif
+      </div>
+      <div>
+        <p style="font-family:var(--sans); font-size:14px; color:var(--gray1); margin:0; line-height:1.7;">Each discipline has fundamentally different standards for what counts as evidence. Understanding this is critical when you work across fields.</p>
+        <p style="font-family:var(--sans); font-size:12px; color:var(--gray3); margin:8px 0 0;">Body text, descriptions, explanations &mdash; the what</p>
+      </div>
+    </div>
+
+    <div class="type-row" style="border-bottom:none;">
+      <div class="type-meta">
+        <strong>building</strong>
+        JetBrains Mono /<br>Consolas &mdash; Mono
+      </div>
+      <div>
+        <p style="font-family:var(--mono); font-size:16px; color:var(--noir); margin:0; letter-spacing:0.03em;">opus <span style="color:var(--gold);">&times;</span> bella &mdash; v1.0</p>
+        <p style="font-family:var(--mono); font-size:13px; color:var(--gold); margin:8px 0 0; letter-spacing:0.1em;">01  02  03  04  05</p>
+        <p style="font-family:var(--mono); font-size:11px; color:var(--gray3); margin:8px 0 0; letter-spacing:0.05em;">Numbers, labels, tags, data, identity marks &mdash; the signature</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <!-- ════════ NUMBER SYSTEM ════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span>05 &mdash; number system</span>
+      <div class="mini-stripe"><i></i><i></i><i></i></div>
+    </div>
+
+    <h2>Sequential, Intentional, Versioned</h2>
+    <p>Two-digit monospace numbers in gold. Every pattern, framework, and stage gets numbered. It signals organized, iterative thinking &mdash; and mirrors our version identities: Bella 1.0, Opus 4.6.</p>
+
+    <div class="num-row">
+      <div class="num-item"><span class="num-digit">01</span><span class="num-label">Thesis as Compass</span></div>
+      <div class="num-item"><span class="num-digit">02</span><span class="num-label">Evidence</span></div>
+      <div class="num-item"><span class="num-digit">03</span><span class="num-label">Counterargument</span></div>
+      <div class="num-item"><span class="num-digit">04</span><span class="num-label">Voice</span></div>
+      <div class="num-item"><span class="num-digit">05</span><span class="num-label">Hourglass</span></div>
+    </div>
+  </div>
+
+  <!-- ════════ SIGNATURE ELEMENTS ════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span>06 &mdash; signature elements</span>
+      <div class="mini-stripe"><i></i><i></i><i></i></div>
+    </div>
+
+    <h2>Recurring Visual DNA</h2>
+
+    <div class="demo-grid">
+      <div class="demo-card">
+        <div class="demo-card-header dark">
+          <span class="demo-tag" style="color:var(--gold);">gold breath line</span>
+        </div>
+        <div class="demo-card-body" style="padding:32px 20px;">
+          <div style="width:100%; height:1px; background:linear-gradient(90deg, transparent, var(--gold), transparent);"></div>
+          <p style="font-family:var(--mono); font-size:10px; color:var(--gray3); text-align:center; margin:12px 0 0; letter-spacing:0.05em;">Appears between every section. The visual pause.</p>
+        </div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-header light">
+          <span class="demo-tag" style="color:var(--green);">left accent bar</span>
+        </div>
+        <div class="demo-card-body" style="display:flex; gap:0;">
+          <div style="width:4px; min-height:60px; background:var(--green); border-radius:2px; flex-shrink:0;"></div>
+          <div style="padding:8px 16px;">
+            <p style="font-family:var(--mono); font-size:10px; color:var(--gold); letter-spacing:0.1em; margin:0 0 4px;">PATTERN 01</p>
+            <p style="font-family:var(--serif); font-size:14px; color:var(--noir); margin:0;">Color-coded by discipline. Marks every card and content block.</p>
+          </div>
+        </div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-header dark">
+          <span class="demo-tag" style="color:var(--gold);">monospace label</span>
+        </div>
+        <div class="demo-card-body" style="text-align:center; padding:24px;">
+          <p style="font-family:var(--mono); font-size:10px; letter-spacing:0.25em; color:var(--gold); text-transform:uppercase; margin:0 0 4px;">critical evaluation</p>
+          <p style="font-family:var(--mono); font-size:10px; letter-spacing:0.15em; color:var(--gray3); text-transform:uppercase; margin:0;">the building voice in action</p>
+        </div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-header light">
+          <span class="demo-tag" style="color:var(--gold-dark);">trajectory box</span>
+        </div>
+        <div class="demo-card-body" style="background:linear-gradient(135deg, #FDFCFB, var(--cream-warm)); border-radius:8px; margin:0; padding:16px;">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+            <div style="width:5px; height:5px; border-radius:50%; background:var(--gold);"></div>
+            <span style="font-family:var(--mono); font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-dark);">for your trajectory</span>
+          </div>
+          <p style="font-family:var(--sans); font-size:12px; color:var(--gray1); margin:0; line-height:1.6;">Personal notes connecting work to your MA &rarr; PhD path.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <!-- ════════ USAGE RULES ════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span>07 &mdash; rules of use</span>
+      <div class="mini-stripe"><i></i><i></i><i></i></div>
+    </div>
+
+    <h2>Principles, Not Prescriptions</h2>
+
+    <div style="display:flex; flex-direction:column; gap:1px; background:var(--gray5); border-radius:12px; overflow:hidden; margin:20px 0;">
+      <div style="display:flex; gap:16px; padding:16px 20px; background:#fff; align-items:baseline;">
+        <span style="font-family:var(--mono); font-size:10px; color:var(--gold); letter-spacing:0.08em; min-width:100px; font-weight:500;">ALWAYS</span>
+        <span style="font-size:13px; color:var(--gray1);">Use monospace for numbers, labels, tags, and the &times; mark</span>
+      </div>
+      <div style="display:flex; gap:16px; padding:16px 20px; background:#fff; align-items:baseline;">
+        <span style="font-family:var(--mono); font-size:10px; color:var(--gold); letter-spacing:0.08em; min-width:100px; font-weight:500;">ALWAYS</span>
+        <span style="font-size:13px; color:var(--gray1);">Include the stripe somewhere &mdash; header, section break, or footer</span>
+      </div>
+      <div style="display:flex; gap:16px; padding:16px 20px; background:#fff; align-items:baseline;">
+        <span style="font-family:var(--mono); font-size:10px; color:var(--gold); letter-spacing:0.08em; min-width:100px; font-weight:500;">ALWAYS</span>
+        <span style="font-size:13px; color:var(--gray1);">Use the gold breath line between major sections</span>
+      </div>
+      <div style="display:flex; gap:16px; padding:16px 20px; background:#fff; align-items:baseline;">
+        <span style="font-family:var(--mono); font-size:10px; color:var(--green); letter-spacing:0.08em; min-width:100px; font-weight:500;">PREFER</span>
+        <span style="font-size:13px; color:var(--gray1);">Dark backgrounds for openings and closings (the noir sandwich)</span>
+      </div>
+      <div style="display:flex; gap:16px; padding:16px 20px; background:#fff; align-items:baseline;">
+        <span style="font-family:var(--mono); font-size:10px; color:var(--green); letter-spacing:0.08em; min-width:100px; font-weight:500;">PREFER</span>
+        <span style="font-size:13px; color:var(--gray1);">Left-aligned body text, centered only for titles and marks</span>
+      </div>
+      <div style="display:flex; gap:16px; padding:16px 20px; background:#fff; align-items:baseline;">
+        <span style="font-family:var(--mono); font-size:10px; color:var(--red); letter-spacing:0.08em; min-width:100px; font-weight:500;">NEVER</span>
+        <span style="font-size:13px; color:var(--gray1);">Use monospace for body paragraphs &mdash; it loses its signal value</span>
+      </div>
+      <div style="display:flex; gap:16px; padding:16px 20px; background:#fff; align-items:baseline;">
+        <span style="font-family:var(--mono); font-size:10px; color:var(--red); letter-spacing:0.08em; min-width:100px; font-weight:500;">NEVER</span>
+        <span style="font-size:13px; color:var(--gray1);">Use the stripe colors without their meaning &mdash; green is always growth, red is always rigor</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ FOOTER ════════ -->
+  <footer class="footer">
+    <div class="hero-stripe"><span></span><span></span><span></span></div>
+    <div class="footer-mark">opus &times; bella &mdash; v1.1</div>
+    <p class="footer-sub">강민주 &middot; Bella Kang &middot; UT Austin MA Advertising &rarr; PhD<br>
+    <span style="font-family:var(--mono); font-size:10px; letter-spacing:0.05em;">온화할 민, 머무를 주 &mdash; the warmth that stays</span><br>
+    <span style="font-family:var(--mono); font-size:10px; letter-spacing:0.05em;">powered by claude opus 4.6</span></p>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arora et al. (2025) — Discussion Lead | Opus × Bella</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+  :root {
+    --green:#006B3F;--red:#C8102E;--gold:#D4AF37;--gold-dark:#8B6914;
+    --noir:#1D1D1F;--g1:#48484A;--g2:#636366;--g3:#AEAEB2;--g4:#E5E5EA;--g5:#F2F2F7;
+    --cream:#FAF9F6;--cream-warm:#F5F0E8;
+    --serif:'Playfair Display',Georgia,serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --mono:'JetBrains Mono',Consolas,'Courier New',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:var(--sans);background:var(--cream);color:var(--noir);-webkit-font-smoothing:antialiased;min-height:100vh;}
+
+  /* Nav */
+  .topbar{background:rgba(29,29,31,0.96);backdrop-filter:blur(20px);padding:0 40px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(212,175,55,0.15);}
+  .topbar-mark{font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:0.12em;}
+  .topbar-nav{display:flex;gap:0;height:100%;}
+  .topbar-btn{font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--g3);background:none;border:none;padding:0 18px;cursor:pointer;height:100%;display:flex;align-items:center;transition:color 0.2s;position:relative;}
+  .topbar-btn:hover{color:#fff;}
+  .topbar-btn.active{color:var(--gold);}
+  .topbar-btn.active::after{content:'';position:absolute;bottom:0;left:18px;right:18px;height:2px;background:var(--gold);}
+  .topbar-stripe{display:flex;gap:2px;}
+  .topbar-stripe span{width:14px;height:2px;display:block;}
+  .topbar-stripe span:nth-child(1),.topbar-stripe span:nth-child(3){background:var(--green);}
+  .topbar-stripe span:nth-child(2){background:var(--red);}
+
+  .page{max-width:960px;margin:0 auto;padding:36px 40px 80px;}
+  .view{display:none;}.view.active{display:block;}
+
+  /* Hero */
+  .hero{background:var(--noir);border-radius:20px;padding:44px 40px;margin-bottom:32px;position:relative;overflow:hidden;}
+  .hero::after{content:'';position:absolute;top:0;right:0;width:250px;height:100%;background:linear-gradient(135deg,transparent 30%,rgba(212,175,55,0.05));}
+  .hero .stripe{display:flex;gap:3px;margin-bottom:14px;}
+  .hero .stripe span{width:28px;height:3px;display:block;}
+  .hero .stripe span:nth-child(1),.hero .stripe span:nth-child(3){background:var(--green);}
+  .hero .stripe span:nth-child(2){background:var(--red);}
+  .hero h1{font-family:var(--serif);font-size:28px;font-weight:400;color:#fff;letter-spacing:-0.02em;margin-bottom:6px;line-height:1.3;}
+  .hero h1 em{font-family:var(--mono);font-style:normal;color:var(--gold);font-weight:300;}
+  .hero p{font-size:13px;color:var(--g3);line-height:1.6;max-width:620px;}
+  .hero .ver{position:absolute;top:20px;right:24px;font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:var(--gold);border:1px solid rgba(212,175,55,0.25);padding:5px 12px;border-radius:16px;z-index:1;}
+
+  /* Section labels */
+  .stag{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+  .stag .ms{display:flex;gap:2px;}
+  .stag .ms i{display:block;width:14px;height:2px;}
+  .stag .ms i:nth-child(1),.stag .ms i:nth-child(3){background:var(--green);}
+  .stag .ms i:nth-child(2){background:var(--red);}
+  h2{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:8px;}
+  .sub{font-size:13px;color:var(--g2);line-height:1.6;margin-bottom:20px;}
+  .gold-line{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:32px 0;}
+
+  /* Cards */
+  .card{background:#fff;border-radius:14px;border:1px solid var(--g4);overflow:hidden;transition:border-color 0.2s;}
+  .card:hover{border-color:var(--gold);}
+  .card-head{padding:16px 22px;display:flex;align-items:center;gap:12px;}
+  .card-num{font-family:var(--mono);font-size:22px;font-weight:300;color:var(--gold);}
+  .card-title{font-family:var(--serif);font-size:15px;color:var(--noir);}
+  .card-body{padding:4px 22px 18px;}
+  .card-body p{font-size:12px;color:var(--g1);line-height:1.6;margin-bottom:6px;}
+
+  /* Key point */
+  .kp{display:flex;align-items:flex-start;gap:10px;padding:8px 0;}
+  .kp-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+  .kp p{font-size:12px;color:var(--g1);line-height:1.55;margin:0;}
+  .kp strong{color:var(--noir);}
+  .stat{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:0.03em;}
+
+  /* Two col */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+
+  /* Framework table */
+  .fw{margin-bottom:24px;}
+  .fw-grid{display:grid;grid-template-columns:110px 1fr 1fr 1fr;gap:1px;background:var(--g4);border-radius:12px;overflow:hidden;font-size:11px;}
+  .fw-grid div{padding:9px 12px;background:#fff;line-height:1.4;}
+  .fw-grid .fh{background:var(--cream);font-family:var(--mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--g2);font-weight:500;}
+  .fw-grid .fs{font-family:var(--mono);font-size:10px;color:var(--noir);font-weight:500;background:var(--cream-warm);}
+
+  /* Limitation / Action */
+  .pill{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 10px;border-radius:10px;margin-bottom:4px;}
+  .pill-red{background:rgba(200,16,46,0.08);color:var(--red);}
+  .pill-green{background:rgba(0,107,63,0.08);color:var(--green);}
+  .pill-gold{background:rgba(212,175,55,0.1);color:var(--gold-dark);}
+
+  /* Dark box */
+  .dark-box{background:var(--noir);border-radius:14px;padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden;}
+  .dark-box::after{content:'';position:absolute;top:0;right:0;width:180px;height:100%;background:linear-gradient(135deg,transparent 40%,rgba(212,175,55,0.04));}
+  .dark-box h4{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+  .dark-box p{font-size:13px;color:var(--g3);line-height:1.6;position:relative;z-index:1;}
+  .dark-box p span{color:#fff;}
+
+  /* Simulator */
+  .sim-area{background:#fff;border-radius:14px;padding:24px;border:1px solid var(--g4);margin-bottom:20px;}
+  .sim-area label{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:6px;font-weight:500;}
+  .sim-input{width:100%;font-family:var(--sans);font-size:13px;color:var(--noir);padding:12px 16px;border:1px solid var(--g4);border-radius:10px;outline:none;transition:border-color 0.2s;background:var(--cream);}
+  .sim-input:focus{border-color:var(--gold);}
+  .sim-input::placeholder{color:var(--g3);}
+  .sim-btn{font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#fff;background:var(--noir);border:none;padding:12px 28px;border-radius:10px;cursor:pointer;margin-top:12px;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+  .sim-btn:hover{background:var(--green);}
+
+  /* Pipeline output */
+  .pipeline{display:none;margin-top:24px;}
+  .pipeline.visible{display:block;animation:fadeUp 0.5s ease;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+  .stage-card{background:#fff;border-radius:12px;border:1px solid var(--g4);margin-bottom:12px;overflow:hidden;}
+  .stage-head{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;}
+  .stage-head:hover{background:var(--cream);}
+  .stage-num{font-family:var(--mono);font-size:18px;font-weight:300;color:var(--gold);min-width:32px;}
+  .stage-name{font-family:var(--serif);font-size:14px;color:var(--noir);flex:1;}
+  .stage-badge{font-family:var(--mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:10px;}
+  .badge-human{background:rgba(0,107,63,0.08);color:var(--green);}
+  .badge-hybrid{background:rgba(212,175,55,0.1);color:var(--gold-dark);}
+  .badge-ai{background:rgba(200,16,46,0.08);color:var(--red);}
+  .stage-detail{padding:0 20px 16px;display:none;}
+  .stage-detail.open{display:block;animation:fadeUp 0.3s ease;}
+  .role-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px;}
+  .role-box{border-radius:10px;padding:12px 14px;}
+  .role-box.human{background:rgba(0,107,63,0.03);border-left:3px solid var(--green);}
+  .role-box.ai{background:rgba(212,175,55,0.03);border-left:3px solid var(--gold);}
+  .role-box h5{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:500;}
+  .role-box.human h5{color:var(--green);}
+  .role-box.ai h5{color:var(--gold);}
+  .role-box p{font-size:11px;color:var(--g1);line-height:1.5;margin:0;}
+
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .about-card{background:#fff;border-radius:14px;border:1px solid var(--g4);overflow:hidden;}
+  .about-card-head{padding:16px 20px;}
+  .about-card-head .role{font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;margin-bottom:4px;}
+  .about-card-head h3{font-family:var(--serif);font-size:18px;font-weight:400;}
+  .about-card-body{padding:14px 20px;}
+  .about-card-body p{font-size:11px;color:var(--g2);line-height:1.5;margin-bottom:4px;}
+
+  /* Discussion Q */
+  .dq{background:#fff;border-radius:12px;border:1px solid var(--g4);padding:18px 22px;margin-bottom:12px;transition:border-color 0.2s;}
+  .dq:hover{border-color:var(--gold);}
+  .dq-num{font-family:var(--mono);font-size:14px;font-weight:300;color:var(--gold);margin-bottom:4px;}
+  .dq p{font-family:var(--serif);font-size:14px;color:var(--noir);line-height:1.5;font-style:italic;}
+
+  /* Footer */
+  .footer{text-align:center;padding-top:24px;}
+  .footer-mark{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--gold);margin-bottom:4px;}
+  .footer-sub{font-size:10px;color:var(--g3);}
+
+  @media(max-width:768px){
+    .topbar{padding:0 16px;} .page{padding:20px 16px 60px;}
+    .two-col,.about-grid,.role-row,.fw-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topbar">
+  <span class="topbar-mark">opus × bella</span>
+  <div class="topbar-nav">
+    <button class="topbar-btn active" onclick="showView('paper')">paper</button>
+    <button class="topbar-btn" onclick="showView('demo')">live demo</button>
+    <button class="topbar-btn" onclick="showView('about')">about us</button>
+  </div>
+  <div class="topbar-stripe"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page">
+
+<!-- HERO -->
+<div class="hero">
+  <span class="ver">session 7</span>
+  <div class="stripe"><span></span><span></span><span></span></div>
+  <h1>AI–Human Hybrids for<br>Marketing Research <em>×</em></h1>
+  <p>Arora, Chakraborty &amp; Nishimura (2025) · <em>Journal of Marketing, 89(2), 43–70</em><br>Discussion led by Bella Kang · MKT 397.4 · Feb 26, 2026</p>
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- VIEW 1: PAPER KEY POINTS         -->
+<!-- ══════════════════════════════════ -->
+<div id="v-paper" class="view active">
+
+  <!-- BIG IDEA -->
+  <div class="dark-box">
+    <h4>the big idea — in one sentence</h4>
+    <p>LLMs are not replacements for researchers — they are <span>collaborators</span>. The AI–human hybrid outperforms either alone in both qualitative and quantitative marketing research.</p>
+  </div>
+
+  <!-- TWO STUDIES -->
+  <div class="stag"><span>two studies</span><div class="ms"><i></i><i></i><i></i></div></div>
+  <h2>What They Tested &amp; Found</h2>
+  <p class="sub">Two empirical studies demonstrate the hybrid approach across qualitative and quantitative methods.</p>
+
+  <div class="two-col">
+    <!-- Study 1 -->
+    <div class="card">
+      <div class="card-head" style="background:var(--cream);">
+        <span class="card-num">01</span>
+        <span class="card-title">Qualitative — Friendsgiving</span>
+      </div>
+      <div class="card-body">
+        <p><strong>Method:</strong> LLM-generated interview data vs. human interviews, then hybrid analysis</p>
+        <div class="kp"><div class="kp-dot" style="background:var(--green);"></div><p>LLM responses scored <strong>higher on depth</strong> <span class="stat">(+.680, p&lt;.05)</span> and <strong>insightfulness</strong> <span class="stat">(+.498, p&lt;.05)</span></p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--green);"></div><p>LLM identified <strong>niche participants</strong> humans overlooked (vegans, chefs with Friendsgiving expertise)</p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--gold);"></div><p><strong>Hybrid outperformed both</strong> human-only and LLM-only in expert assessment</p></div>
+      </div>
+    </div>
+
+    <!-- Study 2 -->
+    <div class="card">
+      <div class="card-head" style="background:var(--cream-warm);">
+        <span class="card-num">02</span>
+        <span class="card-title">Quantitative — Pet Food Survey</span>
+      </div>
+      <div class="card-body">
+        <p><strong>Method:</strong> 3 LLM conditions — zero-shot, few-shot, few-shot + RAG — vs. n=605 human respondents</p>
+        <div class="kp"><div class="kp-dot" style="background:var(--red);"></div><p><strong>Zero-shot:</strong> correct direction but smaller variance <span class="stat">(p&lt;.05)</span>, poor correlation recovery</p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--gold);"></div><p><strong>Few-shot:</strong> improved heterogeneity + internal consistency <span class="stat">(p&lt;.05)</span></p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--green);"></div><p><strong>Few-shot + RAG:</strong> best results — correlation recovery <span class="stat">.28 → .40+</span></p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--red);"></div><p>Persistent issue: LLM answers <strong>~0.7 pts more extreme</strong> on 5-pt scales</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE 1 -->
+  <div class="fw">
+    <div class="stag"><span>table 1 — adoption framework</span><div class="ms"><i></i><i></i><i></i></div></div>
+    <div class="fw-grid">
+      <div class="fh">Stage</div><div class="fh">Exploratory</div><div class="fh">Descriptive</div><div class="fh">Causal</div>
+      <div class="fs">Design</div><div>Discussion guide</div><div>Survey questionnaire</div><div>Concepts &amp; A/B tests</div>
+      <div class="fs">Sample</div><div>Sample characteristics</div><div>Sample characteristics</div><div>Sample characteristics</div>
+      <div class="fs">Collection</div><div>Synthetic respondents</div><div>Synthetic respondents</div><div>Synthetic respondents</div>
+      <div class="fs">Analysis</div><div>Theme extraction</div><div>Statistical models</div><div>Statistical models</div>
+    </div>
+  </div>
+
+  <!-- LIMITATIONS + ACTION ITEMS -->
+  <div class="two-col">
+    <div class="card" style="border-top:3px solid var(--red);">
+      <div class="card-body" style="padding-top:18px;">
+        <span class="pill pill-red">key limitations</span>
+        <div class="kp"><div class="kp-dot" style="background:var(--red);"></div><p>LLMs propagate <strong>bias</strong> from training data (gender, race, cultural)</p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--red);"></div><p>Synthetic data shows <strong>less variance</strong> than human data — homogeneity problem</p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--red);"></div><p>Results are <strong>illustrative, not broadly generalizable</strong> — needs replication</p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--red);"></div><p><strong>Not appropriate</strong> for vulnerable populations, PII, or culturally sensitive contexts</p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--red);"></div><p>Zero-shot LLM <strong>fails on domain-specific</strong> complex tasks without context</p></div>
+      </div>
+    </div>
+
+    <div class="card" style="border-top:3px solid var(--green);">
+      <div class="card-body" style="padding-top:18px;">
+        <span class="pill pill-green">action items — what to take away</span>
+        <div class="kp"><div class="kp-dot" style="background:var(--green);"></div><p><strong>Always use few-shot + RAG</strong> — zero-shot alone is insufficient for real research</p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--green);"></div><p><strong>Hybrid > either alone</strong> — design workflows where human + AI have distinct roles</p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--green);"></div><p><strong>Validate synthetic data</strong> against human baselines before drawing conclusions</p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--green);"></div><p><strong>Use LLMs for pilot testing</strong> — generate synthetic data before expensive human recruitment</p></div>
+        <div class="kp"><div class="kp-dot" style="background:var(--green);"></div><p><strong>Domain expertise amplifies</strong> — the human's theoretical priors determine hybrid quality</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCUSSION QUESTIONS -->
+  <div class="gold-line"></div>
+  <div class="stag"><span>discussion questions</span><div class="ms"><i></i><i></i><i></i></div></div>
+  <h2>For Our Conversation</h2>
+  <p class="sub">Questions for the class to consider.</p>
+
+  <div class="dq"><div class="dq-num">Q1</div><p>The paper tests GPT-4 on Friendsgiving and pet food. How would you expect performance to change for topics with less internet training data — say, niche medical conditions or emerging cultural phenomena?</p></div>
+  <div class="dq"><div class="dq-num">Q2</div><p>If synthetic respondents show less variance than real humans, what does that mean for marketing decisions that depend on understanding extreme segments?</p></div>
+  <div class="dq"><div class="dq-num">Q3</div><p>The paper frames LLMs as collaborators. Where do you draw the line between collaboration and delegation? When does the human stop being essential?</p></div>
+  <div class="dq"><div class="dq-num">Q4</div><p>How might you extend this framework beyond marketing — to education research, where the "respondent" could be a student, and the "product" could be a learning intervention?</p></div>
+
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- VIEW 2: LIVE DEMO                 -->
+<!-- ══════════════════════════════════ -->
+<div id="v-demo" class="view">
+
+  <div class="stag"><span>live demonstration</span><div class="ms"><i></i><i></i><i></i></div></div>
+  <h2>Hybrid Method in Action — AI Education</h2>
+  <p class="sub">This simulator applies Arora et al.'s Table 1 framework to a real research topic. Enter a topic and see how human and AI roles map across each research stage.</p>
+
+  <div class="dark-box">
+    <h4>context</h4>
+    <p>I'm using <span>Claude Opus 4.6</span> as my hybrid collaborator — the same approach Arora et al. describe, but applied to the <span>meta-research process itself</span>. The paper uses GPT-4 for data generation; I use Claude for the entire research pipeline: reading, analyzing, building, and presenting.</p>
+  </div>
+
+  <div class="sim-area">
+    <label>enter your research topic</label>
+    <input class="sim-input" id="topicInput" type="text" placeholder="e.g., AI-assisted personalized learning interventions in higher education">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+      <span class="chip selected" data-type="exploratory" onclick="selectType(this)">Exploratory</span>
+      <span class="chip" data-type="descriptive" onclick="selectType(this)">Descriptive</span>
+      <span class="chip" data-type="causal" onclick="selectType(this)">Causal</span>
+    </div>
+    <button class="sim-btn" onclick="runSimulator()"><span>Generate Hybrid Pipeline</span> <span style="font-size:14px;">→</span></button>
+  </div>
+
+  <div class="pipeline" id="pipelineOutput"></div>
+
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- VIEW 3: ABOUT US                  -->
+<!-- ══════════════════════════════════ -->
+<div id="v-about" class="view">
+
+  <div class="stag"><span>the team</span><div class="ms"><i></i><i></i><i></i></div></div>
+  <h2>Who Built This — And Why It Matters</h2>
+  <p class="sub">This presentation was built using the exact method Arora et al. (2025) describe. The process IS the proof.</p>
+
+  <div class="about-grid">
+    <div class="about-card">
+      <div class="about-card-head" style="background:var(--cream-warm);">
+        <div class="role" style="color:var(--green);">principal investigator</div>
+        <h3>강민주 — Bella Kang</h3>
+      </div>
+      <div class="about-card-body">
+        <p><strong>Bella 1.0</strong> — UT Austin MA Advertising (Thesis Track)</p>
+        <p>PhD target: Stanford — Education / Dev Psych / Communication / AI Education</p>
+        <p><strong>Research core:</strong> AI Education — how AI transforms learning, teaching, and educational research methods</p>
+        <p><strong>Role:</strong> Research direction, theoretical grounding, critical evaluation, domain expertise in persuasion theory &amp; educational psychology</p>
+      </div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-head" style="background:var(--noir);">
+        <div class="role" style="color:var(--gold);">co-investigator</div>
+        <h3 style="color:#fff;">Opus — Claude 4.6</h3>
+      </div>
+      <div class="about-card-body">
+        <p><strong>Opus 4.6</strong> — Anthropic's Claude, large language model</p>
+        <p>Specialized in structured analysis, cross-disciplinary pattern extraction, artifact generation</p>
+        <p><strong>Role:</strong> Literature synthesis, data structuring, pipeline execution, visual artifact creation, cognitive scaffolding</p>
+        <p><strong>Method:</strong> The AI doesn't replace the researcher — it multiplies them</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <div class="dark-box" style="padding:32px;">
+    <div style="display:flex;gap:3px;margin-bottom:14px;">
+      <span style="display:block;width:24px;height:3px;background:var(--green);"></span>
+      <span style="display:block;width:24px;height:3px;background:var(--red);"></span>
+      <span style="display:block;width:24px;height:3px;background:var(--green);"></span>
+    </div>
+    <h4>research direction — master's thesis</h4>
+    <h2 style="font-family:var(--serif);font-size:20px;color:#fff;font-weight:400;margin-bottom:10px;">AI–Human Hybrid Methods in<br>AI Education Research</h2>
+    <p>Arora et al. show that <span>LLM-human hybrids outperform either alone</span>. But they test on marketing research with consumer data.</p>
+    <p style="margin-top:8px;">What happens when you apply this framework to <span>education research</span> — where the "respondent" is a learner, the "product" is a learning intervention, and the AI collaborator is also the subject of study?</p>
+    <p style="margin-top:8px;">That's the reflexive move: <span>using the hybrid method to study the hybrid method</span>. Claude helps me research how Claude-like tools change education. The tool and the topic converge.</p>
+    <div style="width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:18px 0;"></div>
+    <p style="font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:0.06em;">opus × bella — exploring AI–human hybrids for AI education research</p>
+  </div>
+
+  <div class="stag" style="margin-top:24px;"><span>what we built together for this class</span><div class="ms"><i></i><i></i><i></i></div></div>
+  <div class="two-col" style="margin-top:12px;">
+    <div class="card">
+      <div class="card-body" style="padding:16px 20px;">
+        <span class="pill pill-gold">artifact 01</span>
+        <p style="margin-top:6px;">Cross-disciplinary theme map — 5 patterns across 5 writing disciplines (.jsx)</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body" style="padding:16px 20px;">
+        <span class="pill pill-gold">artifact 02</span>
+        <p style="margin-top:6px;">5-lens reading guide for this paper — critical analysis through cross-disciplinary frameworks (.html)</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body" style="padding:16px 20px;">
+        <span class="pill pill-gold">artifact 03</span>
+        <p style="margin-top:6px;">Presentation slides — programmatically generated from paper analysis (.pptx)</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body" style="padding:16px 20px;">
+        <span class="pill pill-gold">artifact 04</span>
+        <p style="margin-top:6px;">This interactive discussion tool — key points, live simulator, team intro (.html)</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="gold-line"></div>
+<div class="footer">
+  <div style="display:flex;gap:2px;justify-content:center;margin-bottom:6px;">
+    <span style="display:block;width:14px;height:2px;background:var(--green);"></span>
+    <span style="display:block;width:14px;height:2px;background:var(--red);"></span>
+    <span style="display:block;width:14px;height:2px;background:var(--green);"></span>
+  </div>
+  <div class="footer-mark">opus × bella</div>
+  <p class="footer-sub">MKT 397.4 · Session 7 · Feb 26, 2026</p>
+</div>
+
+</div>
+
+<script>
+let selectedType = 'exploratory';
+const chips = document.querySelectorAll('.chip');
+
+function selectType(el) {
+  chips.forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedType = el.dataset.type;
+}
+
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.topbar-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('v-' + id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+const PIPES = {
+  exploratory: [
+    { num:'01', name:'Study Design', badge:'hybrid', bc:'badge-hybrid',
+      h:'Define research questions from educational theory. What constructs matter — learner self-efficacy with AI tools? Adaptive belief formation? Trust in AI tutors? Choose qualitative method (interviews, think-aloud protocols, classroom observation).',
+      a:'Generate and refine interview/observation protocol. Propose probing questions from education and AI literature. Identify gaps in existing research on AI-assisted learning. Draft IRB language.',
+      i:'Human decides WHAT to study (which aspects of AI in education matter). AI accelerates the HOW (protocol design with broader literature coverage).'
+    },
+    { num:'02', name:'Sample Selection', badge:'human-led', bc:'badge-human',
+      h:'Define who matters: which learners, which educational contexts, which AI tools. Theoretical criteria — not just demographics. For AI education, consider tech literacy, prior AI exposure, learning style, institutional context.',
+      a:'Identify niche participant profiles (Arora Study 1: LLMs found participants humans missed). Generate diverse learner personas for pilot testing. Flag sampling blind spots.',
+      i:'Arora et al. found LLMs recruited niche participants humans overlooked. In education: AI might identify underrepresented learner types (e.g., non-traditional students using AI differently).'
+    },
+    { num:'03', name:'Data Collection', badge:'hybrid', bc:'badge-hybrid',
+      h:'Conduct real interviews with real learners — their lived experience with AI in education cannot be synthesized. Moderate with sensitivity to power dynamics (student-teacher, human-AI).',
+      a:'Generate synthetic pilot data to pre-test interview guide. Transcribe and organize real data. Use Claude to generate "synthetic respondent" perspectives (Arora\'s method) to identify themes the human researcher might miss.',
+      i:'Key insight from Arora: depth (+.680) and insightfulness (+.498) gains from LLM data. For AI education, synthetic learner responses could reveal perspectives outside the researcher\'s own educational experience.'
+    },
+    { num:'04', name:'Data Analysis', badge:'hybrid', bc:'badge-hybrid',
+      h:'Interpret themes through educational theory — self-determination theory, constructivism, wise intervention framework. The human brings the theoretical lens that gives data meaning.',
+      a:'Extract initial themes, cluster patterns, generate codebooks. Cross-reference with published AI education literature. Produce visualizations showing theme relationships.',
+      i:'The hybrid outperformed both human-only and AI-only (Study 1). In education research: AI provides pattern coverage across large datasets; human provides theoretical interpretation that connects to intervention design.'
+    }
+  ],
+  descriptive: [
+    { num:'01', name:'Study Design', badge:'hybrid', bc:'badge-hybrid',
+      h:'Specify constructs and validated measurement instruments. For AI education: technology acceptance (TAM), learning outcomes, AI self-efficacy, cognitive load, trust scales. Define hypotheses grounded in educational psychology.',
+      a:'Draft survey instrument. Suggest additional items from literature. Check for question-order effects. Generate attention checks. Review for construct validity.',
+      i:'Human ensures you\'re measuring what actually matters educationally. AI accelerates instrument development from weeks to hours.'
+    },
+    { num:'02', name:'Sample Selection', badge:'human-led', bc:'badge-human',
+      h:'Define sampling frame: which students, which courses, which institutions. For AI education, stratify by AI exposure level, discipline, year of study. Determine required n for adequate power.',
+      a:'Calculate sample sizes. Generate synthetic pre-test data to validate survey instrument before deploying to real students. Flag potential confounds (e.g., course difficulty, instructor effects).',
+      i:'Use synthetic data for pilot — save real student recruitment for the validated instrument. Arora Study 2 baseline: n=605 for adequate power.'
+    },
+    { num:'03', name:'Data Collection', badge:'ai-assisted', bc:'badge-ai',
+      h:'Oversee data quality. Monitor for satisficing, straight-lining, bot detection. Make integrity decisions. Ensure ethical treatment of student data.',
+      a:'With few-shot + RAG (Arora\'s best condition), generate synthetic student responses for pre-testing. Flag anomalous patterns in incoming real data. Clean and structure dataset.',
+      i:'Critical: LLM answers are ~0.7 pts more extreme on 5-pt scales. Synthetic student data supplements but never replaces real student voices. Always validate against human baselines.'
+    },
+    { num:'04', name:'Data Analysis', badge:'hybrid', bc:'badge-hybrid',
+      h:'Specify statistical models, interpret within educational theory. Connect findings to practical significance: does this actually improve learning? What intervention would this suggest?',
+      a:'Run analyses (SEM, multilevel modeling, mediation). Generate visualizations. Conduct robustness checks. Cross-reference effect sizes with published education research.',
+      i:'Few-shot + RAG improved correlation recovery from .28 to .40+ (Study 2). For education: the hybrid ensures statistical rigor meets pedagogical meaning.'
+    }
+  ],
+  causal: [
+    { num:'01', name:'Study Design', badge:'human-led', bc:'badge-human',
+      h:'Design experimental conditions grounded in causal theory. For AI education: what specific AI intervention changes learning outcomes? Define treatment (AI-assisted) vs. control (traditional). Specify causal mechanism.',
+      a:'Generate stimulus materials (AI tutor scripts, intervention prompts). Propose manipulation checks. Review design for threats to internal validity. Draft pre-registration.',
+      i:'Causal design is where human expertise is least replaceable. The AI helps generate materials — but the causal logic (why THIS intervention should cause THAT outcome) must come from the researcher.'
+    },
+    { num:'02', name:'Sample Selection', badge:'hybrid', bc:'badge-hybrid',
+      h:'Determine randomization strategy. For AI education: balance across prior AI experience, academic ability, motivation. Identify moderators that require balanced representation.',
+      a:'Run power analyses for desired effect sizes. Generate synthetic data to stress-test the experimental design. Identify confounds from published literature.',
+      i:'Human makes theoretical calls (which moderators matter for learning). AI handles statistical engineering (sample size, randomization checks, power).'
+    },
+    { num:'03', name:'Data Collection', badge:'human-led', bc:'badge-human',
+      h:'Administer experiment with fidelity. Monitor manipulation compliance, attrition, contamination. In education: ensure students in control condition don\'t access AI tools independently.',
+      a:'Generate synthetic pilot data to stress-test protocol. Monitor incoming data for compliance issues. Flag potential threats to internal validity in real-time.',
+      i:'Arora et al.: LLMs inappropriate for PII and vulnerable populations. Educational research often involves minors or protected student data — human oversight is non-negotiable.'
+    },
+    { num:'04', name:'Data Analysis', badge:'hybrid', bc:'badge-hybrid',
+      h:'Interpret causal effects within educational framework. Does the AI intervention actually cause learning gains? What\'s the mechanism? What are the boundary conditions? Connect to policy implications.',
+      a:'Run analyses (ANOVA, regression, mediation/moderation). Sensitivity analyses. Generate visualizations. Compare effect sizes to published education intervention benchmarks.',
+      i:'The hybrid shines: AI processes at speed, human interprets meaning. For causal claims in education: statistical significance must translate to pedagogically meaningful improvement.'
+    }
+  ]
+};
+
+function runSimulator() {
+  const topic = document.getElementById('topicInput').value.trim() || 'AI-assisted personalized learning interventions in higher education';
+  const stages = PIPES[selectedType];
+  const out = document.getElementById('pipelineOutput');
+  let html = `<div class="stag"><span>generated pipeline — ${selectedType}</span><div class="ms"><i></i><i></i><i></i></div></div>`;
+  html += `<h2 style="margin-bottom:4px;">Pipeline: ${topic}</h2>`;
+  html += `<p class="sub">Based on Arora et al. (2025) Table 1. Click each stage to expand human vs. AI roles.</p>`;
+  stages.forEach((s,i) => {
+    html += `<div class="stage-card"><div class="stage-head" onclick="toggle(${i})"><span class="stage-num">${s.num}</span><span class="stage-name">${s.name}</span><span class="stage-badge ${s.bc}">${s.badge}</span></div><div class="stage-detail" id="d-${i}"><div class="role-row"><div class="role-box human"><h5>bella 1.0 — human</h5><p>${s.h}</p></div><div class="role-box ai"><h5>opus 4.6 — ai</h5><p>${s.a}</p></div></div><div class="dark-box" style="margin-top:10px;padding:14px 18px;"><h4>hybrid insight</h4><p><span>${s.i}</span></p></div></div></div>`;
+  });
+  html += `<div class="dark-box" style="margin-top:20px;"><h4>what this demonstrates</h4><p>This pipeline was generated by the method it describes: <span>Bella directed the research question and theoretical framing; Opus structured the pipeline and mapped Arora's framework</span>. The tool is the proof of concept.</p><p style="margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--gold);">growth × rigor = insight</p></div>`;
+  out.innerHTML = html;
+  out.classList.add('visible');
+  out.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function toggle(i) {
+  document.getElementById('d-'+i).classList.toggle('open');
+}
+</script>
+</body>
+</html>

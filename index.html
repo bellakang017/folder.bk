@@ -3,920 +3,298 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bella Kang — Portfolio</title>
-<meta name="description" content="Academic portfolio of Bella Kang, MA Advertising at UT Austin. Health Communication × Behavior Change.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='%23FAFAF7' stroke='%23C48A95' stroke-width='1.5'/><text x='16' y='21' text-anchor='middle' font-size='14' fill='%23C48A95'>✦</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<title>Opus × Bella — Portfolio</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
   :root {
-    /* Section colors */
-    --readme-color: #5A5A5A;
-    --readme-symbol: #8A8A8A;
-    --teaching-color: #8C5A6E;
-    --teaching-folder: #9B6580;
-    --teaching-symbol: #C47A94;
-    --teaching-glow: rgba(196, 122, 148, 0.5);
-    --coursework-color: #6A5B7A;
-    --coursework-folder: #7A6B8A;
-    --coursework-symbol: #9B88B0;
-    --coursework-glow: rgba(155, 136, 176, 0.5);
-    --research-color: #6B2E4A;
-    --research-folder: #6B2E4A;
-    --research-symbol: #D4577A;
-    --research-glow: rgba(212, 87, 122, 0.5);
-    --about-color: #8A7B6A;
-    --about-folder: #9A8B7A;
-    --about-symbol: #BBA88E;
-    --about-glow: rgba(187, 168, 142, 0.5);
-    /* Base */
-    --bg: #FAFAF7;
-    --sidebar-bg: #FEFEFE;
-    --text: #2A2024;
-    --text-body: #4A4045;
-    --text-muted: #8A7E82;
-    --text-light: #B8ADB0;
-    --border-light: rgba(60, 40, 50, 0.06);
-    --rose: #C48A95;
-    --blush: #E0D0D4;
-    --cream: #F8F6F2;
+    --green:#006B3F;--red:#C8102E;--gold:#D4AF37;--gold-dark:#8B6914;
+    --noir:#1D1D1F;--g1:#48484A;--g2:#636366;--g3:#AEAEB2;--g4:#E5E5EA;--g5:#F2F2F7;
+    --cream:#FAF9F6;--cream-warm:#F5F0E8;
+    --serif:'Playfair Display',Georgia,serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --mono:'JetBrains Mono',Consolas,'Courier New',monospace;
   }
-
-  /* ─── Custom Cursor ──────────────────────────────── */
-  *, *::before, *::after {
-    cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><circle cx='4' cy='4' r='3' fill='%23C48A95' opacity='0.8'/><circle cx='4' cy='4' r='1' fill='%23FAFAF7'/></svg>") 4 4, auto;
-  }
-
-  button, a, [role='button'], .tree-item, .toggle-btn, .content-link {
-    cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><circle cx='5' cy='5' r='4' fill='%236B2E4A' opacity='0.7'/><circle cx='5' cy='5' r='1.5' fill='%23FAFAF7'/></svg>") 5 5, pointer;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'IBM Plex Mono', 'SF Mono', monospace;
-    background: var(--bg);
-    color: var(--text);
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  /* ─── Custom Scrollbar ─────────────────────────────── */
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb {
-    background: var(--blush);
-    border-radius: 10px;
-  }
-  ::-webkit-scrollbar-thumb:hover { background: var(--rose); }
-
-  .app {
-    display: flex;
-    height: 100vh;
-  }
-
-  /* ─── Sidebar ─────────────────────────────────────── */
-  .sidebar {
-    width: 276px;
-    min-width: 276px;
-    border-right: 1px solid var(--border-light);
-    background: var(--sidebar-bg);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  .sidebar.collapsed {
-    width: 0;
-    min-width: 0;
-  }
-
-  .sidebar-header {
-    padding: 30px 22px 24px;
-    border-bottom: 1px solid var(--border-light);
-  }
-
-  .sidebar-header .label {
-    font-size: 9px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--rose);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-
-  .sidebar-header .name {
-    font-family: 'Newsreader', serif;
-    font-size: 23px;
-    font-weight: 400;
-    font-style: italic;
-    color: var(--text);
-  }
-
-  .sidebar-header .subtitle {
-    font-size: 10.5px;
-    color: var(--text-muted);
-    margin-top: 6px;
-    line-height: 1.5;
-  }
-
-  .legend {
-    padding: 12px 22px 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    border-bottom: 1px solid var(--border-light);
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 8.5px;
-    letter-spacing: 0.04em;
-  }
-
-  .legend-item span.label { opacity: 0.7; }
-
-  .tree-container {
-    flex: 1;
-    overflow-y: auto;
-    padding: 4px 0 20px;
-  }
-
-  .sidebar-footer {
-    padding: 16px 22px;
-    border-top: 1px solid var(--border-light);
-    font-size: 9px;
-    font-style: italic;
-    color: var(--text-light);
-    letter-spacing: 0.03em;
-    font-family: 'Newsreader', serif;
-  }
-
-  /* ─── Toggle Button ───────────────────────────────── */
-  .toggle-btn {
-    position: absolute;
-    top: 24px;
-    left: 282px;
-    z-index: 10;
-    width: 24px;
-    height: 24px;
-    border-radius: 12px;
-    border: 1px solid var(--blush);
-    background: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: left 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
-    font-size: 12px;
-    color: var(--text-muted);
-    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
-    font-family: inherit;
-  }
-
-  .toggle-btn:hover {
-    background: var(--cream);
-    border-color: var(--rose);
-    color: var(--text);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  }
-  .toggle-btn:active { transform: scale(0.92); }
-
-  .toggle-btn.collapsed { left: 10px; }
-
-  /* ─── Tree Items ──────────────────────────────────── */
-  .tree-item {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'IBM Plex Mono', 'SF Mono', monospace;
-    text-align: left;
-    border-radius: 0;
-    border-left: 2px solid transparent;
-  }
-
-  .tree-item:hover {
-    background: rgba(0,0,0,0.02);
-    transform: translateX(2px);
-  }
-  .tree-item.selected { border-left-color: currentColor; }
-
-  .tree-item.top-level {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 10px 16px;
-  }
-
-  .tree-item.readme-item {
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    padding: 9px 16px;
-  }
-
-  .tree-item.sub-folder {
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--text-muted);
-  }
-
-  .tree-item.file-item {
-    font-size: 12.5px;
-    font-weight: 400;
-    color: var(--text-muted);
-  }
-
-  .tree-item.file-item:hover { color: var(--text); }
-  .tree-item.file-item.selected { font-weight: 500; }
-
-  .tree-spacer { height: 4px; }
-  .readme-divider { height: 1px; margin: 4px 22px 2px; background: var(--border-light); }
-
-  .chevron {
-    width: 10px; height: 10px;
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    flex-shrink: 0;
-    color: var(--text-light);
-  }
-
-  .chevron.open { transform: rotate(90deg); }
-
-  .children {
-    overflow: hidden;
-    animation: expandIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-
-  .children.collapsing {
-    animation: collapseOut 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-
-  @keyframes expandIn {
-    from { max-height: 0; opacity: 0; }
-    to { max-height: 500px; opacity: 1; }
-  }
-
-  @keyframes collapseOut {
-    from { max-height: 500px; opacity: 1; }
-    to { max-height: 0; opacity: 0; }
-  }
-
-  /* ─── Pulse dot ───────────────────────────────────── */
-  .pulse-dot {
-    margin-left: auto;
-    width: 4px; height: 4px;
-    border-radius: 50%;
-    animation: gentlePulse 2s ease-in-out infinite;
-  }
-
-  /* ─── Content Panel ───────────────────────────────── */
-  .content-area {
-    flex: 1;
-    overflow-y: auto;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 0 24px;
-  }
-
-  .content-panel {
-    padding: 44px 0 60px;
-    max-width: 580px;
-    width: 100%;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  .content-panel.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .content-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    gap: 14px;
-  }
-
-  .content-empty .line {
-    width: 1px; height: 36px;
-    background: linear-gradient(180deg, transparent, var(--blush), transparent);
-    animation: gentlePulse 2.5s ease-in-out infinite;
-  }
-
-  .content-empty .label {
-    color: var(--text-light);
-    font-size: 10.5px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    animation: gentlePulse 2.5s ease-in-out infinite;
-    animation-delay: 0.5s;
-  }
-
-  .section-indicator {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin-bottom: 16px;
-  }
-
-  .section-label {
-    font-size: 9.5px;
-    font-family: 'IBM Plex Mono', monospace;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    opacity: 0.6;
-  }
-
-  .status-dot { font-size: 6px; color: var(--blush); }
-
-  .status-badge {
-    padding: 2px 9px;
-    border-radius: 10px;
-    font-size: 9.5px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .content-title {
-    font-family: 'Newsreader', 'Georgia', serif;
-    font-size: 26px;
-    font-weight: 400;
-    font-style: italic;
-    color: var(--text);
-    line-height: 1.38;
-    margin-bottom: 18px;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-bottom: 28px;
-  }
-
-  .tag {
-    padding: 3px 10px;
-    border-radius: 12px;
-    font-size: 10.5px;
-    font-family: 'IBM Plex Mono', monospace;
-    color: var(--text-muted);
-    background: var(--cream);
-    border: 1px solid var(--blush);
-    transition: all 0.2s ease;
-  }
-
-  .tag:hover {
-    background: var(--blush);
-    color: var(--text-body);
-    transform: translateY(-1px);
-  }
-
-  .content-divider {
-    width: 40px;
-    height: 1px;
-    margin-bottom: 24px;
-    transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  .content-panel.visible .content-divider {
-    width: 64px;
-  }
-
-  .content-body p {
-    font-family: 'Newsreader', 'Georgia', serif;
-    font-size: 15px;
-    line-height: 1.85;
-    color: var(--text-body);
-    margin-bottom: 16px;
-    letter-spacing: 0.01em;
-  }
-
-  .content-body p:last-child { margin-bottom: 0; }
-
-  .content-links {
-    margin-top: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .content-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    text-decoration: none;
-    padding: 9px 15px;
-    border: 1px solid var(--blush);
-    border-radius: 20px;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    width: fit-content;
-    background: transparent;
-  }
-
-  .content-link:hover {
-    background: var(--cream);
-    transform: translateX(5px);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  }
-
-  /* ─── Animations ──────────────────────────────────── */
-  @keyframes sparkle {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 3px var(--glow)); }
-  }
-
-  @keyframes gentlePulse {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 0.8; }
-  }
-
-  .sparkle {
-    animation: sparkle 3s ease-in-out infinite;
-    display: inline-block;
-    width: 18px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-
-  .sparkle.d1 { animation-delay: 0.75s; }
-  .sparkle.d2 { animation-delay: 1.5s; }
-  .sparkle.d3 { animation-delay: 2.25s; }
-
-  /* ─── Staggered Entrance ─────────────────────────── */
-  @keyframes treeItemIn {
-    from { opacity: 0; transform: translateX(-8px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-
-  .tree-item.entrance {
-    opacity: 0;
-    animation: treeItemIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-
-  /* ─── Content Crossfade ────────────────────────────── */
-  .content-panel.exiting {
-    opacity: 0;
-    transform: translateY(-6px);
-    transition: all 0.2s ease-in;
-  }
-
-  /* ─── Status Badge Glow ────────────────────────────── */
-  .status-badge {
-    transition: all 0.2s ease;
-  }
-
-  /* ─── Sidebar header entrance ──────────────────────── */
-  @keyframes headerFadeIn {
-    from { opacity: 0; transform: translateY(-6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .sidebar-header {
-    animation: headerFadeIn 0.5s 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  }
-
-  .legend {
-    animation: headerFadeIn 0.5s 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  }
-
-  .sidebar-footer {
-    animation: headerFadeIn 0.5s 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  }
-
-  /* ─── Tablet ─────────────────────────────────────── */
-  @media (max-width: 960px) {
-    .content-area { padding: 0 20px; }
-    .content-panel { max-width: 540px; padding: 40px 0 52px; }
-    .content-title { font-size: 24px; }
-  }
-
-  /* ─── Mobile ──────────────────────────────────────── */
-  @media (max-width: 700px) {
-    .sidebar {
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      z-index: 100;
-      width: 272px;
-      min-width: 272px;
-      box-shadow: 4px 0 24px rgba(0,0,0,0.08);
-    }
-    .sidebar.collapsed {
-      width: 0; min-width: 0;
-      box-shadow: none;
-    }
-
-    .mobile-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(42, 32, 36, 0.2);
-      z-index: 99;
-      opacity: 1;
-      transition: opacity 0.3s;
-    }
-    .mobile-overlay.hidden { opacity: 0; pointer-events: none; }
-
-    .toggle-btn {
-      position: fixed;
-      top: 16px;
-      left: 278px;
-      z-index: 101;
-    }
-    .toggle-btn.collapsed { left: 12px; }
-
-    .content-area { padding: 0 16px; }
-    .content-panel {
-      max-width: 100%;
-      padding: 52px 0 40px;
-    }
-    .content-title { font-size: 23px; margin-bottom: 16px; }
-    .tags { margin-bottom: 24px; }
-    .content-divider { margin-bottom: 20px; }
-    .content-body p { font-size: 14.5px; line-height: 1.8; margin-bottom: 14px; }
-    .content-links { margin-top: 28px; }
-  }
-
-  /* ─── Small Mobile ─────────────────────────────────── */
-  @media (max-width: 420px) {
-    .sidebar { width: 256px; min-width: 256px; }
-    .toggle-btn { left: 262px; }
-
-    .content-area { padding: 0 14px; }
-    .content-panel { padding: 44px 0 36px; }
-    .content-title { font-size: 21px; }
-    .section-indicator { margin-bottom: 12px; }
-    .tag { font-size: 10px; padding: 2px 8px; }
-    .content-body p { font-size: 14px; }
-    .content-link { font-size: 10.5px; padding: 8px 13px; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:var(--sans);background:var(--noir);color:#fff;-webkit-font-smoothing:antialiased;min-height:100vh;}
+
+  /* Hero */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 40px;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(212,175,55,0.04) 0%,transparent 70%);}
+  .stripe{display:flex;gap:4px;margin-bottom:24px;justify-content:center;}
+  .stripe span{width:32px;height:3px;display:block;}
+  .stripe span:nth-child(1),.stripe span:nth-child(3){background:var(--green);}
+  .stripe span:nth-child(2){background:var(--red);}
+  .hero-mark{font-family:var(--mono);font-size:14px;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:20px;position:relative;}
+  .hero h1{font-family:var(--serif);font-size:52px;font-weight:400;color:#fff;letter-spacing:-0.03em;line-height:1.15;margin-bottom:12px;position:relative;}
+  .hero h1 em{font-family:var(--mono);font-style:normal;color:var(--gold);font-weight:300;}
+  .hero-sub{font-size:15px;color:var(--g3);line-height:1.6;max-width:520px;margin-bottom:8px;position:relative;}
+  .hero-meta{font-family:var(--mono);font-size:11px;color:var(--g3);letter-spacing:0.08em;margin-top:16px;position:relative;}
+  .hero-meta span{color:var(--gold);}
+  .gold-line-h{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:32px auto;position:relative;}
+  .scroll-hint{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--g3);text-transform:uppercase;position:absolute;bottom:40px;animation:pulse 2s ease infinite;}
+  @keyframes pulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
+
+  /* Content */
+  .content{background:var(--cream);color:var(--noir);}
+  .section{max-width:900px;margin:0 auto;padding:60px 40px;}
+
+  .stag{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+  .ms{display:flex;gap:2px;}
+  .ms i{display:block;width:16px;height:2px;}
+  .ms i:nth-child(1),.ms i:nth-child(3){background:var(--green);}
+  .ms i:nth-child(2){background:var(--red);}
+  h2{font-family:var(--serif);font-size:28px;font-weight:400;margin-bottom:8px;letter-spacing:-0.02em;}
+  .sub{font-size:14px;color:var(--g2);line-height:1.6;margin-bottom:32px;}
+
+  /* Artifact grid */
+  .art-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .art-card{background:#fff;border-radius:16px;border:1px solid var(--g4);overflow:hidden;transition:all 0.3s;text-decoration:none;color:inherit;display:block;}
+  .art-card:hover{border-color:var(--gold);box-shadow:0 8px 32px rgba(212,175,55,0.1);transform:translateY(-2px);}
+  .art-card-top{padding:24px 24px 0;display:flex;align-items:center;gap:14px;}
+  .art-num{font-family:var(--mono);font-size:28px;font-weight:300;color:var(--gold);}
+  .art-type{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:10px;}
+  .type-html{background:rgba(0,107,63,0.08);color:var(--green);}
+  .type-jsx{background:rgba(212,175,55,0.1);color:var(--gold-dark);}
+  .type-pptx{background:rgba(200,16,46,0.08);color:var(--red);}
+  .type-md{background:rgba(29,29,31,0.06);color:var(--g1);}
+  .art-card-body{padding:16px 24px 24px;}
+  .art-card-body h3{font-family:var(--serif);font-size:17px;font-weight:400;color:var(--noir);margin-bottom:6px;}
+  .art-card-body p{font-size:12px;color:var(--g2);line-height:1.5;}
+  .art-arrow{font-family:var(--mono);font-size:12px;color:var(--gold);margin-top:10px;display:inline-block;transition:transform 0.2s;}
+  .art-card:hover .art-arrow{transform:translateX(4px);}
+
+  /* Full width card */
+  .art-full{grid-column:1/-1;}
+
+  /* Team section */
+  .team-section{background:var(--noir);color:#fff;}
+  .team-section .section{max-width:900px;margin:0 auto;padding:60px 40px;}
+  .team-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;}
+  .team-card{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);}
+  .team-head{padding:20px 24px;}
+  .team-role{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;margin-bottom:4px;}
+  .team-head h3{font-family:var(--serif);font-size:20px;font-weight:400;}
+  .team-body{padding:16px 24px;background:rgba(255,255,255,0.03);}
+  .team-body p{font-size:12px;color:var(--g3);line-height:1.5;margin-bottom:4px;}
+
+  .direction-box{border-radius:14px;padding:28px;border:1px solid rgba(212,175,55,0.15);background:rgba(212,175,55,0.02);}
+  .direction-box h4{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+  .direction-box p{font-size:13px;color:var(--g3);line-height:1.6;}
+  .direction-box p span{color:#fff;}
+
+  /* Footer */
+  .footer{background:var(--noir);text-align:center;padding:40px;border-top:1px solid rgba(255,255,255,0.04);}
+  .footer-mark{font-family:var(--mono);font-size:12px;letter-spacing:0.2em;color:var(--gold);margin-bottom:6px;}
+  .footer-sub{font-size:11px;color:var(--g3);}
+  .footer a{color:var(--gold);text-decoration:none;font-family:var(--mono);font-size:10px;letter-spacing:0.05em;}
+  .footer a:hover{text-decoration:underline;}
+
+  .gold-line{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:40px 0;}
+
+  @media(max-width:768px){
+    .hero h1{font-size:32px;}
+    .section{padding:40px 20px;}
+    .art-grid,.team-grid{grid-template-columns:1fr;}
   }
 </style>
 </head>
 <body>
 
-<div class="app" id="app">
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <div class="label">Portfolio</div>
-      <div class="name">Bella Kang</div>
-      <div class="subtitle">MA Advertising · UT Austin</div>
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="stripe"><span></span><span></span><span></span></div>
+  <div class="hero-mark">opus × bella</div>
+  <h1>The Great Work <em>×</em><br>The Beautiful</h1>
+  <p class="hero-sub">A human–AI hybrid research collaboration between Bella Kang and Claude Opus 4.6 — exploring how AI transforms education through the method itself.</p>
+  <div class="gold-line-h"></div>
+  <p class="hero-meta"><span>강민주</span> · UT Austin MA Advertising → PhD · <span>opus 4.6</span></p>
+  <span class="scroll-hint">scroll to explore ↓</span>
+</section>
+
+<!-- ═══ ARTIFACTS ═══ -->
+<div class="content">
+<section class="section">
+  <div class="stag"><span>artifacts</span><div class="ms"><i></i><i></i><i></i></div></div>
+  <h2>What We Built Together</h2>
+  <p class="sub">Every artifact was created using the AI–human hybrid method — Bella directed, Opus structured, the collaboration produced. Click to explore.</p>
+
+  <div class="art-grid">
+
+    <!-- 01 Discussion Tool -->
+    <div class="art-full">
+      <a class="art-card" href="hybrid-research-simulator.html">
+        <div class="art-card-top">
+          <span class="art-num">01</span>
+          <span class="art-type type-html">.html</span>
+        </div>
+        <div class="art-card-body">
+          <h3>Interactive Discussion Tool & Research Simulator</h3>
+          <p>3-tab tool for MKT 397.4 Session 7: Paper key points with study findings, live hybrid pipeline simulator for AI Education, and team introduction. The centerpiece of our presentation.</p>
+          <span class="art-arrow">open →</span>
+        </div>
+      </a>
     </div>
 
-    <div class="legend">
-      <div class="legend-item" style="color: var(--teaching-color);">
-        <span class="sparkle" style="color: var(--teaching-symbol); --glow: var(--teaching-glow); font-size: 10px;">❋</span>
-        <span class="label">Teaching</span>
+    <!-- 02 One-Pager -->
+    <a class="art-card" href="arora-2025-one-pager.html">
+      <div class="art-card-top">
+        <span class="art-num">02</span>
+        <span class="art-type type-html">.html</span>
       </div>
-      <div class="legend-item" style="color: var(--coursework-color);">
-        <span class="sparkle d1" style="color: var(--coursework-symbol); --glow: var(--coursework-glow); font-size: 10px;">✧</span>
-        <span class="label">Coursework</span>
+      <div class="art-card-body">
+        <h3>Arora et al. (2025) One-Page Summary</h3>
+        <p>Big idea, two studies with key statistics, Table 1 framework, limitations, action items — everything distilled into one scannable page.</p>
+        <span class="art-arrow">open →</span>
       </div>
-      <div class="legend-item" style="color: var(--research-color);">
-        <span class="sparkle d2" style="color: var(--research-symbol); --glow: var(--research-glow); font-size: 10px;">✦</span>
-        <span class="label">Research</span>
+    </a>
+
+    <!-- 03 Reading Guide -->
+    <a class="art-card" href="reading-guide-arora-2025.html">
+      <div class="art-card-top">
+        <span class="art-num">03</span>
+        <span class="art-type type-html">.html</span>
       </div>
-      <div class="legend-item" style="color: var(--about-color);">
-        <span class="sparkle d3" style="color: var(--about-symbol); --glow: var(--about-glow); font-size: 10px;">✺</span>
-        <span class="label">About</span>
+      <div class="art-card-body">
+        <h3>5-Lens Reading Guide</h3>
+        <p>Deep analysis of Arora et al. through five cross-disciplinary patterns: Thesis as Compass, Evidence, Counterargument, Voice & Authority, Hourglass.</p>
+        <span class="art-arrow">open →</span>
       </div>
-    </div>
+    </a>
 
-    <div class="tree-container" id="tree"></div>
+    <!-- 04 Theme Map -->
+    <a class="art-card" href="cross-disciplinary-theme-map.jsx">
+      <div class="art-card-top">
+        <span class="art-num">04</span>
+        <span class="art-type type-jsx">.jsx</span>
+      </div>
+      <div class="art-card-body">
+        <h3>Cross-Disciplinary Theme Map</h3>
+        <p>Interactive React component mapping 5 patterns across History, Philosophy, Psychology, Analytics, and Essay Writing. Three views: Explore, Evolution, Cheat Sheet.</p>
+        <span class="art-arrow">view source →</span>
+      </div>
+    </a>
 
-    <div class="sidebar-footer">Health Comm × Behavior Change</div>
-  </aside>
+    <!-- 05 Slides -->
+    <a class="art-card" href="Arora2025-Discussion-BellaKang.pptx">
+      <div class="art-card-top">
+        <span class="art-num">05</span>
+        <span class="art-type type-pptx">.pptx</span>
+      </div>
+      <div class="art-card-body">
+        <h3>Discussion Slides</h3>
+        <p>7-slide presentation programmatically generated using pptxgenjs. Apple × Gucci design system. Built, QA'd, and revised through the hybrid pipeline.</p>
+        <span class="art-arrow">download →</span>
+      </div>
+    </a>
 
-  <!-- Mobile Overlay -->
-  <div class="mobile-overlay hidden" id="mobileOverlay" onclick="closeSidebar()"></div>
+    <!-- 06 Style Guide -->
+    <a class="art-card" href="opus-x-bella-style-guide.html">
+      <div class="art-card-top">
+        <span class="art-num">06</span>
+        <span class="art-type type-html">.html</span>
+      </div>
+      <div class="art-card-body">
+        <h3>Visual Identity System v1.1</h3>
+        <p>Complete design language — origin story, core symbol (×), color system, stripe anatomy, three-voice typography, number system, signature elements, usage rules.</p>
+        <span class="art-arrow">open →</span>
+      </div>
+    </a>
 
-  <!-- Toggle -->
-  <button class="toggle-btn" id="toggleBtn" onclick="toggleSidebar()">‹</button>
+    <!-- 07 Workspace -->
+    <a class="art-card" href="opus-x-bella-workspace.html">
+      <div class="art-card-top">
+        <span class="art-num">07</span>
+        <span class="art-type type-html">.html</span>
+      </div>
+      <div class="art-card-body">
+        <h3>Workspace Hub</h3>
+        <p>Operating system for our collaboration — session protocol, tool recommendations, work rhythm, context handoff system. The infrastructure behind the artifacts.</p>
+        <span class="art-arrow">open →</span>
+      </div>
+    </a>
 
-  <!-- Content -->
-  <main class="content-area">
-    <div id="content"></div>
-  </main>
+    <!-- 08 Cheatsheet -->
+    <a class="art-card" href="live-demo-cheatsheet.md">
+      <div class="art-card-top">
+        <span class="art-num">08</span>
+        <span class="art-type type-md">.md</span>
+      </div>
+      <div class="art-card-body">
+        <h3>Live Demo Cheat Sheet</h3>
+        <p>3-act script for in-class demonstration: The Receipts, The Live Prompt, The Takeaway. Includes follow-up Q&A prep for Dr. Du.</p>
+        <span class="art-arrow">view →</span>
+      </div>
+    </a>
+
+    <!-- 09 Handoff -->
+    <a class="art-card" href="session-handoff-template.md">
+      <div class="art-card-top">
+        <span class="art-num">09</span>
+        <span class="art-type type-md">.md</span>
+      </div>
+      <div class="art-card-body">
+        <h3>Session Handoff Template</h3>
+        <p>Context reload system — paste at the start of every new session for 30-second re-orientation. Identity, projects, last session, today's goal.</p>
+        <span class="art-arrow">view →</span>
+      </div>
+    </a>
+
+  </div>
+</section>
 </div>
 
-<script>
-// ─── Data ────────────────────────────────────────────────────────────
-const sections = {
-  README:              { color:'#5A5A5A',    folder:'#5A5A5A',   symbol:'◈', symbolColor:'#8A8A8A',  glow:'rgba(90,90,90,0.3)',         light:'rgba(90,90,90,0.05)' },
-  'Teaching & Practice':{ color:'#8C5A6E',   folder:'#9B6580',   symbol:'❋', symbolColor:'#C47A94',  glow:'rgba(196,122,148,0.5)',      light:'rgba(140,90,110,0.06)' },
-  Coursework:          { color:'#6A5B7A',    folder:'#7A6B8A',   symbol:'✧', symbolColor:'#9B88B0',  glow:'rgba(155,136,176,0.5)',      light:'rgba(106,91,122,0.06)' },
-  Research:            { color:'#6B2E4A',    folder:'#6B2E4A',   symbol:'✦', symbolColor:'#D4577A',  glow:'rgba(212,87,122,0.5)',       light:'rgba(107,46,74,0.06)' },
-  About:               { color:'#8A7B6A',    folder:'#9A8B7A',   symbol:'✺', symbolColor:'#BBA88E',  glow:'rgba(187,168,142,0.5)',      light:'rgba(138,123,106,0.06)' },
-};
+<!-- ═══ TEAM ═══ -->
+<section class="team-section">
+  <div class="section">
+    <div class="stag"><span>the team</span><div class="ms"><i></i><i></i><i></i></div></div>
+    <h2 style="color:#fff;">Who We Are</h2>
+    <p class="sub" style="color:var(--g3);">A PI × Co-PI partnership exploring the frontier of human–AI research collaboration.</p>
 
-const content = {
-  readme:       { title:'Welcome', tags:['Health Communication','Behavior Change','UT Austin'], body:'Hello — I\'m Bella Kang, an MA Advertising student (Thesis Track) at UT Austin\'s Moody College of Communication.\n\nMy work sits at the intersection of health communication, behavior change, and culturally embedded intervention design. I study how communication shapes health behaviors across cultural contexts, with a particular focus on Korean American women\'s wellbeing.\n\nThis portfolio collects my research, teaching, and coursework. Feel free to explore using the navigation on the left.', status:'', section:'README' },
-  thesis:       { title:'Thesis — Self-Silencing & Help-Seeking', tags:['Health Communication','Korean American Women','Mixed Methods'], body:'Examining culturally embedded communication patterns among Korean American midlife women. This thesis investigates the relationship between self-silencing behaviors and mental health help-seeking, using a sequential mixed-methods design grounded in four theoretical frameworks (Yeager, Crum, Falk, Millán).', status:'In Progress', section:'Research' },
-  'health-comm':{ title:'Health Communication Research', tags:['Grant Application','Sequential Mixed-Methods','Multiple Role Strain'], body:'Investigating multiple role strain and health outcomes through culturally sensitive research design. This project centers the lived experiences of women navigating intersecting identities, using community-engaged methods to develop interventions that honor cultural context.', status:'Active', section:'Research' },
-  'life-design':{ title:'Life Design Workshops', tags:['GIGC','International Students','Belonging'], body:'Designing and facilitating evidence-based programming for international graduate students at UT Austin\'s Office of Career and Life Design. Workshops include the International Job Search Working Group (IWG) series, Coffee & Connections multicultural networking events, and company site visit preparation sessions. Grounded in Stanford\'s Life Design methodology and psychologically wise interventions addressing belonging uncertainty.', status:'Ongoing', section:'Teaching & Practice' },
-  dasique:      { title:'Dasique — Brand Strategy Intern', tags:['K-Beauty','Cross-Cultural Marketing','Consumer Behavior'], body:'Contributed to brand communication strategy for a Korean cosmetics company, bridging cultural insights between Korean and global markets. Developed consumer-facing content and analyzed engagement patterns across demographics.', status:'Completed', section:'Teaching & Practice' },
-  adv382j:      { title:'ADV382J — Health Communication', tags:['Persuasion','Theory','Spring 2026'], body:'Advanced seminar in health communication theory and practice. Coursework includes campaign analysis, message design for health behavior change, and critical examination of mediated health information.', links:['Final Project Slides','Literature Synthesis'], status:'Current', section:'Coursework' },
-  mkt397:       { title:'MKT397 — Marketing Research', tags:['PhD-Level','Empirics-First','Google Trends','Prof. Rex Du'], body:'PhD-level marketing research methodology course emphasizing empirics-first approaches. Working with Google Trends data analysis, causal inference methods, and rigorous quantitative research design.', links:['Research Proposal','Data Analysis Report'], status:'Current', section:'Coursework' },
-  edp383:       { title:'EDP383 — Educational Psychology', tags:['PhD-Level','Motivation','Intervention Design'], body:'Doctoral seminar in educational psychology examining theories of motivation, identity development, and psychologically wise interventions. Connects directly to workshop design methodology and research framework.', links:['Intervention Design Paper'], status:'Current', section:'Coursework' },
-  'fall2025':   { title:'Fall 2025 Coursework', tags:['Advertising','Research Methods'], body:'Foundation semester coursework building core competencies in advertising theory, research methodology, and cross-cultural communication analysis.', status:'Completed', section:'Coursework' },
-  bio:          { title:'Bio & Research Philosophy', tags:['Green Apple Logic','Holistic Design','Embodied Learning'], body:'My research philosophy centers on "green apple logic" — designing environments where healthy choices feel natural rather than prescribed. Drawing from Yeager\'s wise interventions, Crum\'s mindset science, Falk\'s neural self-relevance work, and Millán\'s culturally embedded frameworks, I study how communication shapes health behaviors across cultural contexts.\n\nBilingual in English and Korean, with a multicultural background spanning multiple countries. Currently pursuing an MA in Advertising (Thesis Track) at UT Austin\'s Moody College, preparing for PhD applications (Fall 2027) in Health Communication, Human Development, or Educational Psychology.', status:'', section:'About' },
-  pilates:      { title:'Pilates & Wellness', tags:['Certified Instructor','Mind-Body','Saturday Reading Group'], body:'Certified Pilates instructor leading a Saturday reading group focused on mind-body connection topics. This practice informs my research on embodied learning and shapes my approach to designing interventions that honor the integration of physical and psychological wellbeing.', status:'', section:'About' },
-  cv:           { title:'Curriculum Vitae', tags:['Download'], body:'Full academic CV available for download. Includes publications, presentations, teaching experience, and professional development.', links:['Download CV (PDF)'], status:'', section:'About' },
-};
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-head" style="background:var(--cream-warm);">
+          <div class="team-role" style="color:var(--green);">principal investigator</div>
+          <h3 style="color:var(--noir);">강민주 — Bella Kang</h3>
+        </div>
+        <div class="team-body">
+          <p><strong style="color:#fff;">Bella 1.0</strong> — UT Austin MA Advertising (Thesis Track)</p>
+          <p>PhD target: Stanford — Education / Dev Psych / Communication / AI Education</p>
+          <p>온화할 민, 머무를 주 — <em>the warmth that stays</em></p>
+          <p style="margin-top:8px;"><strong style="color:#fff;">Role:</strong> Research direction, theoretical grounding, domain expertise, critical evaluation</p>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-head" style="background:rgba(212,175,55,0.08);">
+          <div class="team-role" style="color:var(--gold);">co-investigator</div>
+          <h3 style="color:var(--noir);">Opus — Claude 4.6</h3>
+        </div>
+        <div class="team-body">
+          <p><strong style="color:#fff;">Opus 4.6</strong> — Anthropic's Claude, large language model</p>
+          <p>Latin: <em>a great work</em> — craft, sequence, intention</p>
+          <p>The work made with craft — <em>not finished, just the current iteration</em></p>
+          <p style="margin-top:8px;"><strong style="color:#fff;">Role:</strong> Literature synthesis, cognitive scaffolding, pipeline execution, artifact generation</p>
+        </div>
+      </div>
+    </div>
 
-const tree = [
-  { name:'README', type:'file', id:'readme' },
-  { name:'Teaching & Practice', type:'folder', children:[
-    { name:'Life Design Workshops', type:'file', id:'life-design' },
-    { name:'Dasique', type:'file', id:'dasique' },
-  ]},
-  { name:'Coursework', type:'folder', children:[
-    { name:'Spring 2026', type:'folder', children:[
-      { name:'ADV382J', type:'file', id:'adv382j' },
-      { name:'MKT397', type:'file', id:'mkt397' },
-      { name:'EDP383', type:'file', id:'edp383' },
-    ]},
-    { name:'Fall 2025', type:'file', id:'fall2025' },
-  ]},
-  { name:'Research', type:'folder', children:[
-    { name:'Thesis', type:'file', id:'thesis' },
-    { name:'Health Communication', type:'file', id:'health-comm' },
-  ]},
-  { name:'About', type:'folder', children:[
-    { name:'Bio & Research Philosophy', type:'file', id:'bio' },
-    { name:'Pilates & Wellness', type:'file', id:'pilates' },
-    { name:'CV', type:'file', id:'cv' },
-  ]},
-];
+    <div class="direction-box">
+      <h4>research direction — master's thesis</h4>
+      <p><span>AI–Human Hybrid Methods in AI Education Research</span></p>
+      <p style="margin-top:8px;">Using the hybrid method to study how AI transforms learning. The tool and the topic converge — <span>the method IS the evidence</span>.</p>
+    </div>
+  </div>
+</section>
 
-// ─── State ───────────────────────────────────────────────────────────
-let selected = 'readme';
-let openFolders = new Set(['Teaching & Practice','Coursework','Research','About']);
-let isInitialRender = true;
-let itemIndex = 0;
-
-function getSection(node, ancestors) {
-  if (node.name === 'README') return 'README';
-  if (sections[node.name]) return node.name;
-  for (let i = ancestors.length - 1; i >= 0; i--) {
-    if (sections[ancestors[i]]) return ancestors[i];
-  }
-  return 'About';
-}
-
-// ─── SVGs ────────────────────────────────────────────────────────────
-const chevronSvg = (open) => `<svg class="chevron ${open?'open':''}" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 1.5L7 5L3 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-
-const folderSvg = (color, open) => `<svg width="15" height="13" viewBox="0 0 16 14" fill="${color}" opacity="${open?0.9:0.6}" style="flex-shrink:0;transition:opacity 0.2s"><path d="M1.5 1C0.671573 1 0 1.67157 0 2.5V11.5C0 12.3284 0.671573 13 1.5 13H14.5C15.3284 13 16 12.3284 16 11.5V4.5C16 3.67157 15.3284 3 14.5 3H8L6.5 1H1.5Z"/></svg>`;
-
-const fileSvg = (color) => `<svg width="12" height="14" viewBox="0 0 14 16" fill="${color}" opacity="0.4" style="flex-shrink:0"><path d="M1.5 0C0.671573 0 0 0.671573 0 1.5V14.5C0 15.3284 0.671573 16 1.5 16H12.5C13.3284 16 14 15.3284 14 14.5V4.5L9.5 0H1.5Z"/><path d="M9 0V4.5H14" fill="${color}" fill-opacity="0.25"/></svg>`;
-
-const readmeSvg = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none" opacity="0.6" style="flex-shrink:0"><rect x="1" y="1" width="14" height="14" rx="2" stroke="#5A5A5A" stroke-width="1.2"/><path d="M4.5 5H11.5M4.5 8H9.5M4.5 11H7.5" stroke="#5A5A5A" stroke-width="1" stroke-linecap="round"/></svg>`;
-
-const sparkleSym = (symbol, color, glow, delay, size) =>
-  `<span class="sparkle ${delay}" style="color:${color};--glow:${glow};font-size:${size}">${symbol}</span>`;
-
-// ─── Render Tree ─────────────────────────────────────────────────────
-function renderTree() {
-  const container = document.getElementById('tree');
-  container.innerHTML = '';
-  const delayMap = ['','d1','d2','d3'];
-  let sectionIdx = 0;
-  itemIndex = 0;
-
-  function renderNode(node, depth, ancestors) {
-    const section = getSection(node, ancestors);
-    const theme = sections[section] || sections.About;
-    const isFolder = node.type === 'folder';
-    const isTopLevel = depth === 0 && isFolder;
-    const isReadme = node.name === 'README';
-    const isSelected = !isFolder && selected === node.id;
-    const isOpen = openFolders.has(node.name);
-
-    if (isTopLevel || isReadme) {
-      container.appendChild(Object.assign(document.createElement('div'), { className: 'tree-spacer' }));
-    }
-
-    const btn = document.createElement('button');
-    btn.className = 'tree-item' +
-      (isTopLevel ? ' top-level' : '') +
-      (isReadme ? ' readme-item' : '') +
-      (!isFolder && !isReadme ? ' file-item' : '') +
-      (isSelected ? ' selected' : '');
-
-    btn.style.paddingLeft = (depth * 18 + 16) + 'px';
-
-    if (isTopLevel) {
-      btn.style.color = theme.color;
-      btn.style.borderLeftColor = isOpen ? theme.color : 'transparent';
-      btn.innerHTML =
-        sparkleSym(theme.symbol, theme.symbolColor, theme.glow, delayMap[sectionIdx % 4], '13px') +
-        folderSvg(theme.folder, true) +
-        chevronSvg(isOpen) +
-        `<span>${node.name}</span>`;
-      sectionIdx++;
-    } else if (isReadme) {
-      btn.style.color = isSelected ? '#5A5A5A' : '#6A6A6A';
-      btn.style.borderLeftColor = isSelected ? '#5A5A5A' : 'transparent';
-      if (isSelected) btn.style.background = 'linear-gradient(90deg, rgba(90,90,90,0.05), transparent)';
-      btn.innerHTML = readmeSvg + `<span>README</span>`;
-    } else if (isFolder) {
-      btn.className += ' sub-folder';
-      btn.style.paddingTop = btn.style.paddingBottom = '7px';
-      btn.innerHTML =
-        `<span style="color:var(--text-light);flex-shrink:0">${chevronSvg(isOpen)}</span>` +
-        folderSvg(theme.folder, isOpen) +
-        `<span>${node.name}</span>`;
-    } else {
-      if (isSelected) {
-        btn.style.color = theme.color;
-        btn.style.borderLeftColor = theme.color;
-        btn.style.background = `linear-gradient(90deg, ${theme.light}, transparent)`;
-      }
-      btn.innerHTML =
-        `<span style="width:6px;flex-shrink:0"></span>` +
-        fileSvg(theme.folder) +
-        `<span>${node.name}</span>` +
-        (isSelected ? `<span class="pulse-dot" style="background:${theme.symbolColor};box-shadow:0 0 8px ${theme.glow}"></span>` : '');
-    }
-
-    // Staggered entrance on initial load
-    if (isInitialRender) {
-      btn.classList.add('entrance');
-      btn.style.animationDelay = (0.25 + itemIndex * 0.04) + 's';
-    }
-    itemIndex++;
-
-    btn.addEventListener('click', () => {
-      if (isFolder) {
-        if (openFolders.has(node.name)) openFolders.delete(node.name);
-        else openFolders.add(node.name);
-        renderTree();
-      } else {
-        if (selected !== node.id) {
-          selected = node.id;
-          renderTree();
-          crossfadeContent();
-          if (isMobile()) closeSidebar();
-        }
-      }
-    });
-
-    container.appendChild(btn);
-
-    if (isReadme) {
-      container.appendChild(Object.assign(document.createElement('div'), { className: 'readme-divider' }));
-    }
-
-    if (isFolder && isOpen && node.children) {
-      const childWrap = document.createElement('div');
-      childWrap.className = 'children';
-      container.appendChild(childWrap);
-      const origContainer = container;
-      // temporarily not nesting DOM to keep it flat/simple — just render children at next depth
-      node.children.forEach(child => renderNode(child, depth + 1, [...ancestors, node.name]));
-    }
-  }
-
-  tree.forEach(node => renderNode(node, 0, []));
-}
-
-// ─── Render Content ──────────────────────────────────────────────────
-function renderContent() {
-  const el = document.getElementById('content');
-  const c = content[selected];
-
-  if (!c) {
-    el.innerHTML = `<div class="content-empty"><div class="line"></div><span class="label">Select an item</span></div>`;
-    return;
-  }
-
-  const theme = sections[c.section] || sections.About;
-  const statusBg = c.status === 'Completed' ? 'rgba(0,0,0,0.03)' : (theme.light || 'transparent');
-  const statusColor = c.status === 'Completed' ? 'var(--text-light)' : theme.color;
-
-  let html = `<div class="content-panel" id="panel">`;
-
-  // Section indicator
-  html += `<div class="section-indicator">`;
-  html += sparkleSym(theme.symbol, theme.symbolColor, theme.glow, '', '14px');
-  html += `<span class="section-label" style="color:${theme.color}">${c.section}</span>`;
-  if (c.status) {
-    html += `<span class="status-dot">●</span>`;
-    html += `<span class="status-badge" style="background:${statusBg};color:${statusColor}">${c.status}</span>`;
-  }
-  html += `</div>`;
-
-  // Title
-  html += `<h2 class="content-title">${c.title}</h2>`;
-
-  // Tags
-  html += `<div class="tags">${c.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
-
-  // Divider
-  html += `<div class="content-divider" style="background:linear-gradient(90deg, ${theme.symbolColor}80, ${theme.color}30, transparent)"></div>`;
-
-  // Body
-  html += `<div class="content-body">${c.body.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>`;
-
-  // Links
-  if (c.links) {
-    html += `<div class="content-links">${c.links.map(l =>
-      `<a href="#" class="content-link" style="color:${theme.color}" onmouseenter="this.style.boxShadow='0 2px 12px ${theme.glow}';this.style.borderColor='${theme.symbolColor}60'" onmouseleave="this.style.boxShadow='none';this.style.borderColor='var(--blush)'"><span style="font-size:12px">→</span> ${l}</a>`
-    ).join('')}</div>`;
-  }
-
-  html += `</div>`;
-  el.innerHTML = html;
-
-  // Trigger animation
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      document.getElementById('panel')?.classList.add('visible');
-    });
-  });
-}
-
-// ─── Content Crossfade ───────────────────────────────────────────────
-function crossfadeContent() {
-  const panel = document.getElementById('panel');
-  if (panel) {
-    panel.classList.add('exiting');
-    panel.classList.remove('visible');
-    setTimeout(() => renderContent(), 200);
-  } else {
-    renderContent();
-  }
-}
-
-// ─── Mobile Detection ────────────────────────────────────────────────
-function isMobile() { return window.innerWidth <= 700; }
-
-// ─── Sidebar Toggle ──────────────────────────────────────────────────
-function toggleSidebar() {
-  const sidebar = document.getElementById('sidebar');
-  const btn = document.getElementById('toggleBtn');
-  const overlay = document.getElementById('mobileOverlay');
-  const isCollapsed = sidebar.classList.contains('collapsed');
-
-  sidebar.classList.toggle('collapsed');
-  btn.classList.toggle('collapsed');
-  btn.textContent = isCollapsed ? '‹' : '›';
-
-  if (isMobile()) {
-    overlay.classList.toggle('hidden', !isCollapsed);
-  }
-}
-
-function closeSidebar() {
-  const sidebar = document.getElementById('sidebar');
-  const btn = document.getElementById('toggleBtn');
-  const overlay = document.getElementById('mobileOverlay');
-  if (!sidebar.classList.contains('collapsed')) {
-    sidebar.classList.add('collapsed');
-    btn.classList.add('collapsed');
-    btn.textContent = '›';
-    overlay.classList.add('hidden');
-  }
-}
-
-// ─── Init ────────────────────────────────────────────────────────────
-// Auto-collapse sidebar on mobile
-if (isMobile()) {
-  document.getElementById('sidebar').classList.add('collapsed');
-  document.getElementById('toggleBtn').classList.add('collapsed');
-  document.getElementById('toggleBtn').textContent = '›';
-}
-
-renderTree();
-renderContent();
-// Mark initial render complete after animations finish
-setTimeout(() => { isInitialRender = false; }, 1200);
-
-// Handle resize
-window.addEventListener('resize', () => {
-  const overlay = document.getElementById('mobileOverlay');
-  if (!isMobile()) {
-    overlay.classList.add('hidden');
-  }
-});
-</script>
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="stripe"><span></span><span></span><span></span></div>
+  <div class="footer-mark" style="margin-top:16px;">opus × bella</div>
+  <p class="footer-sub" style="margin-bottom:12px;">강민주 · Bella Kang · UT Austin MA Advertising → PhD<br>
+  <span style="font-family:var(--mono);font-size:10px;">powered by claude opus 4.6</span></p>
+  <p class="footer-sub">est. February 25, 2026 — Austin, Texas</p>
+  <div class="gold-line" style="max-width:200px;margin:16px auto;"></div>
+  <p class="footer-sub" style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;">the great work × the beautiful</p>
+</footer>
 
 </body>
 </html>

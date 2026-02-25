@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading Guide: Arora, Chakraborty & Nishimura (2025)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --gucci-green: #006B3F;
+    --gucci-red: #C8102E;
+    --gold: #D4AF37;
+    --gold-light: #E8D48B;
+    --noir: #1D1D1F;
+    --gray-1: #48484A;
+    --gray-2: #636366;
+    --gray-3: #AEAEB2;
+    --gray-4: #E5E5EA;
+    --gray-5: #F2F2F7;
+    --cream: #FAF9F6;
+    --cream-warm: #F5F0E8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #FFFFFF;
+    color: var(--noir);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HERO ─────────────────────────────────── */
+  .hero {
+    padding: 60px 48px 48px;
+    border-bottom: 1px solid var(--gray-4);
+    position: relative;
+  }
+  .gucci-stripe {
+    display: flex; gap: 2px; margin-bottom: 16px;
+  }
+  .gucci-stripe span {
+    display: block; width: 28px; height: 2.5px;
+  }
+  .gucci-stripe span:nth-child(1),
+  .gucci-stripe span:nth-child(3) { background: var(--gucci-green); }
+  .gucci-stripe span:nth-child(2) { background: var(--gucci-red); }
+
+  .hero-label {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--noir);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    max-width: 700px;
+    margin-bottom: 8px;
+  }
+  .hero-authors {
+    font-size: 14px; color: var(--gray-2);
+    letter-spacing: 0.01em; margin-bottom: 4px;
+  }
+  .hero-journal {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 12px; color: var(--gray-3);
+    font-style: italic;
+  }
+  .hero-badge {
+    position: absolute; top: 60px; right: 48px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    text-align: right; line-height: 1.6;
+  }
+
+  /* ── NAV ───────────────────────────────────── */
+  .nav {
+    display: flex; gap: 0;
+    border-bottom: 1px solid var(--gray-5);
+    padding: 0 48px;
+    position: sticky; top: 0;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 100;
+  }
+  .nav-btn {
+    padding: 14px 24px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 400;
+    color: var(--gray-3);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.01em;
+  }
+  .nav-btn.active {
+    color: var(--noir);
+    font-weight: 600;
+    border-bottom-color: var(--noir);
+  }
+  .nav-btn:hover { color: var(--gray-1); }
+
+  /* ── SECTIONS ──────────────────────────────── */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 48px 80px;
+  }
+
+  .section-label {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 32px;
+  }
+  .section-label span {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gold);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 26px; font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--noir);
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+  h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 18px; font-weight: 400;
+    color: var(--noir);
+    margin-bottom: 12px;
+    line-height: 1.35;
+  }
+
+  p, li {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--gray-1);
+  }
+
+  .gold-line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 32px 0;
+  }
+
+  /* ── OVERVIEW CARDS ────────────────────────── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .ov-card {
+    border-radius: 14px;
+    padding: 24px;
+    border: 1px solid var(--gray-4);
+    background: #fff;
+    transition: border-color 0.2s;
+  }
+  .ov-card:hover { border-color: var(--gold-light); }
+  .ov-card-label {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gray-3); margin-bottom: 8px;
+  }
+  .ov-card-value {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px; color: var(--noir);
+    margin-bottom: 6px;
+  }
+  .ov-card-desc {
+    font-size: 13px; color: var(--gray-2); line-height: 1.55;
+  }
+
+  /* ── HOURGLASS VIZ ─────────────────────────── */
+  .hourglass {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 0;
+    margin: 32px auto; max-width: 400px;
+  }
+  .hg-section {
+    width: 100%; padding: 16px 24px;
+    border-left: 2px solid var(--gray-4);
+    border-right: 2px solid var(--gray-4);
+    position: relative;
+    transition: background 0.2s;
+  }
+  .hg-section:hover { background: var(--cream); }
+  .hg-broad { border-radius: 12px 12px 0 0; }
+  .hg-narrow {
+    margin: 0 40px;
+    border-color: var(--gold);
+    background: rgba(212,175,55,0.04);
+  }
+  .hg-broaden { border-radius: 0 0 12px 12px; }
+  .hg-label {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .hg-label.green { color: var(--gucci-green); }
+  .hg-label.gold { color: var(--gold); }
+  .hg-label.red { color: var(--gucci-red); }
+  .hg-text { font-size: 13px; color: var(--gray-2); line-height: 1.5; }
+
+  /* ── PATTERN CARDS ─────────────────────────── */
+  .pattern-card {
+    border-radius: 16px;
+    border: 1px solid var(--gray-4);
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    background: #fff;
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+  .pattern-card:hover { border-color: var(--gold-light); box-shadow: 0 2px 20px rgba(0,0,0,0.04); }
+  .pattern-card.open { border-color: var(--gold); }
+  .pattern-header {
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  .pattern-num {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 12px; color: var(--gold);
+    letter-spacing: 0.1em; min-width: 24px;
+  }
+  .pattern-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 17px; color: var(--noir); font-weight: 400;
+  }
+  .pattern-toggle {
+    margin-left: auto;
+    font-size: 18px; color: var(--gray-3);
+    transition: transform 0.3s;
+  }
+  .pattern-card.open .pattern-toggle { transform: rotate(45deg); }
+  .pattern-body {
+    display: none; padding-top: 20px;
+  }
+  .pattern-card.open .pattern-body { display: block; }
+
+  /* ── QUOTE BLOCK ───────────────────────────── */
+  .quote-block {
+    border-left: 2px solid var(--gucci-green);
+    padding-left: 20px;
+    margin: 16px 0;
+  }
+  .quote-block p {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 14px; font-style: italic;
+    color: var(--gray-1); line-height: 1.7;
+  }
+  .quote-block.red { border-color: var(--gucci-red); }
+  .quote-block.gold { border-color: var(--gold); }
+  .quote-block.noir { border-color: var(--noir); }
+
+  /* ── INSIGHT BOX ───────────────────────────── */
+  .insight-box {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    border: 1px solid #E8E2D8;
+  }
+  .insight-box-label {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 6px;
+  }
+  .insight-box p { font-size: 13px; color: var(--gray-1); line-height: 1.65; }
+
+  /* ── TABLE ─────────────────────────────────── */
+  .lux-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  .lux-table th {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--gray-3);
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--gray-4);
+  }
+  .lux-table td {
+    font-size: 13px; color: var(--gray-1);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-5);
+    line-height: 1.55;
+    vertical-align: top;
+  }
+  .lux-table tr:last-child td { border-bottom: none; }
+  .tag {
+    display: inline-block;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 100px;
+  }
+  .tag-green { background: rgba(0,107,63,0.08); color: var(--gucci-green); }
+  .tag-red { background: rgba(200,16,46,0.08); color: var(--gucci-red); }
+  .tag-gold { background: rgba(212,175,55,0.1); color: #8B6914; }
+  .tag-noir { background: rgba(29,29,31,0.06); color: var(--noir); }
+
+  /* ── CHECKLIST ──────────────────────────────── */
+  .checklist { list-style: none; margin: 16px 0; }
+  .checklist li {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gray-5);
+    font-size: 13px; color: var(--gray-1); line-height: 1.6;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-dot {
+    width: 8px; height: 8px; min-width: 8px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    margin-top: 5px;
+  }
+
+  /* ── TRAJECTORY BOX ────────────────────────── */
+  .trajectory {
+    background: linear-gradient(135deg, #FDFCFB 0%, var(--cream-warm) 100%);
+    border-radius: 16px;
+    padding: 28px 32px;
+    border: 1px solid #E8E2D8;
+    margin-top: 32px;
+  }
+  .trajectory-label {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px;
+  }
+  .trajectory-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold);
+  }
+  .trajectory-label span {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #B8860B;
+  }
+  .trajectory p { font-size: 14px; color: var(--gray-1); line-height: 1.7; }
+
+  /* ── FOOTER ────────────────────────────────── */
+  .footer {
+    text-align: center;
+    padding: 32px 48px;
+    border-top: 1px solid var(--gray-5);
+  }
+  .footer p {
+    font-size: 11px; color: var(--gray-3);
+    letter-spacing: 0.02em;
+  }
+
+  /* ── RESPONSIVE ────────────────────────────── */
+  @media (max-width: 680px) {
+    .hero { padding: 40px 24px 32px; }
+    .hero h1 { font-size: 24px; }
+    .hero-badge { display: none; }
+    .nav { padding: 0 24px; }
+    .section-inner { padding: 32px 24px 60px; }
+    .overview-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════ HERO ═══ -->
+<header class="hero">
+  <div class="gucci-stripe"><span></span><span></span><span></span></div>
+  <div class="hero-label">Reading &amp; Writing Preparation Guide</div>
+  <h1>AI&ndash;Human Hybrids for Marketing Research: Leveraging LLMs as Collaborators</h1>
+  <p class="hero-authors">Neeraj Arora, Ishita Chakraborty &amp; Yohei Nishimura</p>
+  <p class="hero-journal">Journal of Marketing, 2025, Vol. 89(2), 43&ndash;70</p>
+  <div class="hero-badge">Bella Kang<br>UT Austin MA &rarr; PhD</div>
+</header>
+
+<!-- ════════════════════════════════════════════ NAV ════ -->
+<nav class="nav">
+  <button class="nav-btn active" data-tab="overview">Overview</button>
+  <button class="nav-btn" data-tab="structure">Structure</button>
+  <button class="nav-btn" data-tab="lens">5-Lens Analysis</button>
+  <button class="nav-btn" data-tab="critical">Critical Reading</button>
+  <button class="nav-btn" data-tab="apply">Apply to Your Work</button>
+</nav>
+
+<!-- ═══════════════════════════════ SEC 1: OVERVIEW ════ -->
+<div class="section active" id="overview">
+<div class="section-inner">
+  <div class="section-label">
+    <span>Paper at a Glance</span>
+    <div class="gucci-stripe"><span></span><span></span><span></span></div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="ov-card">
+      <div class="ov-card-label">Central Thesis</div>
+      <div class="ov-card-value">Human&ndash;LLM Hybrid</div>
+      <div class="ov-card-desc">A human&ndash;LLM hybrid approach leads to efficiency and effectiveness gains in marketing research, outperforming human-only or LLM-only methods.</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-card-label">Research Design</div>
+      <div class="ov-card-value">Two Empirical Studies</div>
+      <div class="ov-card-desc">Study 1: Qualitative (in-depth interviews with a Fortune 500 food company, Friendsgiving context). Study 2: Quantitative (survey replication for refrigerated dog food).</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-card-label">Key Method</div>
+      <div class="ov-card-value">Turing Test Framework</div>
+      <div class="ov-card-desc">Expert human judges evaluate LLM vs. human outputs on clarity, relevance, depth, and insightfulness &mdash; blind to source.</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-card-label">Context Enhancement</div>
+      <div class="ov-card-value">Few-Shot + RAG</div>
+      <div class="ov-card-desc">Adding response history (few-shot learning) and retrieval-augmented generation significantly improved synthetic data quality, especially heterogeneity and internal consistency.</div>
+    </div>
+  </div>
+
+  <h3>Core Findings</h3>
+  <table class="lux-table">
+    <thead>
+      <tr>
+        <th>Finding</th>
+        <th>Domain</th>
+        <th>Implication</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>LLM-generated qualitative data surpasses human data in depth and insightfulness</td>
+        <td><span class="tag tag-green">Qualitative</span></td>
+        <td>LLMs produce richer, more coherent interview data; unique insights emerge from the hybrid</td>
+      </tr>
+      <tr>
+        <td>LLMs match human analysts in theme extraction and summarization</td>
+        <td><span class="tag tag-green">Qualitative</span></td>
+        <td>96% theme recovery with 23% new themes discovered</td>
+      </tr>
+      <tr>
+        <td>Expert judges prefer human&ndash;LLM hybrid analyses (3 of 5 questions)</td>
+        <td><span class="tag tag-green">Qualitative</span></td>
+        <td>Humans and LLMs possess complementary analytical skills</td>
+      </tr>
+      <tr>
+        <td>Zero-shot LLM picks answer direction/valence correctly but underestimates variance</td>
+        <td><span class="tag tag-red">Quantitative</span></td>
+        <td>Baseline synthetic data has low response heterogeneity</td>
+      </tr>
+      <tr>
+        <td>Few-shot + RAG significantly improve heterogeneity and internal consistency</td>
+        <td><span class="tag tag-red">Quantitative</span></td>
+        <td>Context incorporation is the critical mechanism for improving synthetic survey data</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="trajectory">
+    <div class="trajectory-label">
+      <div class="trajectory-dot"></div>
+      <span>Why This Paper Matters for You</span>
+    </div>
+    <p>This paper sits at the intersection of your research interests &mdash; technology, human behavior, and methodological innovation. It demonstrates how AI can be a <em>collaborator</em> rather than a replacement in research, directly relevant to your health communication &times; technology focus. The hybrid model parallels your own approach: using AI as an executive-function scaffold while preserving human judgment.</p>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════ SEC 2: STRUCTURE ═══ -->
+<div class="section" id="structure">
+<div class="section-inner">
+  <div class="section-label">
+    <span>Paper Architecture</span>
+    <div class="gucci-stripe"><span></span><span></span><span></span></div>
+  </div>
+
+  <h2>The Hourglass in Action</h2>
+  <p style="color:var(--gray-2); margin-bottom:24px;">Per the Harvard Psychology guide, every strong paper follows Bem's hourglass &mdash; broad to narrow to broad. Here's how Arora et al. execute it:</p>
+
+  <div class="hourglass">
+    <div class="hg-section hg-broad" style="border-top:2px solid var(--gray-4);">
+      <div class="hg-label green">Broad &mdash; Introduction (pp. 43&ndash;49)</div>
+      <div class="hg-text">GenAI landscape &rarr; marketing research as $84.3B industry &rarr; LLM adoption framework (Table 1) &rarr; technical foundations (transformers, RAG, fine-tuning) &rarr; research gap identified</div>
+    </div>
+    <div class="hg-section hg-narrow">
+      <div class="hg-label gold">Narrow &mdash; Study 1: Qualitative (pp. 49&ndash;57)</div>
+      <div class="hg-text">Friendsgiving context &rarr; 4 LLM-hybrid conditions &rarr; Turing test evaluation &rarr; expert judge assessment of themes/summaries &rarr; qualitative road map</div>
+    </div>
+    <div class="hg-section hg-narrow">
+      <div class="hg-label gold">Narrow &mdash; Study 2: Quantitative (pp. 57&ndash;66)</div>
+      <div class="hg-text">Refrigerated dog food survey replication (n=605) &rarr; zero-shot vs. few-shot vs. RAG comparisons &rarr; bias, heterogeneity, and internal consistency metrics &rarr; quantitative road map</div>
+    </div>
+    <div class="hg-section hg-broaden" style="border-bottom:2px solid var(--gray-4);">
+      <div class="hg-label red">Broad &mdash; Conclusions (pp. 66&ndash;68)</div>
+      <div class="hg-text">Transformational impact of GenAI &rarr; limitations (bias, privacy, evolving tech) &rarr; future research agenda &rarr; human-in-the-loop imperative</div>
+    </div>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <h3>Argument Architecture</h3>
+  <p style="margin-bottom:16px;">The paper's argument follows a deliberate escalation pattern:</p>
+
+  <table class="lux-table">
+    <thead>
+      <tr><th>Move</th><th>What It Does</th><th>Section</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="tag tag-noir">Establish</span></td>
+        <td>Position LLMs as collaborators, not replacements &mdash; sets up the human&ndash;AI hybrid thesis</td>
+        <td>Introduction</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-green">Demonstrate</span></td>
+        <td>Show qualitative hybrid superiority via Turing test and expert judges</td>
+        <td>Study 1</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">Extend</span></td>
+        <td>Test whether success generalizes to quantitative survey research</td>
+        <td>Study 2</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-gold">Improve</span></td>
+        <td>Show that context (few-shot + RAG) meaningfully improves LLM performance</td>
+        <td>Study 2b</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-noir">Codify</span></td>
+        <td>Provide practitioner-facing road maps for adoption</td>
+        <td>Road Maps + Conclusion</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="insight-box">
+    <div class="insight-box-label">Structural Takeaway for Your Writing</div>
+    <p>Notice the paper's dual structure: it advances both a <em>methodological contribution</em> (how to use LLMs) and a <em>substantive finding</em> (that hybrids outperform). Your MA thesis could adopt this same architecture &mdash; demonstrating a method while generating findings in health communication.</p>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════ SEC 3: 5-LENS ANALYSIS ══ -->
+<div class="section" id="lens">
+<div class="section-inner">
+  <div class="section-label">
+    <span>Cross-Disciplinary Lens</span>
+    <div class="gucci-stripe"><span></span><span></span><span></span></div>
+  </div>
+
+  <h2>Reading Through the 5 Patterns</h2>
+  <p style="color:var(--gray-2); margin-bottom:28px;">Apply each pattern from your cross-disciplinary theme map to interrogate this paper more deeply.</p>
+
+  <!-- PATTERN 1 -->
+  <div class="pattern-card open" onclick="this.classList.toggle('open')">
+    <div class="pattern-header">
+      <span class="pattern-num">01</span>
+      <span class="pattern-title">The Thesis as Compass</span>
+      <span class="pattern-toggle">+</span>
+    </div>
+    <div class="pattern-body">
+      <div class="quote-block gold">
+        <p>&ldquo;Our central premise is that a human&ndash;LLM hybrid approach leads to efficiency and effectiveness gains in the marketing research process.&rdquo;</p>
+      </div>
+      <p style="margin:12px 0;">The thesis functions as a <strong>causal hypothesis</strong> (analytics mode) &mdash; claiming the hybrid outperforms alternatives. But it also works as a <strong>conceptual framework</strong> (philosophy mode) by proposing a new paradigm of human&ndash;AI collaboration.</p>
+      <div class="insight-box">
+        <div class="insight-box-label">Reading Question</div>
+        <p>Does the paper deliver on <em>both</em> promises? Is the efficiency claim empirically supported, or only the effectiveness claim? Where does the evidence fall short of the thesis's ambition?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN 2 -->
+  <div class="pattern-card" onclick="this.classList.toggle('open')">
+    <div class="pattern-header">
+      <span class="pattern-num">02</span>
+      <span class="pattern-title">Evidence Means Different Things</span>
+      <span class="pattern-toggle">+</span>
+    </div>
+    <div class="pattern-body">
+      <p style="margin-bottom:12px;">This paper deploys <em>multiple evidence modes simultaneously</em> &mdash; a strength and a vulnerability.</p>
+      <table class="lux-table">
+        <thead><tr><th>Evidence Mode</th><th>How This Paper Uses It</th><th>Strength</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="tag tag-green">Qualitative</span></td>
+            <td>Expert judge commentary (Table 13) &mdash; small-N, narrative-based evaluation</td>
+            <td>Rich, contextual &mdash; reveals <em>why</em> hybrids are preferred</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-red">Quantitative</span></td>
+            <td>Mixed-effects models (Table 10), chi-square tests, means comparison</td>
+            <td>Statistical rigor on depth/insightfulness superiority (p < .01)</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-gold">Methodological</span></td>
+            <td>System architecture diagrams (Figs 1&ndash;2), prompt structures (Tables 6&ndash;8)</td>
+            <td>Full reproducibility &mdash; readers can replicate the approach</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="insight-box">
+        <div class="insight-box-label">Reading Question</div>
+        <p>The expert assessment (Study 1b) uses only 5 judges evaluating 5 questions. By psychology's evidence standards, is this sufficient for the claims being made? What additional evidence would strengthen the qualitative findings?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN 3 -->
+  <div class="pattern-card" onclick="this.classList.toggle('open')">
+    <div class="pattern-header">
+      <span class="pattern-num">03</span>
+      <span class="pattern-title">The Counterargument Imperative</span>
+      <span class="pattern-toggle">+</span>
+    </div>
+    <div class="pattern-body">
+      <p style="margin-bottom:12px;">How well does this paper engage with objections? Evaluate using the philosophy guide's standard: &ldquo;always raise the <em>strongest</em> objections you can think of.&rdquo;</p>
+
+      <h3 style="font-size:15px; margin-top:16px;">Counterarguments the Paper Addresses</h3>
+      <ul class="checklist">
+        <li><span class="check-dot" style="background:var(--gold);border-color:var(--gold);"></span>LLM responses lack variance &rarr; addressed via few-shot + RAG</li>
+        <li><span class="check-dot" style="background:var(--gold);border-color:var(--gold);"></span>Demographics don't drive preferences &rarr; acknowledged as a limitation of prompt design</li>
+        <li><span class="check-dot" style="background:var(--gold);border-color:var(--gold);"></span>LLMs might just parrot training data &rarr; shown that unique themes emerge from hybrids</li>
+      </ul>
+
+      <h3 style="font-size:15px; margin-top:16px;">Counterarguments Left Unaddressed</h3>
+      <ul class="checklist">
+        <li><span class="check-dot"></span>Temporal validity: GPT-4 (2023 training cutoff) replicating a 2019 study &mdash; does it know this context from training data?</li>
+        <li><span class="check-dot"></span>Ecological validity: Friendsgiving is a cultural concept likely well-represented in training data. Would results hold for novel/niche topics?</li>
+        <li><span class="check-dot"></span>Model dependency: All results are GPT-4-specific. How generalizable are these findings across LLMs?</li>
+        <li><span class="check-dot"></span>Cost analysis: The paper claims efficiency gains but provides no cost comparison or time data</li>
+      </ul>
+      <div class="insight-box">
+        <div class="insight-box-label">Steel-Man Test</div>
+        <p>The strongest unaddressed objection: if GPT-4 was trained on data <em>including</em> cultural discussions of Friendsgiving, the LLM isn't generating novel insights &mdash; it's retrieving training data dressed up as synthetic respondents. This threatens the paper's core claim of LLMs as genuine &ldquo;collaborators.&rdquo;</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN 4 -->
+  <div class="pattern-card" onclick="this.classList.toggle('open')">
+    <div class="pattern-header">
+      <span class="pattern-num">04</span>
+      <span class="pattern-title">Voice &amp; Authority</span>
+      <span class="pattern-toggle">+</span>
+    </div>
+    <div class="pattern-body">
+      <p style="margin-bottom:16px;">This paper is written in the <em>marketing/quantitative</em> voice &mdash; authority through methodological transparency.</p>
+      <table class="lux-table">
+        <thead><tr><th>Convention</th><th>How This Paper Handles It</th></tr></thead>
+        <tbody>
+          <tr><td>Pronoun usage</td><td>&ldquo;We&rdquo; throughout &mdash; standard for multi-author empirical work</td></tr>
+          <tr><td>Direct quotation</td><td>Avoided almost entirely; findings distilled and cited (psychology convention)</td></tr>
+          <tr><td>Signposting</td><td>Strong: Tables 1&ndash;4 serve as conceptual roadmaps before empirical sections</td></tr>
+          <tr><td>Evidence presentation</td><td>Statistical results with p-values, figures with error bars, effect comparisons</td></tr>
+          <tr><td>Citation style</td><td>APA-adjacent (author-date), consistent with JM norms</td></tr>
+        </tbody>
+      </table>
+      <div class="insight-box">
+        <div class="insight-box-label">Voice Model for Your Writing</div>
+        <p>This paper's voice is a useful template for your marketing research course. Notice how it balances technical precision (prompt structures, statistical tests) with accessible framing (the &ldquo;collaborator&rdquo; metaphor, practical road maps). This dual register &mdash; rigorous yet applied &mdash; is exactly what JM values.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN 5 -->
+  <div class="pattern-card" onclick="this.classList.toggle('open')">
+    <div class="pattern-header">
+      <span class="pattern-num">05</span>
+      <span class="pattern-title">The Hourglass in Practice</span>
+      <span class="pattern-toggle">+</span>
+    </div>
+    <div class="pattern-body">
+      <p>The paper executes the hourglass twice &mdash; once for the overall paper and once <em>within each study</em>. Each study follows its own micro-hourglass:</p>
+      <div class="insight-box" style="background: rgba(0,107,63,0.03); border-color: rgba(0,107,63,0.15);">
+        <div class="insight-box-label" style="color:var(--gucci-green);">Study 1 Micro-Hourglass</div>
+        <p><strong>Broad:</strong> 3 research designs in marketing (exploratory, descriptive, causal)<br>
+        <strong>Narrow:</strong> Friendsgiving in-depth interviews, 4 hybrid conditions, Turing test<br>
+        <strong>Broad:</strong> Road map for integrating LLMs in all qualitative research</p>
+      </div>
+      <div class="insight-box" style="background: rgba(200,16,46,0.03); border-color: rgba(200,16,46,0.15);">
+        <div class="insight-box-label" style="color:var(--gucci-red);">Study 2 Micro-Hourglass</div>
+        <p><strong>Broad:</strong> LLM performance in survey replication broadly<br>
+        <strong>Narrow:</strong> 605-respondent dog food survey, zero-shot &rarr; few-shot &rarr; RAG comparisons<br>
+        <strong>Broad:</strong> Road map for LLM-assisted surveys across industries</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════ SEC 4: CRITICAL ═════════ -->
+<div class="section" id="critical">
+<div class="section-inner">
+  <div class="section-label">
+    <span>Critical Reading Checklist</span>
+    <div class="gucci-stripe"><span></span><span></span><span></span></div>
+  </div>
+
+  <h2>Source Interrogation</h2>
+  <p style="color:var(--gray-2); margin-bottom:24px;">Per the History guide: interrogate every source. Who produced this, when, why, for whom?</p>
+
+  <table class="lux-table">
+    <thead><tr><th>Question</th><th>Answer</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Who?</strong></td><td>Wisconsin School of Business faculty &mdash; marketing department with strong quantitative methods focus. Neeraj Arora holds an endowed chair in Marketing Research.</td></tr>
+      <tr><td><strong>When?</strong></td><td>Submitted Dec 2023, published 2025. Uses GPT-4 (March 2023 version). The technology has advanced substantially since data collection.</td></tr>
+      <tr><td><strong>Why?</strong></td><td>Positioned as one of the first systematic investigations of LLMs in marketing research. Fills a gap identified as &ldquo;nascent and sparse.&rdquo;</td></tr>
+      <tr><td><strong>For whom?</strong></td><td>Dual audience: marketing academics (methodology) and practitioners (road maps, Fortune 500 partnership signals credibility).</td></tr>
+      <tr><td><strong>Potential bias?</strong></td><td>Partnership with a Fortune 500 food company &mdash; positive results serve both academic publication and industry adoption narratives.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="gold-line"></div>
+
+  <h2>Methodological Scrutiny</h2>
+  <p style="color:var(--gray-2); margin-bottom:20px;">Per the Analytics pattern: every causal claim needs an identification strategy. Evaluate:</p>
+
+  <ul class="checklist">
+    <li><span class="check-dot"></span><strong>Sample size adequacy:</strong> Study 1 uses 5 expert judges on 5 questions. Study 2 replicates n=605 respondents. Is 5 judges sufficient for generalizable qualitative claims?</li>
+    <li><span class="check-dot"></span><strong>Turing test validity:</strong> Evaluators rated LLM vs. human responses on 4 dimensions. But were the rating scales validated? Were inter-rater reliability metrics reported?</li>
+    <li><span class="check-dot"></span><strong>Variance problem:</strong> Synthetic data consistently shows lower variance than human data. The paper acknowledges but doesn't fully resolve this &mdash; a fundamental limitation.</li>
+    <li><span class="check-dot"></span><strong>Single-model dependency:</strong> All results use GPT-4 (specific version). No cross-model validation with Claude, Llama, or Gemini.</li>
+    <li><span class="check-dot"></span><strong>Temporal contamination:</strong> GPT-4 may have been trained on data containing Friendsgiving discussions and pet food surveys, inflating apparent &ldquo;generative&rdquo; capability.</li>
+    <li><span class="check-dot"></span><strong>Prompt sensitivity:</strong> Results may be highly dependent on specific prompt engineering choices. No systematic prompt ablation study.</li>
+  </ul>
+
+  <div class="trajectory">
+    <div class="trajectory-label">
+      <div class="trajectory-dot"></div>
+      <span>Your Critical Reading Stance</span>
+    </div>
+    <p>Approach this paper as a <em>promising proof-of-concept</em> rather than a definitive validation. The qualitative findings are compelling; the quantitative findings reveal both potential and significant limitations. For your coursework: focus on the methodological contribution (the hybrid framework) rather than treating the specific numerical results as settled science.</p>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════ SEC 5: APPLY ════════════ -->
+<div class="section" id="apply">
+<div class="section-inner">
+  <div class="section-label">
+    <span>Apply to Your Work</span>
+    <div class="gucci-stripe"><span></span><span></span><span></span></div>
+  </div>
+
+  <h2>Connections to Your Research Trajectory</h2>
+
+  <div class="pattern-card open" onclick="this.classList.toggle('open')">
+    <div class="pattern-header">
+      <span class="pattern-num" style="color:var(--gucci-green);">MA</span>
+      <span class="pattern-title">For Your Thesis</span>
+      <span class="pattern-toggle">+</span>
+    </div>
+    <div class="pattern-body">
+      <p>The human&ndash;LLM hybrid model has direct implications for health communication research methodology. Consider: Could you use a similar hybrid approach to generate and analyze qualitative data about health behavior change? The paper's framework (Table 1) could be adapted for health communication contexts &mdash; replacing &ldquo;Friendsgiving attitudes&rdquo; with &ldquo;stress-body relationship beliefs&rdquo; or &ldquo;health message reception.&rdquo;</p>
+      <div class="insight-box">
+        <div class="insight-box-label">Actionable Next Step</div>
+        <p>Map Table 1 (the LLM adoption framework) onto your thesis domain. Which stages of your research process could benefit from an LLM collaborator? This exercise alone could generate a novel methodological contribution.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pattern-card" onclick="this.classList.toggle('open')">
+    <div class="pattern-header">
+      <span class="pattern-num" style="color:var(--gucci-red);">PhD</span>
+      <span class="pattern-title">For Stanford Applications</span>
+      <span class="pattern-toggle">+</span>
+    </div>
+    <div class="pattern-body">
+      <p>This paper demonstrates the kind of interdisciplinary thinking Stanford programs value: bridging computer science (LLM architecture), social science methods (qualitative and quantitative research), and applied practice (Fortune 500 partnership). Your ability to critically evaluate <em>and</em> extend this work signals exactly the PhD-level thinking admissions committees look for.</p>
+      <div class="insight-box">
+        <div class="insight-box-label">Framing for Your Statement of Purpose</div>
+        <p>You could reference this paper as an example of how AI is transforming research methodology, then articulate how your work would extend the hybrid model into education and developmental psychology contexts &mdash; domains where human judgment is even more critical than in marketing.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pattern-card" onclick="this.classList.toggle('open')">
+    <div class="pattern-header">
+      <span class="pattern-num" style="color:var(--gold);">MKT</span>
+      <span class="pattern-title">For Your Marketing Research Course</span>
+      <span class="pattern-toggle">+</span>
+    </div>
+    <div class="pattern-body">
+      <p>This is likely assigned reading for a reason &mdash; it represents a methodological frontier. Focus your course response on the <strong>identification strategy</strong> question: What would a more rigorous test of the hybrid hypothesis look like?</p>
+      <ul class="checklist">
+        <li><span class="check-dot" style="background:var(--gold);border-color:var(--gold);"></span>Propose a domain where LLM training data is minimal (novel cultural contexts, emerging health behaviors)</li>
+        <li><span class="check-dot" style="background:var(--gold);border-color:var(--gold);"></span>Design a prompt ablation study that systematically varies persona depth</li>
+        <li><span class="check-dot" style="background:var(--gold);border-color:var(--gold);"></span>Suggest psychographic-based (not just demographic-based) persona construction</li>
+        <li><span class="check-dot" style="background:var(--gold);border-color:var(--gold);"></span>Consider how RAG could incorporate real-time data sources, not just historical transcripts</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <h3>Discussion Preparation Questions</h3>
+  <table class="lux-table">
+    <thead><tr><th>#</th><th>Question</th><th>Pattern It Engages</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>If the LLM was trained on Friendsgiving content, is the Study 1 finding about &ldquo;depth and insightfulness&rdquo; actually measuring generation or retrieval?</td><td><span class="tag tag-green">Evidence</span></td></tr>
+      <tr><td>2</td><td>What would a truly novel-topic replication look like, and would the hybrid advantage survive?</td><td><span class="tag tag-noir">Counter</span></td></tr>
+      <tr><td>3</td><td>The paper uses &ldquo;collaborator&rdquo; language, but is the LLM's role more like a &ldquo;tool&rdquo;? What's at stake in the framing?</td><td><span class="tag tag-gold">Voice</span></td></tr>
+      <tr><td>4</td><td>How could the hybrid model be applied to health behavior research where cultural sensitivity matters more?</td><td><span class="tag tag-red">Thesis</span></td></tr>
+      <tr><td>5</td><td>If demographics explain little variance in preferences, what should persona construction be based on instead?</td><td><span class="tag tag-gold">Structure</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="trajectory">
+    <div class="trajectory-label">
+      <div class="trajectory-dot"></div>
+      <span>Your Immediate Next Action (5&ndash;15 min)</span>
+    </div>
+    <p>Before class discussion: write a 3-sentence response to the steel-man objection from Lens 03 (temporal contamination). Can you defend the paper against it, or does it genuinely undermine the core finding? This exercise practices the philosophy guide's strongest-objection test while preparing you to contribute a standout comment in class.</p>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════ FOOTER ══ -->
+<footer class="footer">
+  <div class="gucci-stripe" style="justify-content:center; margin-bottom:12px;"><span></span><span></span><span></span></div>
+  <p>Reading guide grounded in Harvard Writing Center frameworks (History, Philosophy, Psychology) &middot; Berman & Israeli (2021)</p>
+  <p style="margin-top:4px;">Prepared for Bella Kang &middot; UT Austin MA Advertising &rarr; PhD</p>
+</footer>
+
+<script>
+// Tab navigation
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

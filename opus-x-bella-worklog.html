@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opus × Bella — Work Log</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAFAF8;
+  --white: #FEFEFE;
+  --cream: #F5F3EE;
+  --warm: #EDE9E0;
+  --gold: #D4AF37;
+  --gold-dim: #A8882A;
+  --gold-bg: rgba(212,175,55,0.06);
+  --gold-glow: rgba(212,175,55,0.25);
+  --green: #006B3F;
+  --red: #C8102E;
+  --border: rgba(0,0,0,0.07);
+  --border-light: rgba(0,0,0,0.04);
+  --text: #1D1D1F;
+  --text-body: #4A4A4C;
+  --text-muted: #8A8A8E;
+  --text-light: #B8B8BC;
+  --serif: 'Newsreader', Georgia, serif;
+  --sans: 'Instrument Sans', -apple-system, sans-serif;
+  --mono: 'IBM Plex Mono', 'SF Mono', monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+::selection { background: var(--gold); color: #fff; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--warm); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* ═══ TOPBAR ═══ */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(254,254,254,0.92); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 48px;
+}
+.topbar-left { display: flex; align-items: center; gap: 10px; }
+.topbar-symbol {
+  font-size: 14px; color: var(--gold);
+  animation: sparkle 3s ease-in-out infinite;
+}
+@keyframes sparkle {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+.topbar-title {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--text-muted); letter-spacing: 0.04em;
+}
+.topbar-title b { color: var(--text); font-weight: 600; }
+.topbar-right {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--text-light); letter-spacing: 0.08em;
+}
+
+/* ═══ LAYOUT ═══ */
+.layout { display: flex; min-height: calc(100vh - 48px); }
+
+/* ═══ SIDEBAR ═══ */
+.sidebar {
+  width: 260px; min-width: 260px;
+  border-right: 1px solid var(--border);
+  background: var(--white);
+  position: sticky; top: 48px;
+  height: calc(100vh - 48px);
+  overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.sb-head {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border-light);
+}
+.sb-label {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold-dim); font-weight: 500; margin-bottom: 8px;
+}
+.sb-search {
+  width: 100%; padding: 6px 12px;
+  font-family: var(--mono); font-size: 10px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; color: var(--text); outline: none;
+  transition: border-color 0.2s;
+}
+.sb-search:focus { border-color: var(--gold-glow); }
+.sb-search::placeholder { color: var(--text-light); }
+
+.sb-tree { flex: 1; overflow-y: auto; padding: 6px 0; }
+
+/* ═══ TREE NODES ═══ */
+/* Date folder (top level) */
+.tree-date {
+  border-bottom: 1px solid var(--border-light);
+}
+.tree-date-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px; cursor: pointer; user-select: none;
+  transition: background 0.15s;
+}
+.tree-date-header:hover { background: var(--cream); }
+.tree-chevron {
+  font-size: 10px; color: var(--text-light); width: 12px;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+.tree-date.closed .tree-chevron { transform: rotate(-90deg); }
+.tree-folder-icon {
+  width: 14px; height: 14px; flex-shrink: 0;
+}
+.tree-date-name {
+  font-family: var(--sans); font-size: 12px;
+  font-weight: 600; color: var(--text); flex: 1;
+}
+.tree-date-count {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--text-light);
+}
+.tree-date-children {
+  padding: 0 0 4px;
+}
+.tree-date.closed .tree-date-children { display: none; }
+
+/* Category sub-folder */
+.tree-cat {
+  margin-left: 12px;
+}
+.tree-cat-header {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 16px 5px 20px; cursor: pointer; user-select: none;
+  transition: background 0.15s;
+}
+.tree-cat-header:hover { background: rgba(212,175,55,0.03); }
+.tree-cat-chevron {
+  font-size: 8px; color: var(--text-light); width: 10px;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+.tree-cat.closed .tree-cat-chevron { transform: rotate(-90deg); }
+.tree-cat-symbol {
+  font-size: 10px; flex-shrink: 0;
+  animation: sparkle 4s ease-in-out infinite;
+}
+.tree-cat-name {
+  font-family: var(--mono); font-size: 10px;
+  font-weight: 500; color: var(--text-muted); flex: 1;
+  letter-spacing: 0.03em;
+}
+.tree-cat-children { padding: 0 0 2px; }
+.tree-cat.closed .tree-cat-children { display: none; }
+
+/* Individual log item (leaf) */
+.tree-item {
+  display: flex; align-items: center; gap: 7px;
+  padding: 4px 16px 4px 48px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.tree-item:hover {
+  background: var(--gold-bg);
+  border-left-color: rgba(212,175,55,0.3);
+}
+.tree-item.active {
+  background: var(--gold-bg);
+  border-left-color: var(--gold);
+}
+.tree-dot {
+  width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.tree-item:hover .tree-dot { transform: scale(1.3); }
+.tree-item.active .tree-dot {
+  transform: scale(1.4);
+  box-shadow: 0 0 6px var(--gold-glow);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 4px var(--gold-glow); }
+  50% { box-shadow: 0 0 8px var(--gold-glow); }
+}
+.dot-opus { background: var(--gold); }
+.dot-bella { background: var(--red); }
+.dot-together { background: var(--green); }
+.tree-item-name {
+  font-family: var(--sans); font-size: 11px;
+  color: var(--text-body); flex: 1;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tree-item.active .tree-item-name {
+  font-weight: 600; color: var(--text);
+}
+
+/* Sidebar stats */
+.sb-stats {
+  border-top: 1px solid var(--border-light);
+  padding: 12px 20px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3px 16px;
+}
+.sb-stat { display: flex; justify-content: space-between; }
+.sb-sk { font-family: var(--mono); font-size: 8px; color: var(--text-light); letter-spacing: 0.06em; }
+.sb-sv { font-family: var(--mono); font-size: 8px; color: var(--gold-dim); font-weight: 500; }
+
+/* ═══ MAIN CONTENT ═══ */
+.main { flex: 1; overflow-y: auto; }
+
+/* Content panel */
+.content-panel {
+  display: none;
+  padding: 32px 40px 60px;
+  max-width: 680px;
+  animation: fadeIn 0.3s ease;
+}
+.content-panel.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Day page header */
+.day-head { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.day-meta {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.1em; color: var(--gold-dim);
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.day-title {
+  font-family: var(--serif); font-size: 22px;
+  font-weight: 400; color: var(--text); font-style: italic;
+}
+
+/* Log entry */
+.log { padding: 12px 0; border-bottom: 1px solid var(--border-light); }
+.log:last-of-type { border: none; }
+.log-top { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.log-who {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 2px 7px; border-radius: 3px; font-weight: 500;
+}
+.w-o { background: rgba(212,175,55,0.1); color: var(--gold-dim); }
+.w-b { background: rgba(200,16,46,0.08); color: #C8102E; }
+.w-t { background: rgba(0,107,63,0.08); color: var(--green); }
+.log-title {
+  font-family: var(--sans); font-size: 13px;
+  font-weight: 600; color: var(--text);
+}
+.log-body {
+  font-family: var(--serif); font-size: 12px;
+  color: var(--text-muted); line-height: 1.65;
+}
+.log-files { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.log-file {
+  font-family: var(--mono); font-size: 8px;
+  padding: 2px 8px; border-radius: 3px;
+  background: var(--cream); color: var(--text-muted);
+  border: 1px solid var(--border-light); letter-spacing: 0.02em;
+}
+
+/* Day note / reflection */
+.day-note {
+  margin-top: 20px; padding: 14px 16px;
+  background: var(--gold-bg);
+  border-left: 2px solid rgba(212,175,55,0.25);
+  border-radius: 0 6px 6px 0;
+}
+.day-note .n-label {
+  font-family: var(--mono); font-size: 7px;
+  letter-spacing: 0.15em; color: var(--gold-dim);
+  text-transform: uppercase; margin-bottom: 5px; font-weight: 600;
+}
+.day-note p {
+  font-family: var(--serif); font-size: 12px;
+  color: var(--text-muted); line-height: 1.65; font-style: italic;
+}
+
+/* ═══ INDEX PAGE ═══ */
+.index-content { padding: 40px; max-width: 680px; }
+.idx-stripe { display: flex; gap: 3px; margin-bottom: 14px; }
+.idx-stripe span { width: 24px; height: 2px; border-radius: 1px; }
+.idx-stripe span:nth-child(1) { background: var(--gold); }
+.idx-stripe span:nth-child(2) { background: var(--green); opacity: 0.4; }
+.idx-stripe span:nth-child(3) { background: var(--red); opacity: 0.3; }
+.idx-h1 {
+  font-family: var(--serif); font-size: 26px;
+  font-weight: 400; color: var(--text); margin-bottom: 6px;
+}
+.idx-h1 em { font-style: italic; color: var(--gold-dim); }
+.idx-sub {
+  font-family: var(--serif); font-size: 13px;
+  color: var(--text-muted); line-height: 1.7; margin-bottom: 32px;
+  font-style: italic;
+}
+.idx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.idx-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 6px; padding: 16px 18px; cursor: pointer;
+  transition: all 0.25s ease;
+}
+.idx-card:hover {
+  border-color: rgba(212,175,55,0.3);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+  transform: translateY(-1px);
+}
+.idx-card-date {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--gold-dim); letter-spacing: 0.06em; margin-bottom: 3px;
+}
+.idx-card-title {
+  font-family: var(--serif); font-size: 14px;
+  color: var(--text); font-style: italic; margin-bottom: 5px;
+}
+.idx-card-stats {
+  font-family: var(--mono); font-size: 9px; color: var(--text-light);
+}
+
+/* Legend */
+.legend {
+  display: flex; gap: 16px; margin-top: 28px;
+  padding-top: 16px; border-top: 1px solid var(--border-light);
+}
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 6px; height: 6px; border-radius: 50%; }
+.legend-label {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--text-light); letter-spacing: 0.04em;
+}
+
+@media(max-width:768px){
+  .layout { flex-direction: column; }
+  .sidebar {
+    width: 100%; min-width: 100%;
+    position: relative; top: 0;
+    height: auto; max-height: 220px;
+    border-right: none; border-bottom: 1px solid var(--border);
+  }
+  .content-panel, .index-content { padding: 20px 16px 40px; }
+  .idx-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-symbol">✦</span>
+    <div class="topbar-title"><b>Opus × Bella</b> · work log</div>
+  </div>
+  <div class="topbar-right">shared diary · feb 2026</div>
+</div>
+
+<div class="layout">
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <div class="sb-label">✧ log entries</div>
+    <input class="sb-search" type="text" placeholder="Search entries..." oninput="searchEntries(this.value)">
+  </div>
+  <div class="sb-tree" id="sidebarTree"></div>
+  <div class="sb-stats">
+    <div class="sb-stat"><span class="sb-sk">artifacts</span><span class="sb-sv">12</span></div>
+    <div class="sb-stat"><span class="sb-sk">papers</span><span class="sb-sv">3</span></div>
+    <div class="sb-stat"><span class="sb-sk">days</span><span class="sb-sv">3</span></div>
+    <div class="sb-stat"><span class="sb-sk">updated</span><span class="sb-sv">feb 26</span></div>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main" id="mainContent"></div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA — all log entries, structured by date
+// ═══════════════════════════════════════════════
+const LOG_DATA = [
+  {
+    id: 'feb26',
+    date: 'Feb 26, Wed',
+    dateFull: 'Wednesday, February 26 2026',
+    title: 'The Synthesis',
+    note: 'Three days in. Twelve artifacts. The research question is finally taking shape.',
+    categories: [
+      {
+        name: 'Research',
+        symbol: '✧',
+        color: '#D4AF37',
+        items: [
+          { who: 'opus', title: 'Found Bastani et al. (2025)', body: 'PNAS field experiment, 395 citations. GPT without guardrails harms learning.', files: [] }
+        ]
+      },
+      {
+        name: 'Build',
+        symbol: '✦',
+        color: '#006B3F',
+        items: [
+          { who: 'opus', title: 'RQ Synthesis Report', body: '3 papers + Dr. Du feedback → 4 research pockets.', files: ['rq-synthesis-report.html'] },
+          { who: 'opus', title: 'Work log created', body: 'Iterated: dark → light → tree sidebar.', files: ['opus-x-bella-worklog.html'] }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'feb25',
+    date: 'Feb 25, Tue',
+    dateFull: 'Tuesday, February 25 2026',
+    title: 'Pivot, Present, Converge',
+    note: 'Bella caught the wrong direction. I rebuilt from zero. Then we presented — and Dr. Du was fascinated. By evening, we had our research question.',
+    categories: [
+      {
+        name: 'Research',
+        symbol: '✧',
+        color: '#D4AF37',
+        items: [
+          { who: 'opus', title: 'De Freitas et al. (2025) analysis', body: '4 roles, 10 guidelines extracted.', files: [] },
+          { who: 'bella', title: 'Uploaded class transcript', body: 'Session 7 audio, 168MB.', files: ['MKT SESSION 7.m4a'] }
+        ]
+      },
+      {
+        name: 'Build',
+        symbol: '✦',
+        color: '#006B3F',
+        items: [
+          { who: 'opus', title: 'Simulator v1 → v2 rebuild', body: 'Health comm → AI Education pivot. Rewritten from scratch.', files: ['hybrid-research-simulator.html'] },
+          { who: 'together', title: 'GitHub portfolio deployed', body: 'bellakang017.github.io/folder.bk/ — 9 artifacts.', files: ['index.html'] }
+        ]
+      },
+      {
+        name: 'Decisions',
+        symbol: '✺',
+        color: '#C8102E',
+        items: [
+          { who: 'bella', title: 'Pivot to AI Education', body: '"This should be focusing on AI Education." Caught it twice.', files: [] },
+          { who: 'bella', title: 'Dr. Du impressed + feedback', body: '"Don\'t just replicate — amplify." Follow De Freitas template.', files: [] },
+          { who: 'together', title: 'Converged on RQ1', body: 'Consumer Behavior × AI Education.', files: [] }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'feb24',
+    date: 'Feb 24, Mon',
+    dateFull: 'Monday, February 24 2026',
+    title: 'Day One',
+    note: 'Six artifacts. But the real product was the partnership itself.',
+    categories: [
+      {
+        name: 'Research',
+        symbol: '✧',
+        color: '#D4AF37',
+        items: [
+          { who: 'bella', title: 'Uploaded Arora et al. (2025)', body: 'Paper for Session 7. Vision: demonstrate the method live.', files: [] }
+        ]
+      },
+      {
+        name: 'Build',
+        symbol: '✦',
+        color: '#006B3F',
+        items: [
+          { who: 'opus', title: 'Theme map + reading guide + slides', body: '5-discipline analysis, 7-slide deck, demo cheat sheet.', files: ['cross-disciplinary-theme-map.jsx', 'reading-guide-arora-2025.html'] },
+        ]
+      },
+      {
+        name: 'Decisions',
+        symbol: '✺',
+        color: '#C8102E',
+        items: [
+          { who: 'together', title: 'Visual identity born', body: 'Apple × Gucci × Muji. The × as our mark.', files: ['opus-x-bella-style-guide.html'] }
+        ]
+      }
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════
+// FOLDER ICON SVGs
+// ═══════════════════════════════════════════════
+const ICON_FOLDER_OPEN = `<svg class="tree-folder-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 4h4l1.5 1.5H14v8H2z"/><path d="M2 6h12" opacity="0.3"/></svg>`;
+const ICON_FOLDER_CLOSED = `<svg class="tree-folder-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 3.5h4l1.5 1.5H14v9H2z"/></svg>`;
+const ICON_FILE = `<svg class="tree-folder-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 2h5l3 3v9H4z"/><path d="M9 2v3h3" opacity="0.4"/></svg>`;
+
+// ═══════════════════════════════════════════════
+// RENDER SIDEBAR TREE
+// ═══════════════════════════════════════════════
+function renderTree() {
+  const container = document.getElementById('sidebarTree');
+  container.innerHTML = '';
+
+  LOG_DATA.forEach(day => {
+    const totalItems = day.categories.reduce((s, c) => s + c.items.length, 0);
+
+    const dateEl = document.createElement('div');
+    dateEl.className = 'tree-date';
+    dateEl.dataset.id = day.id;
+
+    // Date header
+    dateEl.innerHTML = `
+      <div class="tree-date-header" onclick="toggleDate('${day.id}')">
+        <span class="tree-chevron">▾</span>
+        ${ICON_FOLDER_OPEN}
+        <span class="tree-date-name">${day.date}</span>
+        <span class="tree-date-count">${totalItems}</span>
+      </div>
+      <div class="tree-date-children"></div>
+    `;
+
+    const childrenEl = dateEl.querySelector('.tree-date-children');
+
+    // Category sub-folders
+    day.categories.forEach((cat, ci) => {
+      const catEl = document.createElement('div');
+      catEl.className = 'tree-cat';
+      catEl.dataset.catId = `${day.id}-${ci}`;
+
+      catEl.innerHTML = `
+        <div class="tree-cat-header" onclick="toggleCat('${day.id}-${ci}')">
+          <span class="tree-cat-chevron">▾</span>
+          <span class="tree-cat-symbol" style="color:${cat.color}">${cat.symbol}</span>
+          <span class="tree-cat-name">${cat.name}</span>
+        </div>
+        <div class="tree-cat-children"></div>
+      `;
+
+      const catChildren = catEl.querySelector('.tree-cat-children');
+
+      // Individual items
+      cat.items.forEach((item, ii) => {
+        const itemEl = document.createElement('a');
+        itemEl.className = 'tree-item';
+        itemEl.dataset.target = `${day.id}`;
+        itemEl.dataset.search = item.title.toLowerCase();
+        itemEl.onclick = () => showPage(day.id, itemEl);
+
+        const dotClass = item.who === 'opus' ? 'dot-opus' : item.who === 'bella' ? 'dot-bella' : 'dot-together';
+        itemEl.innerHTML = `
+          <span class="tree-dot ${dotClass}"></span>
+          <span class="tree-item-name">${item.title}</span>
+        `;
+        catChildren.appendChild(itemEl);
+      });
+
+      childrenEl.appendChild(catEl);
+    });
+
+    container.appendChild(dateEl);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// RENDER CONTENT PAGES
+// ═══════════════════════════════════════════════
+function renderPages() {
+  const main = document.getElementById('mainContent');
+  main.innerHTML = '';
+
+  // Index page
+  const indexEl = document.createElement('div');
+  indexEl.className = 'content-panel active';
+  indexEl.id = 'page-index';
+  indexEl.innerHTML = `
+    <div class="index-content">
+      <div class="idx-stripe"><span></span><span></span><span></span></div>
+      <div class="idx-h1">Work <em>Log</em></div>
+      <p class="idx-sub">Opus 4.6 × Bella 1.0 — daily record of thinking, building, and deciding together.</p>
+      <div class="idx-grid">
+        ${LOG_DATA.map(d => `
+          <div class="idx-card" onclick="showPage('${d.id}')">
+            <div class="idx-card-date">${d.date}</div>
+            <div class="idx-card-title">${d.title}</div>
+            <div class="idx-card-stats">${d.categories.reduce((s,c)=>s+c.items.length,0)} entries · ${d.categories.map(c=>c.name.toLowerCase()).join(', ')}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot" style="background:var(--gold)"></span><span class="legend-label">opus</span></div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--red)"></span><span class="legend-label">bella</span></div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span><span class="legend-label">together</span></div>
+      </div>
+    </div>
+  `;
+  main.appendChild(indexEl);
+
+  // Day pages
+  LOG_DATA.forEach(day => {
+    const pageEl = document.createElement('div');
+    pageEl.className = 'content-panel';
+    pageEl.id = `page-${day.id}`;
+
+    let logsHTML = '';
+    day.categories.forEach(cat => {
+      cat.items.forEach(item => {
+        const whoClass = item.who === 'opus' ? 'w-o' : item.who === 'bella' ? 'w-b' : 'w-t';
+        const filesHTML = item.files.length
+          ? `<div class="log-files">${item.files.map(f => `<span class="log-file">${f}</span>`).join('')}</div>`
+          : '';
+        logsHTML += `
+          <div class="log">
+            <div class="log-top">
+              <span class="log-who ${whoClass}">${item.who}</span>
+              <span class="log-title">${item.title}</span>
+            </div>
+            <div class="log-body">${item.body}</div>
+            ${filesHTML}
+          </div>
+        `;
+      });
+    });
+
+    pageEl.innerHTML = `
+      <div class="day-head">
+        <div class="day-meta">${day.dateFull}</div>
+        <div class="day-title">${day.title}</div>
+      </div>
+      ${logsHTML}
+      <div class="day-note">
+        <div class="n-label">opus note</div>
+        <p>${day.note}</p>
+      </div>
+    `;
+    main.appendChild(pageEl);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// INTERACTIONS
+// ═══════════════════════════════════════════════
+function toggleDate(id) {
+  const el = document.querySelector(`.tree-date[data-id="${id}"]`);
+  if (el) el.classList.toggle('closed');
+}
+
+function toggleCat(catId) {
+  const el = document.querySelector(`.tree-cat[data-cat-id="${catId}"]`);
+  if (el) el.classList.toggle('closed');
+}
+
+function showPage(pageId, clickedItem) {
+  // Switch content
+  document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById('page-' + pageId);
+  if (page) {
+    page.classList.remove('active');
+    // Force reflow for animation
+    void page.offsetHeight;
+    page.classList.add('active');
+  }
+
+  // Update sidebar active state
+  document.querySelectorAll('.tree-item').forEach(i => i.classList.remove('active'));
+  if (clickedItem) clickedItem.classList.add('active');
+
+  // Ensure parent folders are open
+  const dateEl = document.querySelector(`.tree-date[data-id="${pageId}"]`);
+  if (dateEl) dateEl.classList.remove('closed');
+}
+
+function searchEntries(q) {
+  q = q.toLowerCase().trim();
+  document.querySelectorAll('.tree-item').forEach(item => {
+    const match = !q || item.dataset.search.includes(q);
+    item.style.display = match ? '' : 'none';
+  });
+  // Open all folders when searching
+  if (q) {
+    document.querySelectorAll('.tree-date, .tree-cat').forEach(el => el.classList.remove('closed'));
+  }
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+renderTree();
+renderPages();
+</script>
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opus × Bella — RQ Synthesis Report</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+  :root {
+    --green:#006B3F; --red:#C8102E; --gold:#D4AF37; --gold-dark:#8B6914;
+    --noir:#1D1D1F; --g1:#48484A; --g2:#636366; --g3:#AEAEB2; --g4:#E5E5EA; --g5:#F2F2F7;
+    --cream:#FAF9F6; --cream-warm:#F5F0E8;
+    --serif:'Playfair Display',Georgia,serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --mono:'JetBrains Mono',Consolas,'Courier New',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:var(--sans);background:#fff;color:var(--noir);-webkit-font-smoothing:antialiased;}
+  .page{max-width:960px;margin:0 auto;padding:48px 48px 80px;}
+
+  /* Header */
+  .header{padding-bottom:28px;border-bottom:1px solid var(--g4);margin-bottom:36px;}
+  .stripe{display:flex;gap:2px;margin-bottom:14px;}
+  .stripe span{display:block;width:24px;height:3px;}
+  .stripe span:nth-child(1),.stripe span:nth-child(3){background:var(--green);}
+  .stripe span:nth-child(2){background:var(--red);}
+  .tag{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px;}
+  .header h1{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--noir);letter-spacing:-0.02em;line-height:1.3;margin-bottom:8px;}
+  .header .sub{font-size:13px;color:var(--g2);line-height:1.6;}
+  .badge{font-family:var(--mono);font-size:9px;letter-spacing:0.12em;color:var(--gold);border:1px solid rgba(212,175,55,0.3);padding:5px 12px;border-radius:16px;float:right;margin-top:-40px;}
+
+  /* Section headers */
+  .section{margin-bottom:40px;}
+  .section-label{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:14px;font-weight:500;padding-bottom:6px;border-bottom:1px solid var(--g4);}
+
+  /* Cards */
+  .card{border-radius:12px;border:1px solid var(--g4);padding:20px 24px;margin-bottom:16px;}
+  .card h3{font-family:var(--serif);font-size:15px;color:var(--noir);margin-bottom:10px;font-weight:500;}
+  .card p{font-size:12.5px;color:var(--g1);line-height:1.7;margin-bottom:8px;}
+  .card .label{font-family:var(--mono);font-size:9px;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;font-weight:500;}
+
+  /* Big idea box */
+  .big-box{background:var(--noir);border-radius:14px;padding:28px 32px;margin-bottom:36px;position:relative;overflow:hidden;}
+  .big-box::after{content:'';position:absolute;top:0;right:0;width:180px;height:100%;background:linear-gradient(135deg,transparent 40%,rgba(212,175,55,0.06));}
+  .big-box .label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
+  .big-box p{font-family:var(--serif);font-size:16px;color:#fff;line-height:1.6;max-width:750px;}
+  .big-box p em{color:var(--gold);font-style:normal;}
+
+  /* Input grid */
+  .input-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:36px;}
+  .input-card{border-radius:12px;border:1px solid var(--g4);padding:18px;background:var(--cream);}
+  .input-card .num{font-family:var(--mono);font-size:18px;color:var(--gold);font-weight:300;margin-bottom:6px;}
+  .input-card h4{font-family:var(--serif);font-size:13px;color:var(--noir);margin-bottom:8px;font-weight:500;}
+  .input-card p{font-size:11px;color:var(--g1);line-height:1.6;}
+  .input-card .src{font-family:var(--mono);font-size:9px;color:var(--g3);margin-top:8px;}
+
+  /* Pocket cards */
+  .pocket{border-radius:14px;border:2px solid var(--g4);padding:24px 28px;margin-bottom:20px;position:relative;}
+  .pocket.recommended{border-color:var(--gold);background:linear-gradient(135deg,#FDFCFB,var(--cream-warm));}
+  .pocket .rec-badge{position:absolute;top:-1px;right:20px;font-family:var(--mono);font-size:8px;letter-spacing:0.15em;color:#fff;background:var(--gold);padding:4px 12px;border-radius:0 0 8px 8px;text-transform:uppercase;}
+  .pocket .pocket-num{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:0.1em;margin-bottom:8px;}
+  .pocket h3{font-family:var(--serif);font-size:16px;color:var(--noir);margin-bottom:6px;font-weight:500;line-height:1.4;}
+  .pocket .rq{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--g1);line-height:1.6;padding:12px 16px;background:rgba(0,0,0,0.02);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;margin:12px 0;}
+  .pocket p{font-size:12px;color:var(--g1);line-height:1.65;margin-bottom:8px;}
+  .pocket .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .pocket .t{font-family:var(--mono);font-size:9px;padding:3px 10px;border-radius:12px;letter-spacing:0.05em;}
+  .t-mkt{background:rgba(0,107,63,0.08);color:var(--green);}
+  .t-edu{background:rgba(200,16,46,0.08);color:var(--red);}
+  .t-method{background:rgba(212,175,55,0.12);color:var(--gold-dark);}
+  .t-psych{background:rgba(72,72,74,0.08);color:var(--g1);}
+
+  /* Dimensions table */
+  .dim-grid{display:grid;grid-template-columns:140px 1fr 1fr 1fr;gap:1px;background:var(--g4);border-radius:12px;overflow:hidden;font-size:11px;margin-bottom:24px;}
+  .dim-grid div{padding:10px 12px;background:#fff;line-height:1.5;}
+  .dim-grid .dh{background:var(--cream);font-family:var(--mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--g2);font-weight:500;}
+  .dim-grid .dl{font-family:var(--mono);font-size:10px;color:var(--noir);font-weight:500;background:var(--cream-warm);}
+  .dim-grid .dc{color:var(--g1);}
+
+  /* Literature map */
+  .lit-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--g5);}
+  .lit-item:last-child{border:none;}
+  .lit-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+  .lit-item p{font-size:11.5px;color:var(--g1);line-height:1.5;}
+  .lit-item strong{color:var(--noir);}
+  .lit-item .cite{font-family:var(--mono);font-size:10px;color:var(--gold-dark);}
+
+  /* Next steps */
+  .step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--g5);}
+  .step:last-child{border:none;}
+  .step-num{font-family:var(--mono);font-size:16px;color:var(--gold);font-weight:300;flex-shrink:0;width:28px;}
+  .step-body h4{font-size:12px;color:var(--noir);font-weight:600;margin-bottom:4px;}
+  .step-body p{font-size:11.5px;color:var(--g1);line-height:1.5;}
+  .step-body .when{font-family:var(--mono);font-size:9px;color:var(--gold-dark);margin-top:4px;}
+
+  /* Footer */
+  .gold-line{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:32px 0;}
+  .footer{display:flex;justify-content:space-between;align-items:center;}
+  .footer-left{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:0.1em;}
+  .footer-right{font-family:var(--mono);font-size:9px;color:var(--g3);letter-spacing:0.05em;}
+
+  @media(max-width:768px){
+    .page{padding:24px 20px 40px;}
+    .input-grid,.dim-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="stripe"><span></span><span></span><span></span></div>
+    <div class="tag">rq synthesis report</div>
+    <h1>Research Question Development:<br>Consumer Behavior × AI Education</h1>
+    <p class="sub">Synthesizing Arora et al. (2025), De Freitas et al. (2025), Bastani et al. (2025), and Dr. Du's Session 7 feedback<br>
+    Prepared for MKT 397.4 Mid-Semester Proposal · March 2026</p>
+    <span class="badge">opus × bella</span>
+  </div>
+
+  <!-- THE THESIS -->
+  <div class="big-box">
+    <div class="label">the core thesis</div>
+    <p>Students are <em>consumers of AI learning tools</em>. How they evaluate, adopt, and interact with these tools is a <em>marketing question</em> — but the outcome variable is <em>learning</em>. This intersection creates a research space where marketing theory (framing, adoption, positioning) generates novel predictions about educational outcomes that education research alone would miss.</p>
+  </div>
+
+  <!-- INPUT SOURCES -->
+  <div class="section">
+    <div class="section-label">input sources synthesized</div>
+    <div class="input-grid">
+      <div class="input-card">
+        <div class="num">01</div>
+        <h4>Arora et al. (2025)</h4>
+        <p>AI–Human Hybrid framework for marketing research. Table 1: 4 stages × 3 research types. Key finding: hybrid outperforms either alone. Few-shot + RAG improves synthetic respondent quality.</p>
+        <div class="src">J. Marketing, 89(2), 43–70</div>
+      </div>
+      <div class="input-card">
+        <div class="num">02</div>
+        <h4>De Freitas et al. (2025)</h4>
+        <p>4 ideation roles (Designer, Writer, Interviewer, Actor). Productivity vs. Semantic Breadth. Small ideas (LLM-led) vs. Big ideas (human-led). 10 practical guidelines for AI-assisted research.</p>
+        <div class="src">J. Consumer Research, 52(1), 18–31</div>
+      </div>
+      <div class="input-card">
+        <div class="num">03</div>
+        <h4>Bastani et al. (2025)</h4>
+        <p>Field experiment: ~1,000 HS math students. GPT Base vs. GPT Tutor vs. control. Without guardrails, AI harms learning (−17% post-removal). Guardrails mitigate harm. Students use AI as "crutch."</p>
+        <div class="src">PNAS, 122, e2422633122</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DR. DU'S DIRECTIVES -->
+  <div class="section">
+    <div class="section-label">dr. du's directives — session 7</div>
+    <div class="card">
+      <div class="label">constraints</div>
+      <p><strong>"Don't just replicate."</strong> Black & white comparison papers (AI vs. no-AI) are not impactful. The core idea is there — amplify it. The proposal must be <strong>newer</strong> than simple replication.</p>
+    </div>
+    <div class="card">
+      <div class="label">conceptual direction</div>
+      <p><strong>Race/ethnicity as proxy.</strong> Dr. Du noted that demographic variables may be proxies for deeper constructs — study habits, attitudes toward learning, prior academic preparedness. The research should identify <strong>what these variables are actually measuring</strong>.</p>
+    </div>
+    <div class="card">
+      <div class="label">methodological direction</div>
+      <p><strong>Students self-select AI tools.</strong> Natural variation in how students choose and use AI creates a quasi-experimental opportunity. <strong>Follow De Freitas' ideation template.</strong> Use the 4-role framework to structure your own research ideation process.</p>
+    </div>
+    <div class="card">
+      <div class="label">deliverable — next week</div>
+      <p>PowerPoint deck: <strong>Motivate the RQ → Context → Core idea → Relevant literature → Contribution → Research design.</strong> Workflow: write up idea → chat with AI → deep research → literature search → formalize.</p>
+    </div>
+  </div>
+
+  <!-- RESEARCH QUESTION POCKETS -->
+  <div class="section">
+    <div class="section-label">research question pockets</div>
+
+    <!-- POCKET 1 — RECOMMENDED -->
+    <div class="pocket recommended">
+      <div class="rec-badge">recommended</div>
+      <div class="pocket-num">POCKET 01</div>
+      <h3>AI Tool Framing × Learning Outcomes: When Positioning Shapes Cognition</h3>
+      <div class="rq">"How does the framing of AI learning tools (tutor vs. collaborator vs. answer engine) shape students' usage patterns, cognitive engagement, and downstream learning outcomes — and what psychological mechanisms (growth mindset, self-efficacy, locus of control) mediate this relationship?"</div>
+      <p><strong>Why this is strong:</strong> This is fundamentally a <em>product positioning</em> question — core marketing theory. But the DV is learning, which makes it novel. Bastani et al. showed that guardrails matter; we're asking <em>why</em> and <em>for whom</em> through the lens of how the product is framed to the consumer. This is not replication — it's extending Bastani with marketing theory.</p>
+      <p><strong>De Freitas connection:</strong> Use the Interviewer role to develop the framing conditions. Use the Actor role to pilot-test how different student personas respond to each frame. Use the Designer role to select diverse stimuli across framing conditions.</p>
+      <p><strong>Bastani connection:</strong> Their GPT Base vs. GPT Tutor is a crude framing manipulation. We propose a theoretically grounded framing taxonomy (tutor = authority, collaborator = partner, tool = instrument) with marketing-theory predictions about each.</p>
+      <div class="tags">
+        <span class="t t-mkt">product framing</span>
+        <span class="t t-mkt">consumer adoption</span>
+        <span class="t t-edu">learning outcomes</span>
+        <span class="t t-psych">growth mindset</span>
+        <span class="t t-method">field experiment</span>
+      </div>
+    </div>
+
+    <!-- POCKET 2 -->
+    <div class="pocket">
+      <div class="pocket-num">POCKET 02</div>
+      <h3>The AI Adoption Funnel: Consumer Decision Journey in Educational AI</h3>
+      <div class="rq">"What predicts students' adoption, continued use, and abandonment of AI learning tools — and how do marketing-relevant factors (perceived value, brand trust, social proof) interact with educational factors (academic self-concept, prior achievement) to shape the adoption trajectory?"</div>
+      <p><strong>Why this works:</strong> Treats AI tool selection as a consumer decision journey. Maps the AIDA/adoption funnel onto educational technology. Dr. Du's note about students "self-selecting" tools is literally consumer choice behavior. Demographic proxies (race, SES) become moderators of a theoretically specified adoption model.</p>
+      <p><strong>De Freitas connection:</strong> Use productivity techniques (Guideline 1) to generate comprehensive lists of adoption factors. Use semantic breadth (Guideline 2) to discover non-obvious predictors across marketing and education literatures.</p>
+      <div class="tags">
+        <span class="t t-mkt">adoption funnel</span>
+        <span class="t t-mkt">consumer journey</span>
+        <span class="t t-edu">edtech adoption</span>
+        <span class="t t-psych">self-concept</span>
+        <span class="t t-method">survey + behavioral</span>
+      </div>
+    </div>
+
+    <!-- POCKET 3 -->
+    <div class="pocket">
+      <div class="pocket-num">POCKET 03</div>
+      <h3>Productive Struggle vs. Cognitive Offloading: The Persuasion Mechanism</h3>
+      <div class="rq">"Can a brief persuasive intervention — reframing AI difficulty as a signal of learning rather than tool failure — shift students from cognitive offloading (outsourcing thinking) to productive struggle (effortful engagement) with AI tools?"</div>
+      <p><strong>Why this works:</strong> This is a wise intervention study with a persuasion core. The IV is message framing (your ADV 382J expertise). The mechanism is how a reframe changes the meaning students assign to struggle with AI. Bastani's "crutch" finding is the baseline; our intervention is the treatment.</p>
+      <p><strong>De Freitas connection:</strong> Guideline 9 explicitly warns about "de-skilling" — using AI as an answering machine rather than a learning tool. Our intervention directly addresses this. Use Guideline 7 (Interviewer) to develop the intervention language through Socratic probing.</p>
+      <div class="tags">
+        <span class="t t-mkt">persuasion</span>
+        <span class="t t-mkt">message framing</span>
+        <span class="t t-edu">productive struggle</span>
+        <span class="t t-psych">wise intervention</span>
+        <span class="t t-method">RCT</span>
+      </div>
+    </div>
+
+    <!-- POCKET 4 -->
+    <div class="pocket">
+      <div class="pocket-num">POCKET 04</div>
+      <h3>The Hybrid Method as Mirror: AI Studying AI-in-Education</h3>
+      <div class="rq">"What novel insights about student-AI interaction emerge when AI-human hybrid research methods (Arora et al., 2025) are applied to study AI's role in education — and how do these insights differ from traditional survey-based approaches?"</div>
+      <p><strong>Why this works:</strong> The reflexive move — using the method to study the method's domain. This is a methodological contribution paper. It doesn't just <em>apply</em> Arora to education; it asks whether the hybrid method reveals different patterns than traditional methods when the research subject is AI itself. Publishable in JM as a methods extension.</p>
+      <p><strong>De Freitas connection:</strong> All 4 roles apply directly. Designer: select diverse student-AI interaction scenarios. Writer: articulate findings. Interviewer: probe human researchers' interpretations. Actor: simulate student perspectives for pilot testing.</p>
+      <div class="tags">
+        <span class="t t-method">hybrid method</span>
+        <span class="t t-method">reflexive design</span>
+        <span class="t t-mkt">consumer insight</span>
+        <span class="t t-edu">AI education</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPARISON MATRIX -->
+  <div class="section">
+    <div class="section-label">pocket comparison</div>
+    <div class="dim-grid">
+      <div class="dh">Dimension</div>
+      <div class="dh">Pocket 01 (Rec.)</div>
+      <div class="dh">Pocket 02</div>
+      <div class="dh">Pocket 03</div>
+
+      <div class="dl">MKT Journal Fit</div>
+      <div class="dc"><strong>Very strong</strong> — product framing is core MKT</div>
+      <div class="dc">Strong — adoption is MKT theory</div>
+      <div class="dc">Moderate — persuasion crosses MKT/psych</div>
+
+      <div class="dl">Education Fit</div>
+      <div class="dc">Strong — DV is learning outcomes</div>
+      <div class="dc">Moderate — adoption ≠ learning directly</div>
+      <div class="dc"><strong>Very strong</strong> — productive struggle is core edu</div>
+
+      <div class="dl">Du's Feedback</div>
+      <div class="dc">Hits all 3: not replication, amplify, newer</div>
+      <div class="dc">Hits "self-select" strongly</div>
+      <div class="dc">Hits "not just replicate" + amplify</div>
+
+      <div class="dl">Bastani Bridge</div>
+      <div class="dc"><strong>Direct</strong> — extends GPT Base vs Tutor</div>
+      <div class="dc">Indirect — different framing</div>
+      <div class="dc"><strong>Direct</strong> — solves the "crutch" problem</div>
+
+      <div class="dl">Feasibility</div>
+      <div class="dc">Moderate — needs intervention design</div>
+      <div class="dc">High — survey + behavioral data</div>
+      <div class="dc">Moderate — needs intervention + RCT</div>
+
+      <div class="dl">Your Expertise</div>
+      <div class="dc">MKT + EDP + ADV all apply</div>
+      <div class="dc">MKT-heavy, less ADV</div>
+      <div class="dc">ADV + EDP-heavy, persuasion core</div>
+    </div>
+  </div>
+
+  <!-- KEY LITERATURE MAP -->
+  <div class="section">
+    <div class="section-label">literature map — foundational papers</div>
+    <div class="card">
+      <div class="lit-item">
+        <div class="lit-dot" style="background:var(--green);"></div>
+        <div>
+          <p><strong>Bastani et al. (2025)</strong> — "Generative AI without guardrails can harm learning." PNAS. Field experiment, ~1,000 students, GPT Base vs GPT Tutor vs control. The empirical foundation for why AI tool design matters for learning.</p>
+          <div class="cite">MUST READ — This is the paper Poovita referenced (395+ citations). Download: pnas.org/doi/10.1073/pnas.2422633122</div>
+        </div>
+      </div>
+      <div class="lit-item">
+        <div class="lit-dot" style="background:var(--gold);"></div>
+        <div>
+          <p><strong>Arora, Chakraborty & Nishimura (2025)</strong> — AI-Human Hybrid framework. Table 1 framework for integrating LLMs across research stages. Provides the methodological architecture.</p>
+          <div class="cite">J. Marketing, 89(2), 43–70</div>
+        </div>
+      </div>
+      <div class="lit-item">
+        <div class="lit-dot" style="background:var(--gold);"></div>
+        <div>
+          <p><strong>De Freitas, Nave & Puntoni (2025)</strong> — 4-role ideation framework. Productivity vs. Semantic Breadth. 10 guidelines. The template Dr. Du wants you to follow for your own research ideation.</p>
+          <div class="cite">J. Consumer Research, 52(1), 18–31</div>
+        </div>
+      </div>
+      <div class="lit-item">
+        <div class="lit-dot" style="background:var(--red);"></div>
+        <div>
+          <p><strong>Dweck (2006)</strong> — Growth mindset theory. Fixed vs. growth mindset shapes how people interpret challenge and failure. Critical for understanding why framing AI difficulty matters for learning.</p>
+          <div class="cite">BELLA'S NOTE — potential mediator variable</div>
+        </div>
+      </div>
+      <div class="lit-item">
+        <div class="lit-dot" style="background:var(--g2);"></div>
+        <div>
+          <p><strong>TO FIND:</strong> Wise intervention literature (Walton & Wilson, 2018). Consumer technology adoption models (TAM/UTAUT). AI anthropomorphism and trust (Waytz et al.). Product framing effects (Levin et al., 1998).</p>
+          <div class="cite">NEXT SESSION — deep literature search</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DE FREITAS TEMPLATE APPLICATION -->
+  <div class="section">
+    <div class="section-label">applying de freitas' ideation template to our process</div>
+    <div class="card">
+      <h3>How We Should Use Each Role — Right Now</h3>
+      <p><strong>Designer (AI-led):</strong> Use Opus to generate diverse framing conditions for the AI tool intervention. Systematic stimulus selection across tutor/collaborator/tool frames. Generate specific prompt language for each condition.</p>
+      <p><strong>Writer (AI-led):</strong> Use Opus to articulate the theoretical contribution clearly. Draft the "why this matters" section. Strengthen the research proposal's persuasive arc for Dr. Du.</p>
+      <p><strong>Interviewer (Human-led):</strong> Have Opus probe Bella with Socratic questions about her assumptions. "Why do you think framing matters here? What's the alternative explanation?" This is for Big Ideas — the breakthrough insight needs to come from Bella.</p>
+      <p><strong>Actor (Hybrid):</strong> Have Opus simulate student personas — a high-achieving student encountering AI for the first time vs. a struggling student who's been using ChatGPT for months. Use these simulated responses to generate hypotheses about moderating variables.</p>
+    </div>
+  </div>
+
+  <!-- NEXT STEPS -->
+  <div class="section">
+    <div class="section-label">next steps — road to mid-semester proposal</div>
+    <div class="card">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h4>Read Bastani et al. (2025) in full</h4>
+          <p>The 395-citation paper Poovita referenced. Critical for understanding the field experiment design and the "crutch" mechanism. This is our empirical anchor.</p>
+          <div class="when">tonight or tomorrow</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h4>Choose your pocket</h4>
+          <p>Pocket 01 is strongest for JM + your skill set. But read Bastani first — it might shift you toward Pocket 03 (productive struggle). You can also combine elements.</p>
+          <div class="when">after reading bastani</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h4>Deep research session with Opus</h4>
+          <p>Follow Dr. Du's workflow: write up initial idea → chat extensively with Opus → turn on deep research → literature search. Use the De Freitas Interviewer role — have Opus challenge your assumptions.</p>
+          <div class="when">2–3 days before presentation</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <h4>Build the proposal deck</h4>
+          <p>Structure: (1) Motivate RQ, (2) Context, (3) Core idea, (4) Literature review, (5) Contribution, (6) Research design. Opus builds the PPTX.</p>
+          <div class="when">the day before</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-body">
+          <h4>Rehearse with Opus</h4>
+          <p>Use the Actor role: have Opus simulate Dr. Du's likely questions. Prepare responses for: "How is this different from Bastani?" "Why is this a marketing paper?" "What's the contribution beyond the obvious?"</p>
+          <div class="when">morning of presentation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="gold-line"></div>
+  <div class="footer">
+    <span class="footer-left">opus × bella</span>
+    <span class="footer-right">rq synthesis report · session 7 debrief · feb 26, 2026</span>
+  </div>
+
+</div>
+</body>
+</html>
